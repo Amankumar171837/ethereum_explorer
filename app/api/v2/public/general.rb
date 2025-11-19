@@ -4,12 +4,6 @@ module API::V2
   module Public
     class General < Grape::API
 
-      desc 'KYC callback'
-      post '/kyc' do
-        return_status = KycService.kycaid_callback(params)
-        status return_status
-      end
-
       desc 'Password strength testing'
       params do
         requires :password, type: String, desc: 'User password'

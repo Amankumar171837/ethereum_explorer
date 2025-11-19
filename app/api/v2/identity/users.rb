@@ -62,109 +62,6 @@ module API::V2
 
       desc 'User related routes'
       resource :users do
-        # TODO:: Remove me if not needed.
-        # desc 'Creates new whitelist restriction',
-        #   failure: [
-        #     { code: 400, message: 'Required params are missing' },
-        #     { code: 422, message: 'Validation errors' }
-        #   ],
-        #   success: { code: 200, message: 'Whitelist restriction was created' }
-        # params do
-        #   requires :whitelink_token,
-        #            type: String,
-        #            allow_blank: false
-        # end
-        # post '/access' do
-        #   if Rails.cache.read(params[:whitelink_token]) == 'active'
-        #     restriction = Restriction.new(
-        #       category: 'whitelist',
-        #       scope: 'ip',
-        #       value: remote_ip,
-        #       state: 'enabled'
-        #     )
-        #
-        #     code_error!(restriction.errors.details, 422) unless restriction.save
-        #     Rails.cache.delete('restrictions')
-        #   else
-        #     error!({ errors: ['identity.user.access.invalid_token'] }, 422)
-        #   end
-        # end
-
-        desc 'Creates new user',
-          success: API::V2::Entities::UserWithFullInfo,
-          failure: [
-            { code: 400, message: 'Required params are missing' },
-            { code: 422, message: 'Validation errors' }
-          ]
-        params do
-          requires :email,
-                   type: String,
-                   allow_blank: false,
-                   desc: 'User Email'
-          requires :first_name,
-                   type: String,
-                   allow_blank: false,
-                   values: { value: -> (v){ v.length <= 35 }, message: 'identity.first_name.too_long' },
-                   desc: 'User First Name'
-          requires :last_name,
-                   type: String,
-                   allow_blank: false,
-                   values: { value: -> (v){ v.length <= 35 }, message: 'identity.last_name.too_long' },
-                   desc: 'User Last Name'
-          requires :username,
-                   type: String,
-                   allow_blank: false,
-                   values: { value: -> (v){ v.length <= 30 }, message: 'identity.username.too_long' },
-                   desc: 'User\'s Username'
-          optional :phone_number,
-                   type: String,
-                   allow_blank: false,
-                   desc: 'User phone number'
-          requires :password,
-                   type: String,
-                   allow_blank: false,
-                   desc: 'User Password'
-          requires :country_of_residence,
-                   type: String,
-                   desc: 'country of residence'
-          optional :referral_code,
-                   type: String,
-                   desc: 'User\'s referral code'
-          optional :captcha_response,
-                   types: [String, Hash],
-                   desc: 'Response from captcha widget'
-          optional :data,
-                   type: String,
-                   desc: 'Any additional key: value pairs in json string format'
-        end
-        post do
-          verify_captcha!(response: params['captcha_response'], endpoint: 'user_create')
-
-          declared_params = declared(params, include_missing: false)
-          user_params = declared_params.slice('email', 'password', 'data', 'phone_number',
-                                              'first_name', 'last_name', 'username', 'country_of_residence')
-
-          user_params[:referral_id] = parse_referral_code! unless params[:referral_code].blank?
-
-          unless SendgridService.validate_email!(declared_params[:email], source: 'Web or ICX Signup')
-            error!({ errors: ['identity.users.invalid_email'] }, 422)
-          end
-
-          validate_username!(declared_params[:username])
-
-          user = User.new(user_params)
-          user.profiles.new(first_name: user_params[:first_name],
-                               last_name: user_params[:last_name])
-
-          code_error!(user.errors.details, 422) unless user.save
-
-          activity_record(user: user.id, action: 'signup', result: 'succeed', topic: 'account')
-
-          publish_confirmation(user, Barong::App.config.domain)
-          csrf_token = open_session(user)
-
-          present user, with: API::V2::Entities::UserWithFullInfo, csrf_token: csrf_token
-        end
 
         desc 'Creates new user',
           success: API::V2::Entities::UserWithPhone,
@@ -291,65 +188,6 @@ module API::V2
           Rails.logger.error { "Error: Invalid phone number #{e.inspect}" }
           error!({ errors: ['identity.users.invalid_phone_number'] }, 422)
         end
-
-        # ::TODO: remove me if not in use
-        # desc 'Verify user with OTP',
-        #      success: { code: 200, message: 'User authorization' },
-        #      failure: [
-        #        { code: 400, message: 'Required params are empty' },
-        #        { code: 404, message: 'Record is not found' }
-        #      ]
-        # params do
-        #   optional :phone_number,
-        #            type: String,
-        #            desc: 'Phone number with country code'
-        #   optional :email,
-        #            type: String,
-        #            desc: 'Registered email address'
-        #   requires :verification_code,
-        #            type: String,
-        #            allow_blank: false,
-        #            desc: 'Verification code from sms'
-        #   at_least_one_of :phone_number, :email, message: 'resource.identity.invalid_parameter'
-        # end
-        # post '/verify' do
-        #   declared_params = declared(params)
-        #   labels = []
-        #   user = if params[:phone_number].present?
-        #             phone_number = Phone.international(declared_params[:phone_number])
-        #             validate_phone!(phone_number)
-        #             User.find_by_phone_number(phone_number)
-        #          else
-        #            User.find_by_email(params[:email])
-        #          end
-        #
-        #   error!({ errors: ['identity.session.not_found'] }, 404) unless user
-        #
-        #   error!({ errors: ["identity.conflict.#{user.social_media_status}"] }, 409) unless user.social_media_status == 'active'
-        #
-        #   error!({ errors: ['identity.session.code_is_expired'] }, 422) unless user.code_expiry_date >= Time.now
-        #
-        #   verification = PlatformSetting.verify_service.verify_user?(code: declared_params[:verification_code], user: user)
-        #   error!({ errors: ['resource.session.verification_invalid'] }, 401) unless verification
-        #
-        #   user.update(code_expiry_date: 1.minute.ago(Time.now))
-        #
-        #   if user.state == 'pending'
-        #     user.labels.create!(key: 'email', value: 'verified', scope: 'private')
-        #     label = user.labels.find_or_initialize_by(key: 'login_phone', scope: 'private')
-        #     if params[:phone_number].present?
-        #       label.update(value: 'verified')
-        #     else
-        #       label.update(value: 'pending')
-        #     end
-        #   end
-        #
-        #   present user, with: API::V2::Entities::UserWithPhone
-        #   status(200)
-        # rescue StandardError => e
-        #   Rails.logger.error e.inspect
-        #   error!(e.message, 422)
-        # end
 
         desc 'Register Geetest captcha'
         get '/register_geetest' do
@@ -740,19 +578,6 @@ module API::V2
             Rails.logger.error e
             error!(e.message, 422)
           end
-        end
-
-        desc 'User data from username'
-        params do
-          requires :username,
-                   type: String,
-                   desc: 'User\'s username'
-        end
-        get do
-          user = User.find_by(username: params[:username])
-          error!({ errors: ['resource.user.doesnt_exist'] }, 422) unless user
-
-          present user, with: API::V2::Entities::UserWithUsername
         end
 
         desc 'Check user existence through email.'

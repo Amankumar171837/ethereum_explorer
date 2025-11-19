@@ -49,17 +49,12 @@ module API::V2
                                 API::V2::Entities::Profile,
                                 API::V2::Entities::User,
                                 API::V2::Entities::UserWithProfile,
-                                API::V2::Entities::UserWithKYC,
                                 API::V2::Entities::UserWithFullInfo,
-                                API::V2::Entities::UserWithUsername,
                                 API::V2::Entities::Phone,
                                 API::V2::Entities::Activity,
                                 API::V2::Entities::ServiceAccounts,
-                                API::V2::Entities::DataStorage,
-                                API::V2::Entities::Comment,
                                 API::V2::Entities::AdminLabelView,
-                                API::V2::Entities::ReferralCode,
-                                API::V2::Entities::UserWithPublicReferrals
+                                API::V2::Entities::ReferralCode
                               ],
                               api_version: API_VERSION,
                               doc_version: Barong::Application::GIT_TAG,

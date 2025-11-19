@@ -583,7 +583,7 @@ module API
             failure: [
               { code: 401, message: 'Invalid bearer token' }
             ],
-            success: API::V2::Admin::Entities::UserWithKYC
+            success: API::V2::Admin::Entities::UserWithProfile
           params do
             requires :uid,
                      type: String,
@@ -596,7 +596,7 @@ module API
             target_user = User.find_by_uid(params[:uid])
             error!({ errors: ['admin.user.doesnt_exist'] }, 404) if target_user.nil?
 
-            present target_user, with: API::V2::Admin::Entities::UserWithKYC
+            present target_user, with: API::V2::Admin::Entities::UserWithProfile
           end
         end
       end

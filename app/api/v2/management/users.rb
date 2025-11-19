@@ -35,7 +35,7 @@ module API::V2
       resource :users do
         desc 'Get users and profile information' do
           @settings[:scope] = :read_users
-          success API::V2::Management::Entities::UserWithKYC
+          success API::V2::Management::Entities::UserWithProfile
         end
         params do
           optional :uid, type: String, allow_blank: false, desc: 'User uid'
@@ -48,22 +48,22 @@ module API::V2
 
           if declared_params.key?(:phone_num)
             user = Phone.find_by_number!(declared_params[:phone_num]).user
-            present user, with: API::V2::Management::Entities::UserWithKYC
+            present user, with: API::V2::Management::Entities::UserWithProfile
             return status 201
           end
 
           user = User.find_by!(declared_params)
-          present user, with: API::V2::Management::Entities::UserWithKYC
+          present user, with: API::V2::Management::Entities::UserWithProfile
         end
 
         desc 'Returns array of users as collection',
-        security: [{ "BearerToken": [] }],
-        failure: [
-          { code: 401, message: 'Invalid bearer token' }
-        ] do
+          security: [{ "BearerToken": [] }],
+          failure: [
+            { code: 401, message: 'Invalid bearer token' }
+          ] do
           @settings[:scope] = :read_users
           success API::V2::Entities::User
-        end
+          end
         params do
           optional :extended,
                    type: { value: Boolean, message: 'Non boolean extended value' },

@@ -219,45 +219,6 @@ module API::V2
                   with: API::V2::Admin::Entities::ActivityWithUser
         end
 
-        desc 'Agreement to user',
-             failure: [
-               { code: 400, message: 'Required params are missing' },
-               { code: 422, message: 'Validation errors' }
-             ],
-             success: API::V2::Entities::UserWithFullInfo
-        post '/agreement' do
-          current_user.update(agreement: true, agreement_time: Time.now)
-
-          present current_user, with: API::V2::Entities::UserWithFullInfo
-        end
-
-        desc 'Adding user country',
-             failure: [
-               { code: 400, message: 'Required params are missing' },
-               { code: 422, message: 'Validation errors' }
-             ],
-             success: API::V2::Entities::UserWithFullInfo
-        params do
-          requires :country,
-                   type: String,
-                   desc: 'User country'
-        end
-        post '/country' do
-          error!({ errors: ['resource.user.country.already_exist'] }, 422) if current_user.country?
-
-          current_user.update!(country: params[:country])
-          present current_user, with: API::V2::Entities::UserWithFullInfo
-        end
-
-        desc 'Kycaid user form'
-        get '/kycaid/form_url' do
-          error!({ errors: ['resource.user.profile.not_verified'] }, 422) unless
-            current_user.without_social_profile.last.state == 'verified'
-
-          kycAid = Barong::KycAid::KycAid.new
-          kycAid.get_form({ applicant_id: current_user.without_social_profile.last.applicant_id })
-        end
-
         desc 'update user\'s details',
              success: API::V2::Entities::UserWithPhone,
              failure: [
@@ -313,56 +274,6 @@ module API::V2
           Rails.logger.error e
           error!({ errors: ["resource.user.update_error"] }, 422)
         end
-
-        # desc 'User through phone numbers and uids'
-        # params do
-        #   optional :phone_numbers,
-        #            type: Array,
-        #            desc: 'Array of phone numbers'
-        #   optional :uids,
-        #            type: Array,
-        #            desc: 'Array of uids'
-        #   at_least_one_of :phone_numbers, :uids
-        # end
-        # get '/users' do
-        #   if params[:phone_numbers].present? && params[:phone_numbers].length > 25
-        #     error!({ errors: ['phone_numbers.array.length_exceeded'] }, 422)
-        #   end
-        #
-        #   if params[:uids].present? && params[:uids].length > 25
-        #     error!({ errors: ['uids.array.length_exceeded'] }, 422)
-        #   end
-        #
-        #   User.order(id: :asc)
-        #       .tap{ |q| q.where!(phone_number: params[:phone_numbers]) if params[:phone_numbers].present? }
-        #       .tap{ |q| q.where!(uid: params[:uids]) if params[:uids].present? }
-        #       .tap{ |q| present paginate(q), with: API::V2::Entities::UserWithPhone }
-        # end
-        #
-        # desc 'User with phone numbers and uids through elasticsearch'
-        # params do
-        #   optional :phone_numbers,
-        #            as: "phone_number",
-        #            type: Array,
-        #            desc: 'Array of phone numbers'
-        #   optional :uids,
-        #            as: "uid",
-        #            type: Array,
-        #            desc: 'Array of uids'
-        #   at_least_one_of :phone_numbers, :uids
-        # end
-        # get '/users_search' do
-        #   if params[:phone_number].present? && params[:phone_number].length > 25
-        #     error!({ errors: ['phone_numbers.array.length_exceeded'] }, 422)
-        #   end
-        #
-        #   if params[:uid].present? && params[:uid].length > 25
-        #     error!({ errors: ['uids.array.length_exceeded'] }, 422)
-        #   end
-        #
-        #   users = User.search_users(params)
-        #   present users.objects, with: API::V2::Entities::UserWithPhone
-        # end
 
         desc 'Upload a new profile picture for current user',
              success: { code: 201, message: 'Profile picture is uploaded' },

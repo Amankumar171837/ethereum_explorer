@@ -117,18 +117,6 @@ module API
                    type: String
                }
 
-        expose :agreement,
-               documentation: {
-                 desc: 'User USA Disclaimer.',
-                 type: String
-               }
-
-        expose :dob,
-               documentation: {
-                 desc: 'User date of birth.',
-                 type: String
-               }
-
         expose :referral_code,
                documentation: {
                  desc: 'User unique referral code.',
@@ -141,22 +129,6 @@ module API
                  desc: 'User can login via password or not.',
                  type: String
                }
-
-        expose(
-          :verified,
-          documentation: {
-            type: Hash,
-            desc: 'User\'s KYC status.'
-          }
-        )
-
-        expose(
-          :is_blue_verified,
-          documentation: {
-            type: Hash,
-            desc: 'User\'s referrals'
-          }
-        )
 
         expose :labels, using: Entities::Label
 

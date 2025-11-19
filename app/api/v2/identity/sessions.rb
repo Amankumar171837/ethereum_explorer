@@ -170,7 +170,7 @@ module API::V2
                    desc: 'The verification method to use'
           optional :platform,
                    type: String,
-                   values: { value: -> { %w[icx zen explorer nft app] },
+                   values: { value: -> { %w[app] },
                              message: 'identity.platform.invalid_platform'},
                    default: 'zen',
                    desc: 'User login platform'
@@ -266,7 +266,7 @@ module API::V2
         params do
           optional :platform,
                    type: String,
-                   values: { value: -> { %w[icx zen explorer nft app] },
+                   values: { value: -> { %w[app] },
                              message: 'identity.platform.invalid_platform'},
                    desc: 'User login platform',
                    default: 'zen'
@@ -381,7 +381,7 @@ module API::V2
                    desc: 'Verification code from sms'
           requires :platform,
                    type: String,
-                   values: { value: -> { %w[icx zen explorer nft app] },
+                   values: { value: -> { %w[app] },
                              message: 'identity.platform.invalid_platform'},
                    desc: 'User login platform'
           optional :login_device, type: Hash do
@@ -457,7 +457,6 @@ module API::V2
             create_session(user)
           else
             csrf_token = open_session(user)
-            publish_session_create(user) if declared_params[:platform] == 'icx'
           end
 
           update_device(user, params[:login_device])

@@ -5,7 +5,7 @@ class User < ApplicationRecord
   acts_as_eventable prefix: 'user', on: %i[create update]
   acts_as_redpanda_eventable prefix: 'user', on: %i[create update]
 
-  PLATFORM = ['icx', 'zen', 'explorer', 'nft', 'app', Barong::App.config.recaptcha_bypass]
+  PLATFORM = ['app', Barong::App.config.recaptcha_bypass]
   STATE = %w[active deactivated deleted].freeze
 
   has_secure_password
@@ -15,8 +15,6 @@ class User < ApplicationRecord
 
   has_many :profiles,                dependent: :destroy
   has_many :phones,                  dependent: :destroy
-  has_many :data_storages,           dependent: :destroy
-  has_many :comments,                dependent: :destroy
   has_many :labels,                  dependent: :destroy
   has_many :activities
   has_many :service_accounts,        dependent: :destroy, foreign_key: 'owner_id'
@@ -26,7 +24,6 @@ class User < ApplicationRecord
   has_many :medias,                  dependent: :destroy
   has_many :service_logs
   has_many :email_notifications
-  has_one  :user_setting
   has_many :devices,                 dependent: :destroy
   has_many :notification_recipients, dependent: :destroy
 
@@ -96,8 +93,6 @@ class User < ApplicationRecord
   after_update :disable_service_accounts
   after_commit :update_referrals,  on: :destroy
 
-  # update_index('users') { self }
-
   def update_referrals
     referrals.update_all(referral_id: nil)
   end
@@ -157,10 +152,6 @@ class User < ApplicationRecord
 
   def superadmin?
     self.role == 'superadmin'
-  end
-
-  def us_user?
-    last_country == 'United States'
   end
 
   def role_exists
@@ -329,14 +320,6 @@ class User < ApplicationRecord
     end
   end
 
-  def submitted_profile
-    self.profiles&.find_by(state: 'submitted')
-  end
-
-  def drafted_profile
-    self.profiles&.find_by(state: 'drafted')
-  end
-
   def social_profile
     self.profiles&.find_or_create_by(state: 'social')
   end
@@ -402,44 +385,6 @@ class User < ApplicationRecord
   def referrals_count
     referrals.count
   end
-
-  def is_blue_verified(c = Barong::App.config.referrals_count.to_i)
-    users_count >= c && !profile_url.nil?
-  end
-
-  def l2
-    {
-      is_blue_verified: is_blue_verified,
-      count: users_count,
-      profile: !profile_url.nil?
-    }
-  end
-
-  def l3
-    {
-      has_octopus: is_blue_verified(Barong::App.config.l3.to_i),
-      count: [users_count - Barong::App.config.referrals_count.to_i, 0].max,
-      profile: !profile_url.nil?
-    }
-  end
-
-  def l4
-    r      = 0
-    result = l3[:has_octopus] && (
-      r    = referrals.active
-                      .joins(:medias)
-                      .where("users_count >= #{Barong::App.config.l3.to_i} && upload is not null")
-                      .uniq.count
-    ) >= Barong::App.config.l4.to_i
-
-    { has_sitting_duck: result,
-      count: r }
-  end
-
-  def verified
-    level == Barong::App.config.blue_tick_kyc_level.to_i
-  end
-
 
   def self.search_query(payload = {})
     matches = []

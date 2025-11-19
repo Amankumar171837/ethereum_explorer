@@ -100,12 +100,6 @@ module API::V2
                type: String
              }
 
-			expose :agreement,
-						 documentation: {
-							 desc: 'User USA Disclaimer.',
-							 type: String
-						 }
-
       expose :phone_number,
              documentation: {
                type: 'String',

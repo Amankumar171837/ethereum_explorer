@@ -38,13 +38,11 @@ module API::V2
                                 },
                                 models: [
                                   API::V2::Entities::Label,
-                                  API::V2::Entities::APIKey,
                                   API::V2::Entities::UserWithFullInfo,
                                   API::V2::Entities::User,
                                   API::V2::Management::Entities::Profile,
                                   API::V2::Management::Entities::Phone,
                                   API::V2::Management::Entities::UserWithProfile,
-                                  API::V2::Management::Entities::UserWithKYC,
                                 ],
                                 api_version: API::V2::Base::API_VERSION,
                                 doc_version: Barong::Application::GIT_TAG,

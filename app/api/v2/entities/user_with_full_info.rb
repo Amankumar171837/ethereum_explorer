@@ -108,15 +108,6 @@ module API
                  type: String
                }
 
-        # TODO :: Remove me if not needed in future
-        # expose :referral_uid,
-        #        documentation: {
-        #          type: 'String',
-        #          desc: 'UID of referrer'
-        #        } do |user|
-        #           user.referral_uid
-        #        end
-
         expose :phone_number,
                documentation: {
                  type: 'String',
@@ -147,12 +138,6 @@ module API
                  options[:authentication]
                end
 
-        expose :agreement,
-               documentation: {
-                 desc: 'User USA Disclaimer.',
-                 type: String
-               }
-
         expose :referral_code,
                documentation: {
                  desc: 'User unique referral code.',
@@ -174,9 +159,6 @@ module API
           as: :profiles,
           using: Entities::Profile
         )
-
-        expose :data_storages, using: Entities::DataStorage
-        # activities, as sensitive and potentialy too big data should be queried separately
 
         with_options(format_with: :iso_timestamp) do
           expose :created_at

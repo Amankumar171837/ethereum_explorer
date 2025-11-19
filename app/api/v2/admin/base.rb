@@ -63,7 +63,6 @@ module API::V2
                                   API::V2::Admin::Entities::ActivityWithInflux,
                                   API::V2::Admin::Entities::Phone,
                                   API::V2::Admin::Entities::Profile,
-                                  API::V2::Admin::Entities::UserWithKYC,
                                   API::V2::Admin::Entities::UserWithProfile,
                                   API::V2::Entities::APIKey,
                                   API::V2::Admin::Entities::PlatformSettings,

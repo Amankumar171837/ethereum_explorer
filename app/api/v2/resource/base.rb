@@ -17,13 +17,10 @@ module API::V2
       mount Resource::Profiles
       mount Resource::Phones
       mount Resource::Otp
-      # mount Resource::APIKeys
-      # mount Resource::DataStorage
       # mount Resource::ServiceAccounts
       mount Resource::Referral
       mount Resource::UserUpdate
       mount Resource::UserAccount
-      mount Resource::UserProfiles
       mount Resource::EmailNotifications
       mount Resource::Devices
 

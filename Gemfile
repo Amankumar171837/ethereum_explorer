@@ -19,7 +19,6 @@ gem 'fog-aws', '~> 3.5.2'
 # gcp support (google)
 gem 'fog-google'
 
-gem 'kycaid'
 gem 'sidekiq', '>= 6.0.7'
 gem 'sidekiq-cron', '~> 1.4'
 # GLI

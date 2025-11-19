@@ -13,7 +13,6 @@ module API
         mount Identity::General
         mount Identity::Sessions
         mount Identity::Users
-        mount Identity::Inquiry
         mount Identity::AuthToken
         mount Identity::Devices
       end

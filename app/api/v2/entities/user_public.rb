@@ -37,49 +37,6 @@ module API
         )
 
         expose(
-          :verified,
-          documentation: {
-            type: String,
-            desc: 'User\'s KYC status.'
-          }
-        )
-
-        expose(
-          :is_blue_verified,
-          documentation: {
-            type: String,
-            desc: 'User\'s blue verified'
-          }
-        )
-
-        expose(
-          :l2,
-          documentation: {
-            type: String,
-            desc: 'User\'s blue verified data'
-          },
-          if: lambda { |_, options| options[:levels] == true }
-        )
-
-        expose(
-          :l3,
-          documentation: {
-            type: String,
-            desc: 'User\'s level 3 details'
-          },
-          if: lambda { |_, options| options[:levels] == true }
-        )
-
-        expose(
-          :l4,
-          documentation: {
-            type: String,
-            desc: 'User\'s level 4 details'
-          },
-          if: lambda { |_, options| options[:levels] == true }
-        )
-
-        expose(
           :initial,
           documentation: {
             type: String,
