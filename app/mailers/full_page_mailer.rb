@@ -8,7 +8,6 @@ class FullPageMailer < ApplicationMailer
     @changes         = params[:changes]
     @user            = params[:user]
     @logo            = params[:logo]
-    @peer_market_url = params[:peer_market_url]
 
     sender = "#{Barong::App.config.from_name} <#{Barong::App.config.sender_email}>"
 

@@ -210,22 +210,6 @@ module API::V2
             status 201
           end
 
-          desc 'Check username availability'
-          params do
-            requires :username,
-                     type: String,
-                     allow_blank: false,
-                     values: { value: ->(v) { v.length > 4}, message: 'username.length.not_valid'},
-                     regexp: { value: /\A[[:word:]_.]+\z/, message: 'Username is invalid' },
-                     desc: 'User\'s Username'
-          end
-          get do
-            user = User.active.find_by_username(params[:username])
-            error!({ errors: ['identity.user.username_does_not_exists'] }, 422) if user.present?
-
-            status 201
-          end
-
           desc 'Check referral code through username'
           params do
             requires :username,

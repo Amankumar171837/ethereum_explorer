@@ -200,9 +200,6 @@ Barong::App.define do |config|
   # User requirement configurations ---------------------------------
   config.set(:minimum_age_to_register, '12', type: :integer) #in years
 
-  # Peer market URL ------------------------------------------------
-  config.set(:peer_market_url, '')
-
   # AWS Pinpoint service configurations ----------------------------
   config.set(:aws_pinpoint_access_key, '')
   config.set(:aws_pinpoint_secret_key, '')

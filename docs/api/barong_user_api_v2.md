@@ -20,75 +20,46 @@ Generate API token for secure transaction
 | ---- | ----------- |
 | 201 | Generate API token for secure transaction |
 
-### /identity/inquiry
-
-#### POST
-##### Description
-
-Inquiry API
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-| email | formData | User email | Yes | string |
-| subject | formData | Inquiry subject | Yes | string |
-| message | formData | Inquiry message | Yes | string |
-| name | formData | User name | Yes | string |
-| captcha_response | formData | Response from captcha widget | Yes | string |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Inquiry API |
-
-### /identity/users
+### /identity/users/referral/exists
 
 #### GET
 ##### Description
 
-User data from username
+Check user existence through referral code.
 
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ------ |
-| username | query | User's username | Yes | string |
+| referral_code | query | User's referral code | Yes | string |
 
 ##### Responses
 
 | Code | Description |
 | ---- | ----------- |
-| 200 | User data from username |
+| 200 | Check user existence through referral code. |
 
-#### POST
+### /identity/users/exists
+
+#### GET
 ##### Description
 
-Creates new user
+Check user existence through email.
 
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ------ |
-| email | formData | User Email | Yes | string |
-| first_name | formData | User First Name | Yes | string |
-| last_name | formData | User Last Name | Yes | string |
-| username | formData | User's Username | Yes | string |
-| phone_number | formData | User phone number | No | string |
-| password | formData | User Password | Yes | string |
-| country_of_residence | formData | country of residence | Yes | string |
-| referral_code | formData | User's referral code | No | string |
-| captcha_response | formData | Response from captcha widget | No | string |
-| data | formData | Any additional key: value pairs in json string format | No | string |
+| email | query | User Email | Yes | string |
+| platform | query | User Signup platform | No | string |
+| device_id | query | User device id | Yes | string |
+| device_type | query | User device type Android/IOS | Yes | string |
 
 ##### Responses
 
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 201 | Creates new user | [API_V2_Entities_UserWithFullInfo](#api_v2_entities_userwithfullinfo) |
-| 400 | Required params are missing |  |
-| 422 | Validation errors |  |
+| Code | Description |
+| ---- | ----------- |
+| 200 | Check user existence through email. |
 
 ### /identity/users/password/reset
 
@@ -101,7 +72,8 @@ Set new account password through phone number
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ------ |
-| phone_number | formData | User Phone Number | Yes | string |
+| phone_number | formData | User Phone Number | No | string |
+| email | formData | User email | No | string |
 | password | formData | User password | Yes | string |
 | confirm_password | formData | User password | Yes | string |
 | verification_otp | formData | Verification code from email | Yes | string |
@@ -126,7 +98,8 @@ Reset account password
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ------ |
-| phone_number | formData | User Phone Number | Yes | string |
+| phone_number | formData | User Phone Number | No | string |
+| email | formData | User email | No | string |
 | channel | formData | The verification method to use | No | string |
 | captcha_response | formData | Response from captcha widget | No | string |
 
@@ -247,25 +220,6 @@ Check referral code through username
 | Code | Description |
 | ---- | ----------- |
 | 200 | Check referral code through username |
-
-### /identity/users/username
-
-#### GET
-##### Description
-
-Check username availability
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-| username | query | User's Username | Yes | string |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Check username availability |
 
 ### /identity/users/username/available
 
@@ -390,7 +344,7 @@ Verify user otp and generate jwt session
 | platform | formData | User login platform | Yes | string |
 | login_device[device_id] | formData | User device id | Yes | string |
 | login_device[device_type] | formData | User device type Android/IOS | Yes | string |
-| login_device[device_token] | formData | User fcm device token Android/IOS | Yes | string |
+| login_device[device_token] | formData | User fcm device token Android/IOS | No | string |
 
 ##### Responses
 
@@ -551,6 +505,27 @@ Password strength testing
 ## public
 Operations about publics
 
+### /public/users/metrics
+
+#### GET
+##### Description
+
+Get all the continents and it's countries
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| continent | query | continent. | No | string |
+| country_code | query | Country code. | No | string |
+| city | query | city . | No | string |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get all the continents and it's countries |
+
 ### /public/mobivate
 
 #### POST
@@ -603,19 +578,6 @@ webhook for bulkgate
 | ---- | ----------- |
 | 200 | webhook for bulkgate |
 
-### /public/users/random
-
-#### GET
-##### Description
-
-get newly random user
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | get newly random user | [API_V2_Entities_UserPublic](#api_v2_entities_userpublic) |
-
 ### /public/users/referrals
 
 #### GET
@@ -636,44 +598,6 @@ get user's referrals with username
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | get user's referrals with username | [API_V2_Entities_UserPublic](#api_v2_entities_userpublic) |
-
-### /public/users/search
-
-#### GET
-##### Description
-
-get user public info with username from elasticsearch
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-| username | query | User's username | Yes | string |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | get user public info with username from elasticsearch | [API_V2_Entities_UserWithPublicReferrals](#api_v2_entities_userwithpublicreferrals) |
-
-### /public/users
-
-#### GET
-##### Description
-
-get user public info with username
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-| username | query | User's username | Yes | string |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | get user public info with username | [API_V2_Entities_UserPublicReferrals](#api_v2_entities_userpublicreferrals) |
 
 ### /public/app/versions
 
@@ -752,19 +676,6 @@ Password strength testing
 | ---- | ----------- |
 | 201 | Password strength testing |
 
-### /public/kyc
-
-#### POST
-##### Description
-
-KYC callback
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | KYC callback |
-
 ---
 ## resource
 Operations about resources
@@ -802,6 +713,29 @@ Swagger compatible API description
 | ---- | ----------- |
 | 200 | Swagger compatible API description |
 
+### /resource/device/connect
+
+#### POST
+##### Description
+
+Generate tokens for the device.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| uid | formData | Current user uid. | Yes | string |
+| device_id | formData | X10 Device id | Yes | string |
+| device_type | formData | Device type | Yes | string |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | User authorization |
+| 400 | Required params are empty |
+| 404 | Record is not found |
+
 ### /resource/email/notifications
 
 #### POST
@@ -832,50 +766,6 @@ Get all Email Types
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get all Email Types |
-
-### /resource/profile/wonka-media
-
-#### POST
-##### Description
-
-Set Wonka as profile for current user
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-| wonka | formData | WonkaBot code | Yes | string |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Profile picture is uploaded |
-| 400 | Required params are empty |
-| 401 | Invalid bearer token |
-| 422 | Validation errors |
-
-### /resource/profile/token-media
-
-#### POST
-##### Description
-
-Set Nfe as profile for current user
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-| token | formData | Token code | Yes | string |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Profile picture is uploaded |
-| 400 | Required params are empty |
-| 401 | Invalid bearer token |
-| 422 | Validation errors |
 
 ### /resource/user/delete-account
 
@@ -994,30 +884,6 @@ update email address
 | ---- | ----------- | ------ |
 | 201 | update email address | [API_V2_Entities_UserWithPhone](#api_v2_entities_userwithphone) |
 | 400 | Required params are missing |  |
-| 422 | Validation errors |  |
-
-### /resource/referrals
-
-#### GET
-##### Description
-
-Returns referrals of user
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-| state | query | Referred user's state | No | string |
-| page | query | Page number (defaults to 1). | No | integer |
-| limit | query | Number of users per page (defaults to 100, maximum is 100). | No | integer |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | Returns referrals of user | [API_V2_Entities_UserWithSocial](#api_v2_entities_userwithsocial) |
-| 400 | Required params are empty |  |
-| 401 | Invalid bearer token |  |
 | 422 | Validation errors |  |
 
 ### /resource/otp/verify
@@ -1492,55 +1358,6 @@ update user's details
 | 400 | Required params are missing |  |
 | 422 | Validation errors |  |
 
-### /resource/users/kycaid/form_url
-
-#### GET
-##### Description
-
-Kycaid user form
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Kycaid user form |
-
-### /resource/users/country
-
-#### POST
-##### Description
-
-Adding user country
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-| country | formData | User country | Yes | string |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 201 | Adding user country | [API_V2_Entities_UserWithFullInfo](#api_v2_entities_userwithfullinfo) |
-| 400 | Required params are missing |  |
-| 422 | Validation errors |  |
-
-### /resource/users/agreement
-
-#### POST
-##### Description
-
-Agreement to user
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 201 | Agreement to user | [API_V2_Entities_UserWithFullInfo](#api_v2_entities_userwithfullinfo) |
-| 400 | Required params are missing |  |
-| 422 | Validation errors |  |
-
 ### /resource/users/user_activity
 
 #### GET
@@ -1700,20 +1517,17 @@ Returns current user
 | profile_type | string | Profile picture type | No |
 | state | string | User state: active, pending, inactive | No |
 | country | string | User country | No |
-| country_of_residence | string | country of residence | No |
 | last_country | string | Last IP Geolocation. | No |
 | last_ip | string | Last IP Address. | No |
 | phone_number | string | User Phone number | No |
 | data | string | Additional phone and profile info | No |
 | csrf_token | string | Сsrf protection token | No |
 | authentication | string | Сsrf protection token | No |
-| agreement | string | User USA Disclaimer. | No |
 | referral_code | string | User unique referral code. | No |
 | login_via_password | string | User can login via password or not. | No |
 | labels | [API_V2_Entities_Label](#api_v2_entities_label) |  | No |
 | phones | [API_V2_Entities_Phone](#api_v2_entities_phone) |  | No |
 | profiles | [API_V2_Entities_Profile](#api_v2_entities_profile) |  | No |
-| data_storages | [API_V2_Entities_DataStorage](#api_v2_entities_datastorage) |  | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
 | agreement_time | string |  | No |
@@ -1759,15 +1573,6 @@ Return profiles of current resource owner
 | created_at | string |  | No |
 | updated_at | string |  | No |
 
-#### API_V2_Entities_DataStorage
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| title | string | Any additional data title | No |
-| data | string | Any additional data json key:value pairs | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-
 #### API_V2_Entities_UserWithPhone
 
 Returns current user
@@ -1789,15 +1594,10 @@ Returns current user
 | otp | boolean | is 2FA enabled for account | No |
 | state | string | User's state: active, pending, inactive | No |
 | country | string | User country | No |
-| country_of_residence | string | country of residence | No |
 | last_country | string | Last IP Geolocation. | No |
 | last_ip | string | Last IP Address. | No |
-| agreement | string | User USA Disclaimer. | No |
-| dob | string | User date of birth. | No |
 | referral_code | string | User unique referral code. | No |
 | login_via_password | string | User can login via password or not. | No |
-| verified | object | User's KYC status. | No |
-| is_blue_verified | object | User's referrals | No |
 | labels | [API_V2_Entities_Label](#api_v2_entities_label) |  | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
@@ -1813,65 +1613,7 @@ get user's referrals with username
 | username | string | User's username | No |
 | profile_url | object | Profile picture Url | No |
 | profile_type | string | Profile picture type | No |
-| verified | string | User's KYC status. | No |
-| is_blue_verified | string | User's blue verified | No |
-| l2 | string | User's blue verified data | No |
-| l3 | string | User's level 3 details | No |
-| l4 | string | User's level 4 details | No |
 | initial | string | Username initial | No |
-
-#### API_V2_Entities_UserWithPublicReferrals
-
-get user public info with username from elasticsearch
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| full_name | string | User full name | No |
-| username | string | User's username | No |
-| profile_url | object | Profile picture Url | No |
-| profile_type | string | Profile picture type | No |
-| verified | string | User's KYC status. | No |
-| is_blue_verified | string | User's blue verified | No |
-| l2 | string | User's blue verified data | No |
-| l3 | string | User's level 3 details | No |
-| l4 | string | User's level 4 details | No |
-| initial | string | Username initial | No |
-| invited | string | Referred user's referral count | No |
-| referrals | [API_V2_Entities_UserPublic](#api_v2_entities_userpublic) |  | No |
-
-#### API_V2_Entities_UserPublicReferrals
-
-get user public info with username
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| full_name | string | User full name | No |
-| username | string | User's username | No |
-| profile_url | object | Profile picture Url | No |
-| profile_type | string | Profile picture type | No |
-| verified | string | User's KYC status. | No |
-| is_blue_verified | string | User's blue verified | No |
-| l2 | string | User's blue verified data | No |
-| l3 | string | User's level 3 details | No |
-| l4 | string | User's level 4 details | No |
-| initial | string | Username initial | No |
-| invited | string | Referred user's referral count | No |
-| referrals | [API_V2_Entities_UserPublic](#api_v2_entities_userpublic) |  | No |
-
-#### API_V2_Entities_UserWithSocial
-
-Returns referrals of user
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| full_name | string | User full name | No |
-| username | string | User's username | No |
-| profile_url | object | Profile picture Url | No |
-| profile_type | string | Profile picture type | No |
-| initial | string | Username initial | No |
-| referrals | string | Referred user's referral count | No |
-| state | string | User's state | No |
-| joining_date | date | User's joining date | No |
 
 #### API_V2_Entities_Activity
 
@@ -1925,7 +1667,6 @@ Returns user activity
 | otp | boolean | is 2FA enabled for account | No |
 | state | string | User state: active, pending, inactive | No |
 | country | string | User country | No |
-| country_of_residence | string | country of residence | No |
 | last_country | string | Last IP Geolocation. | No |
 | last_ip | string | Last IP Address. | No |
 | phone_number | string | User Phone number | No |
@@ -1957,10 +1698,8 @@ Returns user activity
 | otp | boolean | is 2FA enabled for account | No |
 | state | string | User state: active, pending, inactive | No |
 | country | string | User country | No |
-| country_of_residence | string | country of residence | No |
 | last_country | string | Last IP Geolocation. | No |
 | last_ip | string | Last IP Address. | No |
-| agreement | string | User USA Disclaimer. | No |
 | phone_number | string | User Phone number | No |
 | data | string | Additional phone and profile info | No |
 | platform | string | Platform from which user signed up. | No |
@@ -1970,74 +1709,6 @@ Returns user activity
 | created_at | string |  | No |
 | updated_at | string |  | No |
 | agreement_time | string |  | No |
-
-#### API_V2_Entities_UserWithKYC
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| email | string | User Email | No |
-| first_name | string | User first name | No |
-| last_name | string | User last name | No |
-| full_name | string | User full name | No |
-| username | string | User's username | No |
-| uid | string | User UID | No |
-| role | string | User role | No |
-| level | integer | User level | No |
-| profile_url | object | Profile picture Url | No |
-| profile_type | string | Profile picture type | No |
-| otp | boolean | is 2FA enabled for account | No |
-| state | string | User state: active, pending, inactive | No |
-| country | string | User country | No |
-| country_of_residence | string | country of residence | No |
-| last_country | string | Last IP Geolocation. | No |
-| last_ip | string | Last IP Address. | No |
-| agreement | string | User USA Disclaimer. | No |
-| phone_number | string | User Phone number | No |
-| data | string | Additional phone and profile info | No |
-| referral_code | string | User unique referral code. | No |
-| login_via_password | string | User can login via password or not. | No |
-| referrals | string | Referred user's referral count | No |
-| profiles | [API_V2_Entities_Profile](#api_v2_entities_profile) |  | No |
-| labels | [API_V2_Entities_AdminLabelView](#api_v2_entities_adminlabelview) |  | No |
-| phones | [API_V2_Entities_Phone](#api_v2_entities_phone) |  | No |
-| data_storages | [API_V2_Entities_DataStorage](#api_v2_entities_datastorage) |  | No |
-| comments | [API_V2_Entities_Comment](#api_v2_entities_comment) |  | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-| agreement_time | string |  | No |
-
-#### API_V2_Entities_AdminLabelView
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| key | string | Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters. | No |
-| value | string | Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters. | No |
-| scope | string | Label scope: 'public' or 'private' | No |
-| description | string | Label desc: json string with any additional information | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-
-#### API_V2_Entities_Comment
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer | Comment id | No |
-| author_uid | string | Comment author UID | No |
-| title | string | Comment title | No |
-| data | string | Comment plain text | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-
-#### API_V2_Entities_UserWithUsername
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| full_name | string | User full name | No |
-| username | string | User's username | No |
-| profile_url | object | Profile picture Url | No |
-| profile_type | string | Profile picture type | No |
-| verified | object | User's KYC status. | No |
-| is_blue_verified | object | User's referrals | No |
 
 #### API_V2_Entities_ServiceAccounts
 
@@ -2053,6 +1724,17 @@ Returns user activity
 | level | integer | User Level | No |
 | state | string | Service Account State: active, disabled | No |
 | user | [API_V2_Entities_User](#api_v2_entities_user) |  | No |
+| created_at | string |  | No |
+| updated_at | string |  | No |
+
+#### API_V2_Entities_AdminLabelView
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| key | string | Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters. | No |
+| value | string | Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters. | No |
+| scope | string | Label scope: 'public' or 'private' | No |
+| description | string | Label desc: json string with any additional information | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
 

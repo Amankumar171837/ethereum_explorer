@@ -18,28 +18,12 @@ class AddServiceAccountsAndRelatedChanges < ActiveRecord::Migration[5.2]
     add_column :apikeys, :key_holder_account_id, :bigint, null: false, unsigned: true, after: :id
     add_column :apikeys, :key_holder_account_type, :string, null: false, default: "User", after: :key_holder_account_id
 
-    APIKey.find_each do |api_key|
-      api_key.key_holder_account_type = 'User'
-      api_key.key_holder_account_id = api_key.user_id
-      api_key.save!
-    end
-
     remove_column :apikeys, :user_id
     add_index :apikeys, [:key_holder_account_type, :key_holder_account_id], name: :idx_apikey_on_account unless index_exists?(:service_accounts, [:key_holder_account_type, :key_holder_account_id])
   end
 
   def down
     add_column :apikeys, :user_id, :bigint, unsigned: true, null: false, after: :key_holder_account_id
-
-    APIKey.find_each do |api_key|
-      if api_key.key_holder_account_type == 'ServiceAccount'
-        api_key.destroy!
-        next
-      end
-
-      api_key.user_id = api_key.key_holder_account_id
-      api_key.save!
-    end
 
     remove_column :apikeys, :key_holder_account_id
     remove_column :apikeys, :key_holder_account_type

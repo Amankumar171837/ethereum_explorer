@@ -280,17 +280,6 @@ ActiveRecord::Schema.define(version: 2025_02_11_112117) do
     t.index ["platform_setting_id"], name: "index_sms_sender_configs_on_platform_setting_id"
   end
 
-  create_table "user_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
-    t.bigint "user_id"
-    t.datetime "username_updated", default: "1947-02-02 00:00:00"
-    t.datetime "email_updated", default: "1947-02-02 00:00:00"
-    t.datetime "phone_number_updated", default: "1947-02-02 00:00:00"
-    t.text "metadata"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_user_settings_on_user_id"
-  end
-
   create_table "user_state_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.bigint "user_id", null: false, unsigned: true
     t.bigint "admin_id", null: false
@@ -316,7 +305,6 @@ ActiveRecord::Schema.define(version: 2025_02_11_112117) do
     t.integer "level", default: 0, null: false
     t.boolean "otp", default: false
     t.string "state", default: "pending", null: false
-    t.string "badge"
     t.bigint "referral_id"
     t.string "referral_code"
     t.string "provider"

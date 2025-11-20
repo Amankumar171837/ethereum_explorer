@@ -256,7 +256,7 @@ Get users and profile information
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 201 | Get users and profile information | [API_V2_Management_Entities_UserWithKYC](#api_v2_management_entities_userwithkyc) |
+| 201 | Get users and profile information | [API_V2_Management_Entities_UserWithProfile](#api_v2_management_entities_userwithprofile) |
 
 ### /api/v2/barong/management/profiles
 
@@ -508,7 +508,6 @@ Returns array of users as collection
 | otp | boolean | is 2FA enabled for account | No |
 | state | string | User state: active, pending, inactive | No |
 | country | string | User country | No |
-| country_of_residence | string | country of residence | No |
 | last_country | string | Last IP Geolocation. | No |
 | last_ip | string | Last IP Address. | No |
 | phone_number | string | User Phone number | No |
@@ -542,10 +541,8 @@ Imports a profile for user
 | otp | boolean | is 2FA enabled for account | No |
 | state | string | User state: active, pending, inactive | No |
 | country | string | User country | No |
-| country_of_residence | string | country of residence | No |
 | last_country | string | Last IP Geolocation. | No |
 | last_ip | string | Last IP Address. | No |
-| agreement | string | User USA Disclaimer. | No |
 | phone_number | string | User Phone number | No |
 | data | string | Additional phone and profile info | No |
 | platform | string | Platform from which user signed up. | No |
@@ -590,43 +587,6 @@ Imports a profile for user
 | created_at | string |  | No |
 | updated_at | string |  | No |
 
-#### API_V2_Management_Entities_UserWithKYC
-
-Get users and profile information
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| email | string | User Email | No |
-| first_name | string | User first name | No |
-| last_name | string | User last name | No |
-| full_name | string | User full name | No |
-| username | string | User's username | No |
-| uid | string | User UID | No |
-| role | string | User role | No |
-| level | integer | User level | No |
-| profile_url | object | Profile picture Url | No |
-| profile_type | string | Profile picture type | No |
-| otp | boolean | is 2FA enabled for account | No |
-| state | string | User state: active, pending, inactive | No |
-| country | string | User country | No |
-| country_of_residence | string | country of residence | No |
-| last_country | string | Last IP Geolocation. | No |
-| last_ip | string | Last IP Address. | No |
-| agreement | string | User USA Disclaimer. | No |
-| phone_number | string | User Phone number | No |
-| data | string | Additional phone and profile info | No |
-| referral_code | string | User unique referral code. | No |
-| login_via_password | string | User can login via password or not. | No |
-| referrals | string | Referred user's referral count | No |
-| profiles | [API_V2_Management_Entities_Profile](#api_v2_management_entities_profile) |  | No |
-| labels | [API_V2_Entities_AdminLabelView](#api_v2_entities_adminlabelview) |  | No |
-| phones | [API_V2_Management_Entities_Phone](#api_v2_management_entities_phone) |  | No |
-| data_storages | [API_V2_Entities_DataStorage](#api_v2_entities_datastorage) |  | No |
-| comments | [API_V2_Entities_Comment](#api_v2_entities_comment) |  | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-| agreement_time | string |  | No |
-
 #### API_V2_Management_Entities_Phone
 
 Get user phone numbers
@@ -636,26 +596,6 @@ Get user phone numbers
 | country | string | Phone country | No |
 | number | string | Phone Number | No |
 | validated_at | s (g) | Phone validation date | No |
-
-#### API_V2_Entities_DataStorage
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| title | string | Any additional data title | No |
-| data | string | Any additional data json key:value pairs | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-
-#### API_V2_Entities_Comment
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer | Comment id | No |
-| author_uid | string | Comment author UID | No |
-| title | string | Comment title | No |
-| data | string | Comment plain text | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
 
 #### API_V2_Entities_ServiceAccounts
 
@@ -673,18 +613,6 @@ Get specific service_account information
 | level | integer | User Level | No |
 | state | string | Service Account State: active, disabled | No |
 | user | [API_V2_Entities_User](#api_v2_entities_user) |  | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-
-#### API_V2_Entities_APIKey
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| kid | string | JWT public key | No |
-| algorithm | string | Cryptographic hash function type | No |
-| scope | string | Serialized array of scopes | No |
-| state | string | active/non-active state of key | No |
-| secret | string | Api key secret | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
 
@@ -706,20 +634,17 @@ Get specific service_account information
 | profile_type | string | Profile picture type | No |
 | state | string | User state: active, pending, inactive | No |
 | country | string | User country | No |
-| country_of_residence | string | country of residence | No |
 | last_country | string | Last IP Geolocation. | No |
 | last_ip | string | Last IP Address. | No |
 | phone_number | string | User Phone number | No |
 | data | string | Additional phone and profile info | No |
 | csrf_token | string | Сsrf protection token | No |
 | authentication | string | Сsrf protection token | No |
-| agreement | string | User USA Disclaimer. | No |
 | referral_code | string | User unique referral code. | No |
 | login_via_password | string | User can login via password or not. | No |
 | labels | [API_V2_Entities_Label](#api_v2_entities_label) |  | No |
 | phones | [API_V2_Entities_Phone](#api_v2_entities_phone) |  | No |
 | profiles | [API_V2_Entities_Profile](#api_v2_entities_profile) |  | No |
-| data_storages | [API_V2_Entities_DataStorage](#api_v2_entities_datastorage) |  | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
 | agreement_time | string |  | No |

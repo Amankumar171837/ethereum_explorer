@@ -18,7 +18,6 @@ module API::V2
       mount Resource::Phones
       mount Resource::Otp
       # mount Resource::ServiceAccounts
-      mount Resource::Referral
       mount Resource::UserUpdate
       mount Resource::UserAccount
       mount Resource::EmailNotifications

@@ -82,12 +82,6 @@ module API::V2
                type: String
              }
 
-      expose :country_of_residence,
-             documentation: {
-               desc: 'country of residence',
-               type: String
-             }
-
       expose :last_country,
              documentation: {
                desc: 'Last IP Geolocation.',

@@ -6,8 +6,11 @@ class CreatePermissions < ActiveRecord::Migration[5.2]
       t.string    :role,       null: false
       t.string    :verb, null: false
       t.string    :path,       null: false
+      t.string    :topic
 
       t.timestamps
     end
+
+    add_index :permissions, :topic
   end
 end

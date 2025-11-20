@@ -33,7 +33,7 @@ Returns user info
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Returns user info | [API_V2_Admin_Entities_UserWithKYC](#api_v2_admin_entities_userwithkyc) |
+| 200 | Returns user info | [API_V2_Admin_Entities_UserWithProfile](#api_v2_admin_entities_userwithprofile) |
 | 401 | Invalid bearer token |  |
 
 ### /api/v2/barong/admin/users
@@ -499,6 +499,50 @@ Returns array of activities as paginated collection
 | 200 | Returns array of activities as paginated collection | [API_V2_Admin_Entities_ActivityWithUser](#api_v2_admin_entities_activitywithuser) |
 | 401 | Invalid bearer token |  |
 
+### /api/v2/barong/admin/metrics/statistic
+
+#### GET
+##### Description
+
+Returns main statistic in the given time period
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Returns main statistic in the given time period |
+| 401 | Invalid bearer token |
+
+##### Security
+
+| Security Schema | Scopes |
+| --------------- | ------ |
+| BearerToken |  |
+
+### /api/v2/barong/admin/metrics/service-logs
+
+#### GET
+##### Description
+
+Returns service logs in the given time period
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| period | query | Time period for calculating total service log count | No | string |
+| country_code | query | Country code | No | string |
+| from | query | Start date | No | dateTime |
+| to | query | End date | No | dateTime |
+| timezone | query | Timezone name | No | string |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Returns service logs in the given time period |
+| 401 | Invalid bearer token |
+
 ### /api/v2/barong/admin/metrics
 
 #### GET
@@ -510,8 +554,11 @@ Returns main statistic in the given time period
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ------ |
-| created_from | query |  | No | string |
-| created_to | query |  | No | string |
+| period | query | Time period for calculating total activity count | No | string |
+| country_code | query | Country code | No | string |
+| from | query | Start date | No | dateTime |
+| to | query | End date | No | dateTime |
+| timezone | query | Timezone name | No | string |
 
 ##### Responses
 
@@ -749,29 +796,6 @@ Edit use Phone number by admin
 | 201 | Edit use Phone number by admin | [API_V2_Entities_Phone](#api_v2_entities_phone) |
 | 401 | Invalid bearer token |  |
 
-### /api/v2/barong/admin/referrals
-
-#### GET
-##### Description
-
-get the referrals list for a user
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-| uid | query | The shared user ID. | Yes | string |
-| state | query | Referral state | No | string |
-| page | query | Page number (defaults to 1). | No | integer |
-| limit | query | Number of users per page (defaults to 100, maximum is 100). | No | integer |
-
-##### Responses
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | get the referrals list for a user | [API_V2_Admin_Entities_User](#api_v2_admin_entities_user) |
-| 401 | Invalid bearer token |  |
-
 ### /api/v2/barong/admin/platform_settings/services
 
 #### GET
@@ -891,7 +915,7 @@ Returns array of service logs as paginated collection through influxdb
 #### GET
 ##### Description
 
-Returns array of service logs as paginated collection
+Returns array of service logs as paginated collection 
 
 ##### Parameters
 
@@ -903,6 +927,7 @@ Returns array of service logs as paginated collection
 | service_type | query | Service type used by user | No | string |
 | phone_number | query | user phone number | No | string |
 | result | query | Status of API response: succeed, failed, denied | No | string |
+| country_code | query | User country code | No | string |
 | user_country | query | User country | No | string |
 | from | query | An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved. | No | dateTime |
 | to | query | An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved. | No | dateTime |
@@ -1325,7 +1350,7 @@ Push custom notification
 ---
 ### Models
 
-#### API_V2_Admin_Entities_UserWithKYC
+#### API_V2_Admin_Entities_UserWithProfile
 
 Returns user info
 
@@ -1344,26 +1369,20 @@ Returns user info
 | otp | boolean | is 2FA enabled for account | No |
 | state | string | User state: active, pending, inactive | No |
 | country | string | User country | No |
-| country_of_residence | string | country of residence | No |
 | last_country | string | Last IP Geolocation. | No |
 | last_ip | string | Last IP Address. | No |
-| agreement | string | User USA Disclaimer. | No |
 | phone_number | string | User Phone number | No |
 | data | string | Additional phone and profile info | No |
+| platform | string | Platform from which user signed up. | No |
 | referral_code | string | User unique referral code. | No |
 | login_via_password | string | User can login via password or not. | No |
-| referrals | string | Referred user's referral count | No |
 | profiles | [API_V2_Admin_Entities_Profile](#api_v2_admin_entities_profile) |  | No |
-| labels | [API_V2_Entities_AdminLabelView](#api_v2_entities_adminlabelview) |  | No |
-| phones | [API_V2_Admin_Entities_Phone](#api_v2_admin_entities_phone) |  | No |
-| data_storages | [API_V2_Entities_DataStorage](#api_v2_entities_datastorage) |  | No |
-| comments | [API_V2_Entities_Comment](#api_v2_entities_comment) |  | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
 | agreement_time | string |  | No |
 | referral_of | string | Referrer user UID | No |
+| referrals | string | Referred user's referral count | No |
 | social_media_status | string | User's social media status | No |
-| user_state_logs | [API_V2_Admin_Entities_UserStateChangeLogs](#api_v2_admin_entities_userstatechangelogs) |  | No |
 
 #### API_V2_Entities_Profile
 
@@ -1379,45 +1398,6 @@ Returns user info
 | country | string | Country name | No |
 | state | string | Profile state: drafted, submitted, verified, rejected | No |
 | metadata | object | Profile additional fields | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-
-#### API_V2_Entities_AdminLabelView
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| key | string | Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters. | No |
-| value | string | Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters. | No |
-| scope | string | Label scope: 'public' or 'private' | No |
-| description | string | Label desc: json string with any additional information | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-
-#### API_V2_Admin_Entities_Phone
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| country | string | Phone country | No |
-| number | string | Phone number | No |
-| validated_at | s (g) | Phone validation date | No |
-
-#### API_V2_Entities_DataStorage
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| title | string | Any additional data title | No |
-| data | string | Any additional data json key:value pairs | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-
-#### API_V2_Entities_Comment
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer | Comment id | No |
-| author_uid | string | Comment author UID | No |
-| title | string | Comment title | No |
-| data | string | Comment plain text | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
 
@@ -1440,20 +1420,9 @@ Return all profiles
 | created_at | string |  | No |
 | updated_at | string |  | No |
 
-#### API_V2_Admin_Entities_UserStateChangeLogs
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| past_state | string | User Previous State | No |
-| state | string | User changed_to State | No |
-| remark | string | Remark | No |
-| change_by_user_email | string | Email of the Admin that did the changes | No |
-| change_by_user_uid | string | UID of the Admin that did the changes | No |
-| created_at | string |  | No |
-
 #### API_V2_Admin_Entities_User
 
-get the referrals list for a user
+Returns array of users as paginated collection
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -1470,7 +1439,6 @@ get the referrals list for a user
 | otp | boolean | is 2FA enabled for account | No |
 | state | string | User state: active, pending, inactive | No |
 | country | string | User country | No |
-| country_of_residence | string | country of residence | No |
 | last_country | string | Last IP Geolocation. | No |
 | last_ip | string | Last IP Address. | No |
 | phone_number | string | User Phone number | No |
@@ -1523,6 +1491,8 @@ Returns array of activities as paginated collection
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | user_ip | string | User IP | No |
+| country | string | User country | No |
+| country_code | string | User country code | No |
 | user_agent | string | User Browser Agent | No |
 | topic | string | Defined topic (session, adjustments) or general by default | No |
 | action | string | API action: POST => 'create', PUT => 'update', GET => 'read', DELETE => 'delete', PATCH => 'update' or system if there is no match of HTTP method | No |
@@ -1539,6 +1509,8 @@ Returns array of activities as paginated collection
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | user_ip | string | User IP | No |
+| country | string | User country | No |
+| country_code | string | User country code | No |
 | user_agent | string | User Browser Agent | No |
 | topic | string | Defined topic (session, adjustments) or general by default | No |
 | action | string | API action: POST => 'create', PUT => 'update', GET => 'read', DELETE => 'delete', PATCH => 'update' or system if there is no match of HTTP method | No |
@@ -1718,39 +1690,13 @@ Get all Notifications.
 | data | string | Parameters which was sent to specific API endpoint | No |
 | created_at | string | created date of Activity  | No |
 
-#### API_V2_Admin_Entities_UserWithProfile
+#### API_V2_Admin_Entities_Phone
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
-| email | string | User Email | No |
-| first_name | string | User first name | No |
-| last_name | string | User last name | No |
-| full_name | string | User full name | No |
-| username | string | User's username | No |
-| uid | string | User UID | No |
-| role | string | User role | No |
-| level | integer | User level | No |
-| profile_url | object | Profile picture Url | No |
-| profile_type | string | Profile picture type | No |
-| otp | boolean | is 2FA enabled for account | No |
-| state | string | User state: active, pending, inactive | No |
-| country | string | User country | No |
-| country_of_residence | string | country of residence | No |
-| last_country | string | Last IP Geolocation. | No |
-| last_ip | string | Last IP Address. | No |
-| agreement | string | User USA Disclaimer. | No |
-| phone_number | string | User Phone number | No |
-| data | string | Additional phone and profile info | No |
-| platform | string | Platform from which user signed up. | No |
-| referral_code | string | User unique referral code. | No |
-| login_via_password | string | User can login via password or not. | No |
-| profiles | [API_V2_Admin_Entities_Profile](#api_v2_admin_entities_profile) |  | No |
-| created_at | string |  | No |
-| updated_at | string |  | No |
-| agreement_time | string |  | No |
-| referral_of | string | Referrer user UID | No |
-| referrals | string | Referred user's referral count | No |
-| social_media_status | string | User's social media status | No |
+| country | string | Phone country | No |
+| number | string | Phone number | No |
+| validated_at | s (g) | Phone validation date | No |
 
 #### API_V2_Admin_Entities_ServiceLogs
 
@@ -1766,4 +1712,5 @@ Get all Notifications.
 | metadata | json | Parameters which was sent to specific API endpoint | No |
 | user_ip | string | User IP. | No |
 | user_country | string | User country | No |
+| country_code | string | User country code | No |
 | created_at | string |  | No |

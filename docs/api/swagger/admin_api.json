@@ -44,7 +44,7 @@
           "200": {
             "description": "Returns user info",
             "schema": {
-              "$ref": "#/definitions/API_V2_Admin_Entities_UserWithKYC"
+              "$ref": "#/definitions/API_V2_Admin_Entities_UserWithProfile"
             }
           },
           "401": {
@@ -1358,6 +1358,94 @@
         "operationId": "getApiV2BarongAdminActivities"
       }
     },
+    "/api/v2/barong/admin/metrics/statistic": {
+      "get": {
+        "description": "Returns main statistic in the given time period",
+        "produces": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "BearerToken": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns main statistic in the given time period"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminMetricsStatistic"
+      }
+    },
+    "/api/v2/barong/admin/metrics/service-logs": {
+      "get": {
+        "description": "Returns service logs in the given time period",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "period",
+            "description": "Time period for calculating total service log count",
+            "type": "string",
+            "default": "all",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country_code",
+            "description": "Country code",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "Start date",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "End date",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "timezone",
+            "description": "Timezone name",
+            "type": "string",
+            "default": "UTC",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns service logs in the given time period"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminMetricsServiceLogs"
+      }
+    },
     "/api/v2/barong/admin/metrics": {
       "get": {
         "description": "Returns main statistic in the given time period",
@@ -1367,14 +1455,41 @@
         "parameters": [
           {
             "in": "query",
-            "name": "created_from",
+            "name": "period",
+            "description": "Time period for calculating total activity count",
+            "type": "string",
+            "default": "all",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country_code",
+            "description": "Country code",
             "type": "string",
             "required": false
           },
           {
             "in": "query",
-            "name": "created_to",
+            "name": "from",
+            "description": "Start date",
             "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "End date",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "timezone",
+            "description": "Timezone name",
+            "type": "string",
+            "default": "UTC",
             "required": false
           }
         ],
@@ -1973,65 +2088,6 @@
         "operationId": "postApiV2BarongAdminPhone"
       }
     },
-    "/api/v2/barong/admin/referrals": {
-      "get": {
-        "description": "get the referrals list for a user",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "uid",
-            "description": "The shared user ID.",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "state",
-            "description": "Referral state",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Page number (defaults to 1).",
-            "type": "integer",
-            "format": "int32",
-            "default": 1,
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "description": "Number of users per page (defaults to 100, maximum is 100).",
-            "type": "integer",
-            "format": "int32",
-            "default": 100,
-            "minimum": 1,
-            "maximum": 100,
-            "required": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "get the referrals list for a user",
-            "schema": {
-              "$ref": "#/definitions/API_V2_Admin_Entities_User"
-            }
-          },
-          "401": {
-            "description": "Invalid bearer token"
-          }
-        },
-        "tags": [
-          "api"
-        ],
-        "operationId": "getApiV2BarongAdminReferrals"
-      }
-    },
     "/api/v2/barong/admin/platform_settings/services": {
       "get": {
         "description": "Get Services of Platform Setting",
@@ -2406,6 +2462,13 @@
             "in": "query",
             "name": "result",
             "description": "Status of API response: succeed, failed, denied",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country_code",
+            "description": "User country code",
             "type": "string",
             "required": false
           },
@@ -3640,7 +3703,7 @@
     }
   },
   "definitions": {
-    "API_V2_Admin_Entities_UserWithKYC": {
+    "API_V2_Admin_Entities_UserWithProfile": {
       "type": "object",
       "properties": {
         "email": {
@@ -3696,10 +3759,6 @@
           "type": "string",
           "description": "User country"
         },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
-        },
         "last_country": {
           "type": "string",
           "description": "Last IP Geolocation."
@@ -3707,10 +3766,6 @@
         "last_ip": {
           "type": "string",
           "description": "Last IP Address."
-        },
-        "agreement": {
-          "type": "string",
-          "description": "User USA Disclaimer."
         },
         "phone_number": {
           "type": "string",
@@ -3720,6 +3775,10 @@
           "type": "string",
           "description": "Additional phone and profile info"
         },
+        "platform": {
+          "type": "string",
+          "description": "Platform from which user signed up."
+        },
         "referral_code": {
           "type": "string",
           "description": "User unique referral code."
@@ -3728,24 +3787,8 @@
           "type": "string",
           "description": "User can login via password or not."
         },
-        "referrals": {
-          "type": "string",
-          "description": "Referred user's referral count"
-        },
         "profiles": {
           "$ref": "#/definitions/API_V2_Admin_Entities_Profile"
-        },
-        "labels": {
-          "$ref": "#/definitions/API_V2_Entities_AdminLabelView"
-        },
-        "phones": {
-          "$ref": "#/definitions/API_V2_Admin_Entities_Phone"
-        },
-        "data_storages": {
-          "$ref": "#/definitions/API_V2_Entities_DataStorage"
-        },
-        "comments": {
-          "$ref": "#/definitions/API_V2_Entities_Comment"
         },
         "created_at": {
           "type": "string"
@@ -3760,12 +3803,13 @@
           "type": "string",
           "description": "Referrer user UID"
         },
+        "referrals": {
+          "type": "string",
+          "description": "Referred user's referral count"
+        },
         "social_media_status": {
           "type": "string",
           "description": "User's social media status"
-        },
-        "user_state_logs": {
-          "$ref": "#/definitions/API_V2_Admin_Entities_UserStateChangeLogs"
         }
       },
       "description": "Returns user info"
@@ -3813,98 +3857,6 @@
         "metadata": {
           "type": "object",
           "description": "Profile additional fields"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        }
-      }
-    },
-    "API_V2_Entities_AdminLabelView": {
-      "type": "object",
-      "properties": {
-        "key": {
-          "type": "string",
-          "description": "Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters."
-        },
-        "value": {
-          "type": "string",
-          "description": "Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
-        },
-        "scope": {
-          "type": "string",
-          "description": "Label scope: 'public' or 'private'"
-        },
-        "description": {
-          "type": "string",
-          "description": "Label desc: json string with any additional information"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        }
-      }
-    },
-    "API_V2_Admin_Entities_Phone": {
-      "type": "object",
-      "properties": {
-        "country": {
-          "type": "string",
-          "description": "Phone country"
-        },
-        "number": {
-          "type": "string",
-          "description": "Phone number"
-        },
-        "validated_at": {
-          "type": "s",
-          "format": "g",
-          "description": "Phone validation date"
-        }
-      }
-    },
-    "API_V2_Entities_DataStorage": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string",
-          "description": "Any additional data title"
-        },
-        "data": {
-          "type": "string",
-          "description": "Any additional data json key:value pairs"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        }
-      }
-    },
-    "API_V2_Entities_Comment": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Comment id"
-        },
-        "author_uid": {
-          "type": "string",
-          "description": "Comment author UID"
-        },
-        "title": {
-          "type": "string",
-          "description": "Comment title"
-        },
-        "data": {
-          "type": "string",
-          "description": "Comment plain text"
         },
         "created_at": {
           "type": "string"
@@ -3967,34 +3919,6 @@
       },
       "description": "Return all profiles"
     },
-    "API_V2_Admin_Entities_UserStateChangeLogs": {
-      "type": "object",
-      "properties": {
-        "past_state": {
-          "type": "string",
-          "description": "User Previous State"
-        },
-        "state": {
-          "type": "string",
-          "description": "User changed_to State"
-        },
-        "remark": {
-          "type": "string",
-          "description": "Remark"
-        },
-        "change_by_user_email": {
-          "type": "string",
-          "description": "Email of the Admin that did the changes"
-        },
-        "change_by_user_uid": {
-          "type": "string",
-          "description": "UID of the Admin that did the changes"
-        },
-        "created_at": {
-          "type": "string"
-        }
-      }
-    },
     "API_V2_Admin_Entities_User": {
       "type": "object",
       "properties": {
@@ -4050,10 +3974,6 @@
         "country": {
           "type": "string",
           "description": "User country"
-        },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
         },
         "last_country": {
           "type": "string",
@@ -4113,7 +4033,7 @@
           "description": "User's social media status"
         }
       },
-      "description": "get the referrals list for a user"
+      "description": "Returns array of users as paginated collection"
     },
     "API_V2_Entities_APIKey": {
       "type": "object",
@@ -4191,6 +4111,14 @@
           "type": "string",
           "description": "User IP"
         },
+        "country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "country_code": {
+          "type": "string",
+          "description": "User country code"
+        },
         "user_agent": {
           "type": "string",
           "description": "User Browser Agent"
@@ -4229,6 +4157,14 @@
         "user_ip": {
           "type": "string",
           "description": "User IP"
+        },
+        "country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "country_code": {
+          "type": "string",
+          "description": "User country code"
         },
         "user_agent": {
           "type": "string",
@@ -4678,121 +4614,21 @@
         }
       }
     },
-    "API_V2_Admin_Entities_UserWithProfile": {
+    "API_V2_Admin_Entities_Phone": {
       "type": "object",
       "properties": {
-        "email": {
-          "type": "string",
-          "description": "User Email"
-        },
-        "first_name": {
-          "type": "string",
-          "description": "User first name"
-        },
-        "last_name": {
-          "type": "string",
-          "description": "User last name"
-        },
-        "full_name": {
-          "type": "string",
-          "description": "User full name"
-        },
-        "username": {
-          "type": "string",
-          "description": "User's username"
-        },
-        "uid": {
-          "type": "string",
-          "description": "User UID"
-        },
-        "role": {
-          "type": "string",
-          "description": "User role"
-        },
-        "level": {
-          "type": "integer",
-          "format": "int32",
-          "description": "User level"
-        },
-        "profile_url": {
-          "type": "object",
-          "description": "Profile picture Url"
-        },
-        "profile_type": {
-          "type": "string",
-          "description": "Profile picture type"
-        },
-        "otp": {
-          "type": "boolean",
-          "description": "is 2FA enabled for account"
-        },
-        "state": {
-          "type": "string",
-          "description": "User state: active, pending, inactive"
-        },
         "country": {
           "type": "string",
-          "description": "User country"
+          "description": "Phone country"
         },
-        "country_of_residence": {
+        "number": {
           "type": "string",
-          "description": "country of residence"
+          "description": "Phone number"
         },
-        "last_country": {
-          "type": "string",
-          "description": "Last IP Geolocation."
-        },
-        "last_ip": {
-          "type": "string",
-          "description": "Last IP Address."
-        },
-        "agreement": {
-          "type": "string",
-          "description": "User USA Disclaimer."
-        },
-        "phone_number": {
-          "type": "string",
-          "description": "User Phone number"
-        },
-        "data": {
-          "type": "string",
-          "description": "Additional phone and profile info"
-        },
-        "platform": {
-          "type": "string",
-          "description": "Platform from which user signed up."
-        },
-        "referral_code": {
-          "type": "string",
-          "description": "User unique referral code."
-        },
-        "login_via_password": {
-          "type": "string",
-          "description": "User can login via password or not."
-        },
-        "profiles": {
-          "$ref": "#/definitions/API_V2_Admin_Entities_Profile"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        },
-        "agreement_time": {
-          "type": "string"
-        },
-        "referral_of": {
-          "type": "string",
-          "description": "Referrer user UID"
-        },
-        "referrals": {
-          "type": "string",
-          "description": "Referred user's referral count"
-        },
-        "social_media_status": {
-          "type": "string",
-          "description": "User's social media status"
+        "validated_at": {
+          "type": "s",
+          "format": "g",
+          "description": "Phone validation date"
         }
       }
     },
@@ -4838,6 +4674,10 @@
         "user_country": {
           "type": "string",
           "description": "User country"
+        },
+        "country_code": {
+          "type": "string",
+          "description": "User country code"
         },
         "created_at": {
           "type": "string"

@@ -45,186 +45,83 @@
         "operationId": "postIdentityGenerateToken"
       }
     },
-    "/identity/inquiry": {
-      "post": {
-        "description": "Inquiry API",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "email",
-            "description": "User email",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "subject",
-            "description": "Inquiry subject",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "message",
-            "description": "Inquiry message",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "name",
-            "description": "User name",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "captcha_response",
-            "description": "Response from captcha widget",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Inquiry API"
-          }
-        },
-        "tags": [
-          "identity"
-        ],
-        "operationId": "postIdentityInquiry"
-      }
-    },
-    "/identity/users": {
+    "/identity/users/referral/exists": {
       "get": {
-        "description": "User data from username",
+        "description": "Check user existence through referral code.",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
             "in": "query",
-            "name": "username",
-            "description": "User's username",
+            "name": "referral_code",
+            "description": "User's referral code",
             "type": "string",
             "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "User data from username"
+            "description": "Check user existence through referral code."
           }
         },
         "tags": [
           "identity"
         ],
-        "operationId": "getIdentityUsers"
-      },
-      "post": {
-        "description": "Creates new user",
+        "operationId": "getIdentityUsersReferralExists"
+      }
+    },
+    "/identity/users/exists": {
+      "get": {
+        "description": "Check user existence through email.",
         "produces": [
-          "application/json"
-        ],
-        "consumes": [
           "application/json"
         ],
         "parameters": [
           {
-            "in": "formData",
+            "in": "query",
             "name": "email",
             "description": "User Email",
             "type": "string",
             "required": true
           },
           {
-            "in": "formData",
-            "name": "first_name",
-            "description": "User First Name",
+            "in": "query",
+            "name": "platform",
+            "description": "User Signup platform",
             "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "last_name",
-            "description": "User Last Name",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "username",
-            "description": "User's Username",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "phone_number",
-            "description": "User phone number",
-            "type": "string",
+            "default": "app",
+            "enum": [
+              "app",
+              "f63mgqyTdHSKD3PZ4IbewujX33w2nHIJRQ61t3aQYj15yF6XI"
+            ],
             "required": false
           },
           {
-            "in": "formData",
-            "name": "password",
-            "description": "User Password",
+            "in": "query",
+            "name": "device_id",
+            "description": "User device id",
             "type": "string",
             "required": true
           },
           {
-            "in": "formData",
-            "name": "country_of_residence",
-            "description": "country of residence",
+            "in": "query",
+            "name": "device_type",
+            "description": "User device type Android/IOS",
             "type": "string",
+            "default": "web",
             "required": true
-          },
-          {
-            "in": "formData",
-            "name": "referral_code",
-            "description": "User's referral code",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "captcha_response",
-            "description": "Response from captcha widget",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "data",
-            "description": "Any additional key: value pairs in json string format",
-            "type": "string",
-            "required": false
           }
         ],
         "responses": {
-          "201": {
-            "description": "Creates new user",
-            "schema": {
-              "$ref": "#/definitions/API_V2_Entities_UserWithFullInfo"
-            }
-          },
-          "400": {
-            "description": "Required params are missing"
-          },
-          "422": {
-            "description": "Validation errors"
+          "200": {
+            "description": "Check user existence through email."
           }
         },
         "tags": [
           "identity"
         ],
-        "operationId": "postIdentityUsers"
+        "operationId": "getIdentityUsersExists"
       }
     },
     "/identity/users/password/reset": {
@@ -242,7 +139,14 @@
             "name": "phone_number",
             "description": "User Phone Number",
             "type": "string",
-            "required": true
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User email",
+            "type": "string",
+            "required": false
           },
           {
             "in": "formData",
@@ -301,7 +205,14 @@
             "name": "phone_number",
             "description": "User Phone Number",
             "type": "string",
-            "required": true
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User email",
+            "type": "string",
+            "required": false
           },
           {
             "in": "formData",
@@ -550,32 +461,6 @@
         "operationId": "getIdentityUsersUsernameReferral"
       }
     },
-    "/identity/users/username": {
-      "get": {
-        "description": "Check username availability",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "username",
-            "description": "User's Username",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Check username availability"
-          }
-        },
-        "tags": [
-          "identity"
-        ],
-        "operationId": "getIdentityUsersUsername"
-      }
-    },
     "/identity/users/username/available": {
       "get": {
         "description": "Check if user is available with the username",
@@ -704,10 +589,6 @@
             "type": "string",
             "default": "zen",
             "enum": [
-              "icx",
-              "zen",
-              "explorer",
-              "nft",
               "app",
               "f63mgqyTdHSKD3PZ4IbewujX33w2nHIJRQ61t3aQYj15yF6XI"
             ],
@@ -866,10 +747,6 @@
             "description": "User login platform",
             "type": "string",
             "enum": [
-              "icx",
-              "zen",
-              "explorer",
-              "nft",
               "app"
             ],
             "required": true
@@ -894,7 +771,7 @@
             "name": "login_device[device_token]",
             "description": "User fcm device token Android/IOS",
             "type": "string",
-            "required": true
+            "required": false
           }
         ],
         "responses": {
@@ -931,10 +808,6 @@
             "type": "string",
             "default": "zen",
             "enum": [
-              "icx",
-              "zen",
-              "explorer",
-              "nft",
               "app"
             ],
             "required": false
@@ -1182,10 +1055,6 @@
             "type": "string",
             "default": "zen",
             "enum": [
-              "icx",
-              "zen",
-              "explorer",
-              "nft",
               "app"
             ],
             "required": false
@@ -1283,6 +1152,46 @@
         "operationId": "postIdentityPasswordValidate"
       }
     },
+    "/public/users/metrics": {
+      "get": {
+        "description": "Get all the continents and it's countries",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "continent",
+            "description": "continent.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country_code",
+            "description": "Country code.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "city",
+            "description": "city .",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all the continents and it's countries"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicUsersMetrics"
+      }
+    },
     "/public/mobivate": {
       "post": {
         "description": "webhook for mobivate",
@@ -1360,26 +1269,6 @@
         "operationId": "getPublicBulkgate"
       }
     },
-    "/public/users/random": {
-      "get": {
-        "description": "get newly random user",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "get newly random user",
-            "schema": {
-              "$ref": "#/definitions/API_V2_Entities_UserPublic"
-            }
-          }
-        },
-        "tags": [
-          "public"
-        ],
-        "operationId": "getPublicUsersRandom"
-      }
-    },
     "/public/users/referrals": {
       "get": {
         "description": "get user's referrals with username",
@@ -1427,64 +1316,6 @@
           "public"
         ],
         "operationId": "getPublicUsersReferrals"
-      }
-    },
-    "/public/users/search": {
-      "get": {
-        "description": "get user public info with username from elasticsearch",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "username",
-            "description": "User's username",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "get user public info with username from elasticsearch",
-            "schema": {
-              "$ref": "#/definitions/API_V2_Entities_UserWithPublicReferrals"
-            }
-          }
-        },
-        "tags": [
-          "public"
-        ],
-        "operationId": "getPublicUsersSearch"
-      }
-    },
-    "/public/users": {
-      "get": {
-        "description": "get user public info with username",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "username",
-            "description": "User's username",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "get user public info with username",
-            "schema": {
-              "$ref": "#/definitions/API_V2_Entities_UserPublicReferrals"
-            }
-          }
-        },
-        "tags": [
-          "public"
-        ],
-        "operationId": "getPublicUsers"
       }
     },
     "/public/app/versions": {
@@ -1593,26 +1424,6 @@
         "operationId": "postPublicPasswordValidate"
       }
     },
-    "/public/kyc": {
-      "post": {
-        "description": "KYC callback",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "responses": {
-          "201": {
-            "description": "KYC callback"
-          }
-        },
-        "tags": [
-          "public"
-        ],
-        "operationId": "postPublicKyc"
-      }
-    },
     "/resource/swagger_doc/{name}": {
       "get": {
         "description": "Swagger compatible API description for specific API",
@@ -1661,6 +1472,55 @@
           "resource"
         ],
         "operationId": "getResourceSwaggerDoc"
+      }
+    },
+    "/resource/device/connect": {
+      "post": {
+        "description": "Generate tokens for the device.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "Current user uid.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "device_id",
+            "description": "X10 Device id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "device_type",
+            "description": "Device type",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User authorization"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceDeviceConnect"
       }
     },
     "/resource/email/notifications": {
@@ -1712,82 +1572,6 @@
           "resource"
         ],
         "operationId": "getResourceEmailNotifications"
-      }
-    },
-    "/resource/profile/wonka-media": {
-      "post": {
-        "description": "Set Wonka as profile for current user",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "wonka",
-            "description": "WonkaBot code",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Profile picture is uploaded"
-          },
-          "400": {
-            "description": "Required params are empty"
-          },
-          "401": {
-            "description": "Invalid bearer token"
-          },
-          "422": {
-            "description": "Validation errors"
-          }
-        },
-        "tags": [
-          "resource"
-        ],
-        "operationId": "postResourceProfileWonkaMedia"
-      }
-    },
-    "/resource/profile/token-media": {
-      "post": {
-        "description": "Set Nfe as profile for current user",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "token",
-            "description": "Token code",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Profile picture is uploaded"
-          },
-          "400": {
-            "description": "Required params are empty"
-          },
-          "401": {
-            "description": "Invalid bearer token"
-          },
-          "422": {
-            "description": "Validation errors"
-          }
-        },
-        "tags": [
-          "resource"
-        ],
-        "operationId": "postResourceProfileTokenMedia"
       }
     },
     "/resource/user/delete-account": {
@@ -2012,64 +1796,6 @@
           "resource"
         ],
         "operationId": "postResourceUserEmail"
-      }
-    },
-    "/resource/referrals": {
-      "get": {
-        "description": "Returns referrals of user",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "state",
-            "description": "Referred user's state",
-            "type": "string",
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Page number (defaults to 1).",
-            "type": "integer",
-            "format": "int32",
-            "default": 1,
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "description": "Number of users per page (defaults to 100, maximum is 100).",
-            "type": "integer",
-            "format": "int32",
-            "default": 100,
-            "minimum": 1,
-            "maximum": 100,
-            "required": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns referrals of user",
-            "schema": {
-              "$ref": "#/definitions/API_V2_Entities_UserWithSocial"
-            }
-          },
-          "400": {
-            "description": "Required params are empty"
-          },
-          "401": {
-            "description": "Invalid bearer token"
-          },
-          "422": {
-            "description": "Validation errors"
-          }
-        },
-        "tags": [
-          "resource"
-        ],
-        "operationId": "getResourceReferrals"
       }
     },
     "/resource/otp/verify": {
@@ -3090,90 +2816,6 @@
         "operationId": "postResourceUsersUpdate"
       }
     },
-    "/resource/users/kycaid/form_url": {
-      "get": {
-        "description": "Kycaid user form",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Kycaid user form"
-          }
-        },
-        "tags": [
-          "resource"
-        ],
-        "operationId": "getResourceUsersKycaidFormUrl"
-      }
-    },
-    "/resource/users/country": {
-      "post": {
-        "description": "Adding user country",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "country",
-            "description": "User country",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Adding user country",
-            "schema": {
-              "$ref": "#/definitions/API_V2_Entities_UserWithFullInfo"
-            }
-          },
-          "400": {
-            "description": "Required params are missing"
-          },
-          "422": {
-            "description": "Validation errors"
-          }
-        },
-        "tags": [
-          "resource"
-        ],
-        "operationId": "postResourceUsersCountry"
-      }
-    },
-    "/resource/users/agreement": {
-      "post": {
-        "description": "Agreement to user",
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "responses": {
-          "201": {
-            "description": "Agreement to user",
-            "schema": {
-              "$ref": "#/definitions/API_V2_Entities_UserWithFullInfo"
-            }
-          },
-          "400": {
-            "description": "Required params are missing"
-          },
-          "422": {
-            "description": "Validation errors"
-          }
-        },
-        "tags": [
-          "resource"
-        ],
-        "operationId": "postResourceUsersAgreement"
-      }
-    },
     "/resource/users/user_activity": {
       "get": {
         "description": "Api for first login Activity",
@@ -3508,10 +3150,6 @@
           "type": "string",
           "description": "User country"
         },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
-        },
         "last_country": {
           "type": "string",
           "description": "Last IP Geolocation."
@@ -3536,10 +3174,6 @@
           "type": "string",
           "description": "Сsrf protection token"
         },
-        "agreement": {
-          "type": "string",
-          "description": "User USA Disclaimer."
-        },
         "referral_code": {
           "type": "string",
           "description": "User unique referral code."
@@ -3556,9 +3190,6 @@
         },
         "profiles": {
           "$ref": "#/definitions/API_V2_Entities_Profile"
-        },
-        "data_storages": {
-          "$ref": "#/definitions/API_V2_Entities_DataStorage"
         },
         "created_at": {
           "type": "string"
@@ -3668,25 +3299,6 @@
       },
       "description": "Return profiles of current resource owner"
     },
-    "API_V2_Entities_DataStorage": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string",
-          "description": "Any additional data title"
-        },
-        "data": {
-          "type": "string",
-          "description": "Any additional data json key:value pairs"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        }
-      }
-    },
     "API_V2_Entities_UserWithPhone": {
       "type": "object",
       "properties": {
@@ -3751,10 +3363,6 @@
           "type": "string",
           "description": "User country"
         },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
-        },
         "last_country": {
           "type": "string",
           "description": "Last IP Geolocation."
@@ -3763,14 +3371,6 @@
           "type": "string",
           "description": "Last IP Address."
         },
-        "agreement": {
-          "type": "string",
-          "description": "User USA Disclaimer."
-        },
-        "dob": {
-          "type": "string",
-          "description": "User date of birth."
-        },
         "referral_code": {
           "type": "string",
           "description": "User unique referral code."
@@ -3778,14 +3378,6 @@
         "login_via_password": {
           "type": "string",
           "description": "User can login via password or not."
-        },
-        "verified": {
-          "type": "object",
-          "description": "User's KYC status."
-        },
-        "is_blue_verified": {
-          "type": "object",
-          "description": "User's referrals"
         },
         "labels": {
           "$ref": "#/definitions/API_V2_Entities_Label"
@@ -3821,177 +3413,12 @@
           "type": "string",
           "description": "Profile picture type"
         },
-        "verified": {
-          "type": "string",
-          "description": "User's KYC status."
-        },
-        "is_blue_verified": {
-          "type": "string",
-          "description": "User's blue verified"
-        },
-        "l2": {
-          "type": "string",
-          "description": "User's blue verified data"
-        },
-        "l3": {
-          "type": "string",
-          "description": "User's level 3 details"
-        },
-        "l4": {
-          "type": "string",
-          "description": "User's level 4 details"
-        },
         "initial": {
           "type": "string",
           "description": "Username initial"
         }
       },
       "description": "get user's referrals with username"
-    },
-    "API_V2_Entities_UserWithPublicReferrals": {
-      "type": "object",
-      "properties": {
-        "full_name": {
-          "type": "string",
-          "description": "User full name"
-        },
-        "username": {
-          "type": "string",
-          "description": "User's username"
-        },
-        "profile_url": {
-          "type": "object",
-          "description": "Profile picture Url"
-        },
-        "profile_type": {
-          "type": "string",
-          "description": "Profile picture type"
-        },
-        "verified": {
-          "type": "string",
-          "description": "User's KYC status."
-        },
-        "is_blue_verified": {
-          "type": "string",
-          "description": "User's blue verified"
-        },
-        "l2": {
-          "type": "string",
-          "description": "User's blue verified data"
-        },
-        "l3": {
-          "type": "string",
-          "description": "User's level 3 details"
-        },
-        "l4": {
-          "type": "string",
-          "description": "User's level 4 details"
-        },
-        "initial": {
-          "type": "string",
-          "description": "Username initial"
-        },
-        "invited": {
-          "type": "string",
-          "description": "Referred user's referral count"
-        },
-        "referrals": {
-          "$ref": "#/definitions/API_V2_Entities_UserPublic"
-        }
-      },
-      "description": "get user public info with username from elasticsearch"
-    },
-    "API_V2_Entities_UserPublicReferrals": {
-      "type": "object",
-      "properties": {
-        "full_name": {
-          "type": "string",
-          "description": "User full name"
-        },
-        "username": {
-          "type": "string",
-          "description": "User's username"
-        },
-        "profile_url": {
-          "type": "object",
-          "description": "Profile picture Url"
-        },
-        "profile_type": {
-          "type": "string",
-          "description": "Profile picture type"
-        },
-        "verified": {
-          "type": "string",
-          "description": "User's KYC status."
-        },
-        "is_blue_verified": {
-          "type": "string",
-          "description": "User's blue verified"
-        },
-        "l2": {
-          "type": "string",
-          "description": "User's blue verified data"
-        },
-        "l3": {
-          "type": "string",
-          "description": "User's level 3 details"
-        },
-        "l4": {
-          "type": "string",
-          "description": "User's level 4 details"
-        },
-        "initial": {
-          "type": "string",
-          "description": "Username initial"
-        },
-        "invited": {
-          "type": "string",
-          "description": "Referred user's referral count"
-        },
-        "referrals": {
-          "$ref": "#/definitions/API_V2_Entities_UserPublic"
-        }
-      },
-      "description": "get user public info with username"
-    },
-    "API_V2_Entities_UserWithSocial": {
-      "type": "object",
-      "properties": {
-        "full_name": {
-          "type": "string",
-          "description": "User full name"
-        },
-        "username": {
-          "type": "string",
-          "description": "User's username"
-        },
-        "profile_url": {
-          "type": "object",
-          "description": "Profile picture Url"
-        },
-        "profile_type": {
-          "type": "string",
-          "description": "Profile picture type"
-        },
-        "initial": {
-          "type": "string",
-          "description": "Username initial"
-        },
-        "referrals": {
-          "type": "string",
-          "description": "Referred user's referral count"
-        },
-        "state": {
-          "type": "string",
-          "description": "User's state"
-        },
-        "joining_date": {
-          "type": "string",
-          "format": "date",
-          "description": "User's joining date"
-        }
-      },
-      "description": "Returns referrals of user"
     },
     "API_V2_Entities_Activity": {
       "type": "object",
@@ -4136,10 +3563,6 @@
           "type": "string",
           "description": "User country"
         },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
-        },
         "last_country": {
           "type": "string",
           "description": "Last IP Geolocation."
@@ -4247,10 +3670,6 @@
           "type": "string",
           "description": "User country"
         },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
-        },
         "last_country": {
           "type": "string",
           "description": "Last IP Geolocation."
@@ -4258,10 +3677,6 @@
         "last_ip": {
           "type": "string",
           "description": "Last IP Address."
-        },
-        "agreement": {
-          "type": "string",
-          "description": "User USA Disclaimer."
         },
         "phone_number": {
           "type": "string",
@@ -4294,208 +3709,6 @@
         },
         "agreement_time": {
           "type": "string"
-        }
-      }
-    },
-    "API_V2_Entities_UserWithKYC": {
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string",
-          "description": "User Email"
-        },
-        "first_name": {
-          "type": "string",
-          "description": "User first name"
-        },
-        "last_name": {
-          "type": "string",
-          "description": "User last name"
-        },
-        "full_name": {
-          "type": "string",
-          "description": "User full name"
-        },
-        "username": {
-          "type": "string",
-          "description": "User's username"
-        },
-        "uid": {
-          "type": "string",
-          "description": "User UID"
-        },
-        "role": {
-          "type": "string",
-          "description": "User role"
-        },
-        "level": {
-          "type": "integer",
-          "format": "int32",
-          "description": "User level"
-        },
-        "profile_url": {
-          "type": "object",
-          "description": "Profile picture Url"
-        },
-        "profile_type": {
-          "type": "string",
-          "description": "Profile picture type"
-        },
-        "otp": {
-          "type": "boolean",
-          "description": "is 2FA enabled for account"
-        },
-        "state": {
-          "type": "string",
-          "description": "User state: active, pending, inactive"
-        },
-        "country": {
-          "type": "string",
-          "description": "User country"
-        },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
-        },
-        "last_country": {
-          "type": "string",
-          "description": "Last IP Geolocation."
-        },
-        "last_ip": {
-          "type": "string",
-          "description": "Last IP Address."
-        },
-        "agreement": {
-          "type": "string",
-          "description": "User USA Disclaimer."
-        },
-        "phone_number": {
-          "type": "string",
-          "description": "User Phone number"
-        },
-        "data": {
-          "type": "string",
-          "description": "Additional phone and profile info"
-        },
-        "referral_code": {
-          "type": "string",
-          "description": "User unique referral code."
-        },
-        "login_via_password": {
-          "type": "string",
-          "description": "User can login via password or not."
-        },
-        "referrals": {
-          "type": "string",
-          "description": "Referred user's referral count"
-        },
-        "profiles": {
-          "$ref": "#/definitions/API_V2_Entities_Profile"
-        },
-        "labels": {
-          "$ref": "#/definitions/API_V2_Entities_AdminLabelView"
-        },
-        "phones": {
-          "$ref": "#/definitions/API_V2_Entities_Phone"
-        },
-        "data_storages": {
-          "$ref": "#/definitions/API_V2_Entities_DataStorage"
-        },
-        "comments": {
-          "$ref": "#/definitions/API_V2_Entities_Comment"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        },
-        "agreement_time": {
-          "type": "string"
-        }
-      }
-    },
-    "API_V2_Entities_AdminLabelView": {
-      "type": "object",
-      "properties": {
-        "key": {
-          "type": "string",
-          "description": "Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters."
-        },
-        "value": {
-          "type": "string",
-          "description": "Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
-        },
-        "scope": {
-          "type": "string",
-          "description": "Label scope: 'public' or 'private'"
-        },
-        "description": {
-          "type": "string",
-          "description": "Label desc: json string with any additional information"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        }
-      }
-    },
-    "API_V2_Entities_Comment": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Comment id"
-        },
-        "author_uid": {
-          "type": "string",
-          "description": "Comment author UID"
-        },
-        "title": {
-          "type": "string",
-          "description": "Comment title"
-        },
-        "data": {
-          "type": "string",
-          "description": "Comment plain text"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        }
-      }
-    },
-    "API_V2_Entities_UserWithUsername": {
-      "type": "object",
-      "properties": {
-        "full_name": {
-          "type": "string",
-          "description": "User full name"
-        },
-        "username": {
-          "type": "string",
-          "description": "User's username"
-        },
-        "profile_url": {
-          "type": "object",
-          "description": "Profile picture Url"
-        },
-        "profile_type": {
-          "type": "string",
-          "description": "Profile picture type"
-        },
-        "verified": {
-          "type": "object",
-          "description": "User's KYC status."
-        },
-        "is_blue_verified": {
-          "type": "object",
-          "description": "User's referrals"
         }
       }
     },
@@ -4541,6 +3754,33 @@
         },
         "user": {
           "$ref": "#/definitions/API_V2_Entities_User"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_AdminLabelView": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters."
+        },
+        "value": {
+          "type": "string",
+          "description": "Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
+        },
+        "scope": {
+          "type": "string",
+          "description": "Label scope: 'public' or 'private'"
+        },
+        "description": {
+          "type": "string",
+          "description": "Label desc: json string with any additional information"
         },
         "created_at": {
           "type": "string"

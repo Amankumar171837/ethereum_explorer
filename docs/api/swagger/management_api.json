@@ -629,7 +629,7 @@
           "201": {
             "description": "Get users and profile information",
             "schema": {
-              "$ref": "#/definitions/API_V2_Management_Entities_UserWithKYC"
+              "$ref": "#/definitions/API_V2_Management_Entities_UserWithProfile"
             }
           }
         },
@@ -1194,10 +1194,6 @@
           "type": "string",
           "description": "User country"
         },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
-        },
         "last_country": {
           "type": "string",
           "description": "Last IP Geolocation."
@@ -1306,10 +1302,6 @@
           "type": "string",
           "description": "User country"
         },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
-        },
         "last_country": {
           "type": "string",
           "description": "Last IP Geolocation."
@@ -1317,10 +1309,6 @@
         "last_ip": {
           "type": "string",
           "description": "Last IP Address."
-        },
-        "agreement": {
-          "type": "string",
-          "description": "User USA Disclaimer."
         },
         "phone_number": {
           "type": "string",
@@ -1461,125 +1449,6 @@
         }
       }
     },
-    "API_V2_Management_Entities_UserWithKYC": {
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string",
-          "description": "User Email"
-        },
-        "first_name": {
-          "type": "string",
-          "description": "User first name"
-        },
-        "last_name": {
-          "type": "string",
-          "description": "User last name"
-        },
-        "full_name": {
-          "type": "string",
-          "description": "User full name"
-        },
-        "username": {
-          "type": "string",
-          "description": "User's username"
-        },
-        "uid": {
-          "type": "string",
-          "description": "User UID"
-        },
-        "role": {
-          "type": "string",
-          "description": "User role"
-        },
-        "level": {
-          "type": "integer",
-          "format": "int32",
-          "description": "User level"
-        },
-        "profile_url": {
-          "type": "object",
-          "description": "Profile picture Url"
-        },
-        "profile_type": {
-          "type": "string",
-          "description": "Profile picture type"
-        },
-        "otp": {
-          "type": "boolean",
-          "description": "is 2FA enabled for account"
-        },
-        "state": {
-          "type": "string",
-          "description": "User state: active, pending, inactive"
-        },
-        "country": {
-          "type": "string",
-          "description": "User country"
-        },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
-        },
-        "last_country": {
-          "type": "string",
-          "description": "Last IP Geolocation."
-        },
-        "last_ip": {
-          "type": "string",
-          "description": "Last IP Address."
-        },
-        "agreement": {
-          "type": "string",
-          "description": "User USA Disclaimer."
-        },
-        "phone_number": {
-          "type": "string",
-          "description": "User Phone number"
-        },
-        "data": {
-          "type": "string",
-          "description": "Additional phone and profile info"
-        },
-        "referral_code": {
-          "type": "string",
-          "description": "User unique referral code."
-        },
-        "login_via_password": {
-          "type": "string",
-          "description": "User can login via password or not."
-        },
-        "referrals": {
-          "type": "string",
-          "description": "Referred user's referral count"
-        },
-        "profiles": {
-          "$ref": "#/definitions/API_V2_Management_Entities_Profile"
-        },
-        "labels": {
-          "$ref": "#/definitions/API_V2_Entities_AdminLabelView"
-        },
-        "phones": {
-          "$ref": "#/definitions/API_V2_Management_Entities_Phone"
-        },
-        "data_storages": {
-          "$ref": "#/definitions/API_V2_Entities_DataStorage"
-        },
-        "comments": {
-          "$ref": "#/definitions/API_V2_Entities_Comment"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        },
-        "agreement_time": {
-          "type": "string"
-        }
-      },
-      "description": "Get users and profile information"
-    },
     "API_V2_Management_Entities_Phone": {
       "type": "object",
       "properties": {
@@ -1598,53 +1467,6 @@
         }
       },
       "description": "Get user phone numbers"
-    },
-    "API_V2_Entities_DataStorage": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string",
-          "description": "Any additional data title"
-        },
-        "data": {
-          "type": "string",
-          "description": "Any additional data json key:value pairs"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        }
-      }
-    },
-    "API_V2_Entities_Comment": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Comment id"
-        },
-        "author_uid": {
-          "type": "string",
-          "description": "Comment author UID"
-        },
-        "title": {
-          "type": "string",
-          "description": "Comment title"
-        },
-        "data": {
-          "type": "string",
-          "description": "Comment plain text"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        }
-      }
     },
     "API_V2_Entities_ServiceAccounts": {
       "type": "object",
@@ -1697,37 +1519,6 @@
         }
       },
       "description": "Get specific service_account information"
-    },
-    "API_V2_Entities_APIKey": {
-      "type": "object",
-      "properties": {
-        "kid": {
-          "type": "string",
-          "description": "JWT public key"
-        },
-        "algorithm": {
-          "type": "string",
-          "description": "Cryptographic hash function type"
-        },
-        "scope": {
-          "type": "string",
-          "description": "Serialized array of scopes"
-        },
-        "state": {
-          "type": "string",
-          "description": "active/non-active state of key"
-        },
-        "secret": {
-          "type": "string",
-          "description": "Api key secret"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
-        }
-      }
     },
     "API_V2_Entities_UserWithFullInfo": {
       "type": "object",
@@ -1789,10 +1580,6 @@
           "type": "string",
           "description": "User country"
         },
-        "country_of_residence": {
-          "type": "string",
-          "description": "country of residence"
-        },
         "last_country": {
           "type": "string",
           "description": "Last IP Geolocation."
@@ -1817,10 +1604,6 @@
           "type": "string",
           "description": "Сsrf protection token"
         },
-        "agreement": {
-          "type": "string",
-          "description": "User USA Disclaimer."
-        },
         "referral_code": {
           "type": "string",
           "description": "User unique referral code."
@@ -1837,9 +1620,6 @@
         },
         "profiles": {
           "$ref": "#/definitions/API_V2_Entities_Profile"
-        },
-        "data_storages": {
-          "$ref": "#/definitions/API_V2_Entities_DataStorage"
         },
         "created_at": {
           "type": "string"

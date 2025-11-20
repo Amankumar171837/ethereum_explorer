@@ -32,12 +32,6 @@ module Barong
         jwt = generate_jwt(payload(payload))
         rest_api('/api/v2/management/members/mining', params: jwt, options: { jwt: true }, method: 'delete')
       end
-
-      def mining_status(payload)
-        self.action = :mining_status
-        jwt = generate_jwt(payload(payload))
-        rest_api('/api/v2/management/members/mining/status', params: jwt, options: { jwt: true }, method: 'post')
-      end
     end
   end
 end

@@ -498,7 +498,6 @@ end
 #  level                :integer          default(0), not null
 #  otp                  :boolean          default(FALSE)
 #  state                :string(255)      default("pending"), not null
-#  badge                :string(255)
 #  referral_id          :bigint
 #  referral_code        :string(255)
 #  provider             :string(255)

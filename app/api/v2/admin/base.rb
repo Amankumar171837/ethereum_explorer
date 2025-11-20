@@ -30,7 +30,6 @@ module API::V2
       mount Admin::Levels
       mount Admin::Abilities
       mount Admin::Phone
-      mount Admin::Referral
       mount Admin::PlatformSettings
       mount Admin::ServiceLogs
       mount Admin::CountryServices

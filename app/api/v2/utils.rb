@@ -186,9 +186,5 @@ module API::V2
     def notify_session_destroy(uid, event = 'delete_user', options = {})
       Barong::Management::User.new.notify_session_destroy({ uid: uid, event: event, metadata: options }.compact)
     end
-
-    def fetch_mining_status(uids)
-      Barong::Management::User.new.mining_status({ uids: uids }).map { |hash| [hash['uid'], hash['mining']] }.to_h
-    end
   end
 end

@@ -9,6 +9,9 @@ class CreateServiceLog < ActiveRecord::Migration[5.2]
       t.string :result,                    null: false
       t.string :user_ip,                   null: false
       t.string :user_country
+      t.string :phone_number, index: true
+      t.string :sms_id
+      t.string :country_code
       t.json :metadata
 
       t.timestamps

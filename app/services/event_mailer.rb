@@ -158,8 +158,7 @@ class EventMailer
       template_name: template_config[language][:template_path],
       record: obj.record,
       changes: obj.changes,
-      user: user,
-      peer_market_url: Barong::App.config.peer_market_url
+      user: user
     }
 
     if obj.record.from.present?

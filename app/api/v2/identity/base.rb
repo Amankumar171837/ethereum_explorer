@@ -14,7 +14,6 @@ module API
         mount Identity::Sessions
         mount Identity::Users
         mount Identity::AuthToken
-        mount Identity::Devices
       end
     end
   end
