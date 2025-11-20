@@ -1,0 +1,11 @@
+delete_user:
+  cron: "*/5 * * * *"
+  class: "DeleteUser"
+  queue: cron
+  if: lambda { |job| job.queue == 'cron' }
+
+update_metrics:
+  cron: "*/1 * * * *"
+  class: "UpdateUserMetrics"
+  queue: metrics_cron
+  if: lambda { |job| job.queue == 'metrics_cron' }

@@ -1,0 +1,4567 @@
+{
+  "info": {
+    "title": "Exchange auth",
+    "description": "RESTful API for Exchange auth OAuth server",
+    "version": "2.7.0"
+  },
+  "swagger": "2.0",
+  "produces": [
+    "application/json"
+  ],
+  "host": "localhost:3000",
+  "basePath": "/api/v2/barong",
+  "tags": [
+    {
+      "name": "identity",
+      "description": "Operations about identities"
+    },
+    {
+      "name": "public",
+      "description": "Operations about publics"
+    },
+    {
+      "name": "resource",
+      "description": "Operations about resources"
+    }
+  ],
+  "paths": {
+    "/identity/generate_token": {
+      "post": {
+        "description": "Generate API token for secure transaction",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Generate API token for secure transaction"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityGenerateToken"
+      }
+    },
+    "/identity/inquiry": {
+      "post": {
+        "description": "Inquiry API",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "subject",
+            "description": "Inquiry subject",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "message",
+            "description": "Inquiry message",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "User name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "captcha_response",
+            "description": "Response from captcha widget",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Inquiry API"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityInquiry"
+      }
+    },
+    "/identity/users": {
+      "get": {
+        "description": "User data from username",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "description": "User's username",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data from username"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "getIdentityUsers"
+      },
+      "post": {
+        "description": "Creates new user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User Email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "first_name",
+            "description": "User First Name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "last_name",
+            "description": "User Last Name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "username",
+            "description": "User's Username",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "User phone number",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "description": "User Password",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "country_of_residence",
+            "description": "country of residence",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "referral_code",
+            "description": "User's referral code",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "captcha_response",
+            "description": "Response from captcha widget",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "data",
+            "description": "Any additional key: value pairs in json string format",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates new user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithFullInfo"
+            }
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityUsers"
+      }
+    },
+    "/identity/users/password/reset": {
+      "post": {
+        "description": "Set new account password through phone number",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "User Phone Number",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "description": "User password",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "confirm_password",
+            "description": "User password",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "verification_otp",
+            "description": "Verification code from email",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Reset password"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityUsersPasswordReset"
+      }
+    },
+    "/identity/users/password/send-otp": {
+      "post": {
+        "description": "Reset account password",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "User Phone Number",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "channel",
+            "description": "The verification method to use",
+            "type": "string",
+            "default": "sms",
+            "enum": [
+              "call",
+              "sms"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "captcha_response",
+            "description": "Response from captcha widget",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Code was sent successfully via sms/call."
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityUsersPasswordSendOtp"
+      }
+    },
+    "/identity/users/password/confirm_code": {
+      "post": {
+        "description": "Sets new account password",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "reset_password_token",
+            "description": "Token from email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "description": "User password",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "confirm_password",
+            "description": "User password",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Resets password"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityUsersPasswordConfirmCode"
+      }
+    },
+    "/identity/users/password/generate_code": {
+      "post": {
+        "description": "Send password reset instructions",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "identity",
+            "description": "User's email or username",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "captcha_response",
+            "description": "Response from captcha widget",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "platform",
+            "description": "User login platform",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Generated password reset code"
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          },
+          "404": {
+            "description": "User doesn't exist"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityUsersPasswordGenerateCode"
+      }
+    },
+    "/identity/users/email/confirm_code": {
+      "post": {
+        "description": "Confirms an account",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "token",
+            "description": "Token from email",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Confirms an account",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithFullInfo"
+            }
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityUsersEmailConfirmCode"
+      }
+    },
+    "/identity/users/email/generate_code": {
+      "post": {
+        "description": "Send confirmations instructions",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "Account email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "captcha_response",
+            "description": "Response from captcha widget",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Generated verification code"
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityUsersEmailGenerateCode"
+      }
+    },
+    "/identity/users/username/referral": {
+      "get": {
+        "description": "Check referral code through username",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "description": "User's Username",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Check referral code through username"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "getIdentityUsersUsernameReferral"
+      }
+    },
+    "/identity/users/username": {
+      "get": {
+        "description": "Check username availability",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "description": "User's Username",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Check username availability"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "getIdentityUsersUsername"
+      }
+    },
+    "/identity/users/username/available": {
+      "get": {
+        "description": "Check if user is available with the username",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "description": "User's Username",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Check if user is available with the username"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "getIdentityUsersUsernameAvailable"
+      }
+    },
+    "/identity/users/register_geetest": {
+      "get": {
+        "description": "Register Geetest captcha",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Register Geetest captcha"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "getIdentityUsersRegisterGeetest"
+      }
+    },
+    "/identity/users/new": {
+      "post": {
+        "description": "Creates new user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "User Phone Number",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User Email",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "first_name",
+            "description": "User's first name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "last_name",
+            "description": "User's last name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "username",
+            "description": "User's username",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "dob",
+            "description": "User's username",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "referral_code",
+            "description": "User's referral code",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "captcha_response",
+            "description": "Response from captcha widget",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "channel",
+            "description": "The verification method to use",
+            "type": "string",
+            "default": "sms",
+            "enum": [
+              "call",
+              "sms"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "platform",
+            "description": "User Signup platform",
+            "type": "string",
+            "default": "zen",
+            "enum": [
+              "icx",
+              "zen",
+              "explorer",
+              "nft",
+              "app",
+              "f63mgqyTdHSKD3PZ4IbewujX33w2nHIJRQ61t3aQYj15yF6XI"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "device_id",
+            "description": "User device id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "device_type",
+            "description": "User device type Android/IOS",
+            "type": "string",
+            "default": "web",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates new user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithPhone"
+            }
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityUsersNew"
+      }
+    },
+    "/identity/sessions/refresh": {
+      "delete": {
+        "description": "Destroy current session with jwt refresh token",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "device_id",
+            "description": "User device id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "device_type",
+            "description": "User device type Android/IOS",
+            "type": "string",
+            "default": "web",
+            "required": false
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Session was destroyed"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "deleteIdentitySessionsRefresh"
+      },
+      "post": {
+        "description": "Refresh user's jwt session token",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "refresh_token",
+            "description": "JWT Refresh token",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User's JWT token refreshed successfully."
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentitySessionsRefresh"
+      }
+    },
+    "/identity/sessions/verify": {
+      "post": {
+        "description": "Verify user otp and generate jwt session",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "Phone number with country code",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "Registered email address",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "username",
+            "description": "User's username",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "verification_code",
+            "description": "Verification code from sms",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "platform",
+            "description": "User login platform",
+            "type": "string",
+            "enum": [
+              "icx",
+              "zen",
+              "explorer",
+              "nft",
+              "app"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "login_device[device_id]",
+            "description": "User device id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "login_device[device_type]",
+            "description": "User device type Android/IOS",
+            "type": "string",
+            "default": "web",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "login_device[device_token]",
+            "description": "User fcm device token Android/IOS",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User authorization"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentitySessionsVerify"
+      }
+    },
+    "/identity/sessions/verify_user": {
+      "post": {
+        "description": "Resent OTP for the registered phone number",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "platform",
+            "description": "User login platform",
+            "type": "string",
+            "default": "zen",
+            "enum": [
+              "icx",
+              "zen",
+              "explorer",
+              "nft",
+              "app"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "User phone number",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User phone number",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "username",
+            "description": "User's username",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "channel",
+            "description": "The verification method to use",
+            "type": "string",
+            "default": "sms",
+            "enum": [
+              "call",
+              "sms"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "reactive_account",
+            "description": "Send this true if user's social login is disabled",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "captcha_response",
+            "description": "Response from captcha widget",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "device_id",
+            "description": "User device id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "device_type",
+            "description": "User device type Android/IOS",
+            "type": "string",
+            "default": "web",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User authenticated"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentitySessionsVerifyUser"
+      }
+    },
+    "/identity/sessions": {
+      "delete": {
+        "description": "Destroy current session",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Session was destroyed"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "deleteIdentitySessions"
+      },
+      "post": {
+        "description": "Start a new session",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "identity",
+            "description": "User's email or username",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "description": "User's password",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "captcha_response",
+            "description": "Response from captcha widget",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "otp_code",
+            "description": "Code from Google Authenticator",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "reactive_account",
+            "description": "Send this true if user's social login is disabled",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "login_device[device_id]",
+            "description": "User device id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "login_device[device_type]",
+            "description": "User device type Android/IOS",
+            "type": "string",
+            "default": "web",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "login_device[device_token]",
+            "description": "User fcm device token Android/IOS",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Start a new session"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentitySessions"
+      }
+    },
+    "/identity/sessions/new": {
+      "post": {
+        "description": "Start a new session",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "identity",
+            "description": "User's email or username or phone number",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "description": "User's password",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "captcha_response",
+            "description": "Response from captcha widget",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "otp_code",
+            "description": "Code from Google Authenticator",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "channel",
+            "description": "The verification method to use",
+            "type": "string",
+            "default": "sms",
+            "enum": [
+              "call",
+              "sms"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "platform",
+            "description": "User login platform",
+            "type": "string",
+            "default": "zen",
+            "enum": [
+              "icx",
+              "zen",
+              "explorer",
+              "nft",
+              "app"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Start a new session"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentitySessionsNew"
+      }
+    },
+    "/identity/ping": {
+      "get": {
+        "description": "Test connectivity",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Test connectivity"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "getIdentityPing"
+      }
+    },
+    "/identity/phone_number/validate": {
+      "post": {
+        "description": "Phone number validation",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "User phone number",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Phone number validation"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityPhoneNumberValidate"
+      }
+    },
+    "/identity/password/validate": {
+      "post": {
+        "description": "Password strength testing",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "password",
+            "description": "User password",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Password strength testing"
+          }
+        },
+        "tags": [
+          "identity"
+        ],
+        "operationId": "postIdentityPasswordValidate"
+      }
+    },
+    "/public/mobivate": {
+      "post": {
+        "description": "webhook for mobivate",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "webhook for mobivate"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "postPublicMobivate"
+      }
+    },
+    "/public/ding": {
+      "post": {
+        "description": "webhook for ding",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "webhook for ding"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "postPublicDing"
+      }
+    },
+    "/public/smsala": {
+      "post": {
+        "description": "webhook for smsala",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "webhook for smsala"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "postPublicSmsala"
+      }
+    },
+    "/public/bulkgate": {
+      "get": {
+        "description": "webhook for bulkgate",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "webhook for bulkgate"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicBulkgate"
+      }
+    },
+    "/public/users/random": {
+      "get": {
+        "description": "get newly random user",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "get newly random user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserPublic"
+            }
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicUsersRandom"
+      }
+    },
+    "/public/users/referrals": {
+      "get": {
+        "description": "get user's referrals with username",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "description": "User's username",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get user's referrals with username",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserPublic"
+            }
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicUsersReferrals"
+      }
+    },
+    "/public/users/search": {
+      "get": {
+        "description": "get user public info with username from elasticsearch",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "description": "User's username",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get user public info with username from elasticsearch",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithPublicReferrals"
+            }
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicUsersSearch"
+      }
+    },
+    "/public/users": {
+      "get": {
+        "description": "get user public info with username",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "description": "User's username",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get user public info with username",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserPublicReferrals"
+            }
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicUsers"
+      }
+    },
+    "/public/app/versions": {
+      "get": {
+        "description": "Get application version.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get application version."
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicAppVersions"
+      }
+    },
+    "/public/graph/data": {
+      "get": {
+        "description": "Graph",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "period",
+            "description": "Time period for calculating total sold coin",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Graph"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicGraphData"
+      }
+    },
+    "/public/time": {
+      "get": {
+        "description": "Get server current unix timestamp.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get server current unix timestamp."
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicTime"
+      }
+    },
+    "/public/ping": {
+      "get": {
+        "description": "Test connectivity",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Test connectivity"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicPing"
+      }
+    },
+    "/public/password/validate": {
+      "post": {
+        "description": "Password strength testing",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "password",
+            "description": "User password",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Password strength testing"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "postPublicPasswordValidate"
+      }
+    },
+    "/public/kyc": {
+      "post": {
+        "description": "KYC callback",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "KYC callback"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "postPublicKyc"
+      }
+    },
+    "/resource/swagger_doc/{name}": {
+      "get": {
+        "description": "Swagger compatible API description for specific API",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "description": "Resource name of mounted API",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "locale",
+            "description": "Locale of API documentation",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Swagger compatible API description for specific API"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceSwaggerDocName"
+      }
+    },
+    "/resource/swagger_doc": {
+      "get": {
+        "description": "Swagger compatible API description",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Swagger compatible API description"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceSwaggerDoc"
+      }
+    },
+    "/resource/email/notifications": {
+      "post": {
+        "description": "Update Email notification for a user.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email_type",
+            "description": "Email type name.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "enabled",
+            "description": "Email Notification flag.",
+            "type": "boolean",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update Email notification for a user."
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceEmailNotifications"
+      },
+      "get": {
+        "description": "Get all Email Types",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all Email Types"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceEmailNotifications"
+      }
+    },
+    "/resource/profile/wonka-media": {
+      "post": {
+        "description": "Set Wonka as profile for current user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "wonka",
+            "description": "WonkaBot code",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Profile picture is uploaded"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceProfileWonkaMedia"
+      }
+    },
+    "/resource/profile/token-media": {
+      "post": {
+        "description": "Set Nfe as profile for current user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "token",
+            "description": "Token code",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Profile picture is uploaded"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceProfileTokenMedia"
+      }
+    },
+    "/resource/user/delete-account": {
+      "delete": {
+        "description": "Delete user account.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "verification_code",
+            "description": "Verification code from email",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Delete user account."
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "deleteResourceUserDeleteAccount"
+      }
+    },
+    "/resource/user/send-otp": {
+      "post": {
+        "description": "Send OTP for the registered email",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Send OTP for the registered email"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUserSendOtp"
+      }
+    },
+    "/resource/user/phone_number/verify": {
+      "post": {
+        "description": "verify phone number with OTP",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "User Email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "verification_code",
+            "description": "User Email OTP",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "verify phone number with OTP",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithPhone"
+            }
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUserPhoneNumberVerify"
+      }
+    },
+    "/resource/user/phone_number": {
+      "post": {
+        "description": "update phone number",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "User Phone Number",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "channel",
+            "description": "The verification method to use",
+            "type": "string",
+            "default": "sms",
+            "enum": [
+              "call",
+              "sms"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "update phone number",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithPhone"
+            }
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUserPhoneNumber"
+      }
+    },
+    "/resource/user/email/verify": {
+      "post": {
+        "description": "verify email address with OTP",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User Email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "verification_code",
+            "description": "User Email OTP",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "verify email address with OTP",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithPhone"
+            }
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUserEmailVerify"
+      }
+    },
+    "/resource/user/email": {
+      "post": {
+        "description": "update email address",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User Email",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "update email address",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithPhone"
+            }
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUserEmail"
+      }
+    },
+    "/resource/referrals": {
+      "get": {
+        "description": "Returns referrals of user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Referred user's state",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns referrals of user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithSocial"
+            }
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceReferrals"
+      }
+    },
+    "/resource/otp/verify": {
+      "post": {
+        "description": "Verify 2FA code",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "code",
+            "description": "Code from Google Authenticator",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "2FA was verified"
+          },
+          "400": {
+            "description": "2FA has not been enabled for this account or code is missing"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceOtpVerify"
+      }
+    },
+    "/resource/otp/disable": {
+      "post": {
+        "description": "Disable 2FA",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "code",
+            "description": "Code from Google Authenticator",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "2FA was disabled"
+          },
+          "400": {
+            "description": "2FA has not been enabled for this account or code is missing"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceOtpDisable"
+      }
+    },
+    "/resource/otp/enable": {
+      "post": {
+        "description": "Enable 2FA",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "code",
+            "description": "Code from Google Authenticator",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "2FA was enabled"
+          },
+          "400": {
+            "description": "2FA has been enabled for this account or code is missing"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceOtpEnable"
+      }
+    },
+    "/resource/otp/generate_qrcode": {
+      "post": {
+        "description": "Generate qr code for 2FA",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "QR code was generated"
+          },
+          "400": {
+            "description": "2FA has been enabled for this account"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceOtpGenerateQrcode"
+      }
+    },
+    "/resource/phones/verify": {
+      "post": {
+        "description": "Verify a phone",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "Phone number with country code",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "verification_code",
+            "description": "Verification code from sms",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Verify a phone",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithFullInfo"
+            }
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourcePhonesVerify"
+      }
+    },
+    "/resource/phones/send_code": {
+      "post": {
+        "description": "Resend activation code",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "Phone number with country code",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "channel",
+            "description": "The verification method to use",
+            "type": "string",
+            "default": "sms",
+            "enum": [
+              "call",
+              "sms"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Activation code was resend"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "404": {
+            "description": "Record is not found"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourcePhonesSendCode"
+      }
+    },
+    "/resource/phones": {
+      "post": {
+        "description": "Add new phone",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "Phone number with country code",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "channel",
+            "description": "The verification method to use",
+            "type": "string",
+            "default": "sms",
+            "enum": [
+              "call",
+              "sms"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New phone was added"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "404": {
+            "description": "Record is not found"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourcePhones"
+      },
+      "get": {
+        "description": "Returns list of user's phones",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns list of user's phones",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Phone"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourcePhones"
+      }
+    },
+    "/resource/profiles": {
+      "put": {
+        "description": "Update a profile for current_user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "first_name",
+            "description": "First Name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "middle_name",
+            "description": "Middle Name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "last_name",
+            "description": "Last Name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "dob",
+            "description": "Date of Birth",
+            "type": "string",
+            "format": "date",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "description": "Address",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "postcode",
+            "description": "Postcode",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "city",
+            "description": "City",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "country",
+            "description": "Country",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "metadata",
+            "description": "Any additional key: value pairs in json string format",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "confirm",
+            "description": "Profile confirmation",
+            "type": "boolean",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update a profile for current_user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Profile"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "putResourceProfiles"
+      },
+      "post": {
+        "description": "Create a profile for current_user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "first_name",
+            "description": "First Name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "middle_name",
+            "description": "Middle Name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "last_name",
+            "description": "Last Name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "dob",
+            "description": "Date of Birth",
+            "type": "string",
+            "format": "date",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "description": "Address",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "postcode",
+            "description": "Postcode",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "city",
+            "description": "City",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "country",
+            "description": "Country",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "metadata",
+            "description": "Any additional key: value pairs in json string format",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "confirm",
+            "description": "Profile confirmation",
+            "type": "boolean",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create a profile for current_user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Profile"
+            }
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "409": {
+            "description": "Profile already exists"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceProfiles"
+      }
+    },
+    "/resource/profiles/me": {
+      "get": {
+        "description": "Return profiles of current resource owner",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return profiles of current resource owner",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Profile"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "404": {
+            "description": "User has no profile"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceProfilesMe"
+      }
+    },
+    "/resource/labels/{key}": {
+      "delete": {
+        "description": "Delete a label  with 'public' scope.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "description": "Label key.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Succefully deleted"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "deleteResourceLabelsKey"
+      },
+      "patch": {
+        "description": "Update a label with 'public' scope.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "description": "Label key.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "value",
+            "description": "Label value.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update a label with 'public' scope.",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Label"
+            }
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "404": {
+            "description": "Record is not found"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "patchResourceLabelsKey"
+      },
+      "get": {
+        "description": "Return a label by key.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "description": "Label key.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a label by key.",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Label"
+            }
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "404": {
+            "description": "Record is not found"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceLabelsKey"
+      }
+    },
+    "/resource/labels": {
+      "post": {
+        "description": "Create a label with 'public' scope.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Label key.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "value",
+            "description": "Label value.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create a label with 'public' scope.",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Label"
+            }
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceLabels"
+      },
+      "get": {
+        "description": "List all labels for current user.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned labels sorted in specific order, default to \"asc\".",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all labels for current user.",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Label"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceLabels"
+      }
+    },
+    "/resource/users/devices": {
+      "post": {
+        "description": "Update user device",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "device_id",
+            "description": "User device id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "device_type",
+            "description": "User device type Android/IOS",
+            "type": "string",
+            "default": "web",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "device_token",
+            "description": "User fcm device token Android/IOS",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update user device"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUsersDevices"
+      }
+    },
+    "/resource/users/update_status": {
+      "post": {
+        "description": "Update member status.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "member status",
+            "type": "string",
+            "enum": [
+              "deactivated",
+              "deleted"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update member status."
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUsersUpdateStatus"
+      }
+    },
+    "/resource/users/update_media": {
+      "put": {
+        "description": "Update profile picture for current user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "media_id",
+            "description": "Unique ID of media.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Profile picture is uploaded"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "putResourceUsersUpdateMedia"
+      }
+    },
+    "/resource/users/remove_media": {
+      "delete": {
+        "description": "Remove profile picture for current user",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Profile picture is removed"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "deleteResourceUsersRemoveMedia"
+      }
+    },
+    "/resource/users/media": {
+      "post": {
+        "description": "Upload a new profile picture for current user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "upload",
+            "description": "Array of Rack::Multipart::UploadedFile",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "x",
+            "description": "x-axis of the image",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "y",
+            "description": "y-axis of the image",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "h",
+            "description": "Height of the image",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "w",
+            "description": "Width of the image",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Profile picture is uploaded"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUsersMedia"
+      }
+    },
+    "/resource/users/update": {
+      "post": {
+        "description": "update user's details",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "first_name",
+            "description": "User's first name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "last_name",
+            "description": "User's last name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "username",
+            "description": "User's username",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "dob",
+            "description": "User's date of Birth",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "update user's details",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithPhone"
+            }
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUsersUpdate"
+      }
+    },
+    "/resource/users/kycaid/form_url": {
+      "get": {
+        "description": "Kycaid user form",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Kycaid user form"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceUsersKycaidFormUrl"
+      }
+    },
+    "/resource/users/country": {
+      "post": {
+        "description": "Adding user country",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "country",
+            "description": "User country",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Adding user country",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithFullInfo"
+            }
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUsersCountry"
+      }
+    },
+    "/resource/users/agreement": {
+      "post": {
+        "description": "Agreement to user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Agreement to user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithFullInfo"
+            }
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUsersAgreement"
+      }
+    },
+    "/resource/users/user_activity": {
+      "get": {
+        "description": "Api for first login Activity",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "description": "activity of user",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Confirms an account"
+          },
+          "400": {
+            "description": "Required params are missing"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceUsersUserActivity"
+      }
+    },
+    "/resource/users/set-password": {
+      "post": {
+        "description": "Sets new account password",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "password",
+            "description": "User password",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "confirm_password",
+            "description": "User password",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "set password"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "postResourceUsersSetPassword"
+      }
+    },
+    "/resource/users/password": {
+      "put": {
+        "description": "Sets new account password",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "old_password",
+            "description": "Previous account password",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "new_password",
+            "description": "User password",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "confirm_password",
+            "description": "User password",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Changes password"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "404": {
+            "description": "Record is not found"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "putResourceUsersPassword"
+      }
+    },
+    "/resource/users/activity/{topic}": {
+      "get": {
+        "description": "Returns user activity",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "topic",
+            "description": "Topic of user activity. Allowed: [all, password, session, otp]",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "time_from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only activities created after the time will be returned.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only activities created before the time will be returned.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "result",
+            "description": "Result of user activity. Allowed: [succeed, failed, denied]",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns user activity",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Activity"
+            }
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceUsersActivityTopic"
+      }
+    },
+    "/resource/users/me": {
+      "delete": {
+        "description": "Blocks current user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "password",
+            "description": "Account password",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "otp_code",
+            "description": "Code from Google Authenticator",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Current user was blocked"
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "deleteResourceUsersMe"
+      },
+      "get": {
+        "description": "Returns current user",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns current user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithFullInfo"
+            }
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceUsersMe"
+      }
+    },
+    "/resource/users/info": {
+      "get": {
+        "description": "Returns current user",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns current user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_UserWithPhone"
+            }
+          }
+        },
+        "tags": [
+          "resource"
+        ],
+        "operationId": "getResourceUsersInfo"
+      }
+    }
+  },
+  "definitions": {
+    "API_V2_Entities_UserWithFullInfo": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "User first name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "User last name"
+        },
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "dob": {
+          "type": "string",
+          "description": "User date of birth."
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "country_of_residence": {
+          "type": "string",
+          "description": "country of residence"
+        },
+        "last_country": {
+          "type": "string",
+          "description": "Last IP Geolocation."
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP Address."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "User Phone number"
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        },
+        "csrf_token": {
+          "type": "string",
+          "description": "Сsrf protection token"
+        },
+        "authentication": {
+          "type": "string",
+          "description": "Сsrf protection token"
+        },
+        "agreement": {
+          "type": "string",
+          "description": "User USA Disclaimer."
+        },
+        "referral_code": {
+          "type": "string",
+          "description": "User unique referral code."
+        },
+        "login_via_password": {
+          "type": "string",
+          "description": "User can login via password or not."
+        },
+        "labels": {
+          "$ref": "#/definitions/API_V2_Entities_Label"
+        },
+        "phones": {
+          "$ref": "#/definitions/API_V2_Entities_Phone"
+        },
+        "profiles": {
+          "$ref": "#/definitions/API_V2_Entities_Profile"
+        },
+        "data_storages": {
+          "$ref": "#/definitions/API_V2_Entities_DataStorage"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "agreement_time": {
+          "type": "string"
+        }
+      },
+      "description": "Returns current user"
+    },
+    "API_V2_Entities_Label": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters."
+        },
+        "value": {
+          "type": "string",
+          "description": "Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
+        },
+        "scope": {
+          "type": "string",
+          "description": "Label scope: 'public' or 'private'"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "List all labels for current user."
+    },
+    "API_V2_Entities_Phone": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "Phone country"
+        },
+        "number": {
+          "type": "string",
+          "description": "Submasked phone number"
+        },
+        "validated_at": {
+          "type": "s",
+          "format": "g",
+          "description": "Phone validation date"
+        }
+      },
+      "description": "Returns list of user's phones"
+    },
+    "API_V2_Entities_Profile": {
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "description": "First Name"
+        },
+        "middle_name": {
+          "type": "string",
+          "description": "Submasked middle name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Submasked last name"
+        },
+        "dob": {
+          "type": "string",
+          "format": "date",
+          "description": "Submasked birth date"
+        },
+        "address": {
+          "type": "string",
+          "description": "Address"
+        },
+        "postcode": {
+          "type": "string",
+          "description": "Address Postcode"
+        },
+        "city": {
+          "type": "string",
+          "description": "City name"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country name"
+        },
+        "state": {
+          "type": "string",
+          "description": "Profile state: drafted, submitted, verified, rejected"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Profile additional fields"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Return profiles of current resource owner"
+    },
+    "API_V2_Entities_DataStorage": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Any additional data title"
+        },
+        "data": {
+          "type": "string",
+          "description": "Any additional data json key:value pairs"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_UserWithPhone": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User's Email"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "User's First Name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "User's Last Name"
+        },
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "User's phone number"
+        },
+        "csrf_token": {
+          "type": "string",
+          "description": "Сsrf protection token"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User's UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User's role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User's level"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User's state: active, pending, inactive"
+        },
+        "country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "country_of_residence": {
+          "type": "string",
+          "description": "country of residence"
+        },
+        "last_country": {
+          "type": "string",
+          "description": "Last IP Geolocation."
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP Address."
+        },
+        "agreement": {
+          "type": "string",
+          "description": "User USA Disclaimer."
+        },
+        "dob": {
+          "type": "string",
+          "description": "User date of birth."
+        },
+        "referral_code": {
+          "type": "string",
+          "description": "User unique referral code."
+        },
+        "login_via_password": {
+          "type": "string",
+          "description": "User can login via password or not."
+        },
+        "verified": {
+          "type": "object",
+          "description": "User's KYC status."
+        },
+        "is_blue_verified": {
+          "type": "object",
+          "description": "User's referrals"
+        },
+        "labels": {
+          "$ref": "#/definitions/API_V2_Entities_Label"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "agreement_time": {
+          "type": "string"
+        }
+      },
+      "description": "Returns current user"
+    },
+    "API_V2_Entities_UserPublic": {
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "verified": {
+          "type": "string",
+          "description": "User's KYC status."
+        },
+        "is_blue_verified": {
+          "type": "string",
+          "description": "User's blue verified"
+        },
+        "l2": {
+          "type": "string",
+          "description": "User's blue verified data"
+        },
+        "l3": {
+          "type": "string",
+          "description": "User's level 3 details"
+        },
+        "l4": {
+          "type": "string",
+          "description": "User's level 4 details"
+        },
+        "initial": {
+          "type": "string",
+          "description": "Username initial"
+        }
+      },
+      "description": "get user's referrals with username"
+    },
+    "API_V2_Entities_UserWithPublicReferrals": {
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "verified": {
+          "type": "string",
+          "description": "User's KYC status."
+        },
+        "is_blue_verified": {
+          "type": "string",
+          "description": "User's blue verified"
+        },
+        "l2": {
+          "type": "string",
+          "description": "User's blue verified data"
+        },
+        "l3": {
+          "type": "string",
+          "description": "User's level 3 details"
+        },
+        "l4": {
+          "type": "string",
+          "description": "User's level 4 details"
+        },
+        "initial": {
+          "type": "string",
+          "description": "Username initial"
+        },
+        "invited": {
+          "type": "string",
+          "description": "Referred user's referral count"
+        },
+        "referrals": {
+          "$ref": "#/definitions/API_V2_Entities_UserPublic"
+        }
+      },
+      "description": "get user public info with username from elasticsearch"
+    },
+    "API_V2_Entities_UserPublicReferrals": {
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "verified": {
+          "type": "string",
+          "description": "User's KYC status."
+        },
+        "is_blue_verified": {
+          "type": "string",
+          "description": "User's blue verified"
+        },
+        "l2": {
+          "type": "string",
+          "description": "User's blue verified data"
+        },
+        "l3": {
+          "type": "string",
+          "description": "User's level 3 details"
+        },
+        "l4": {
+          "type": "string",
+          "description": "User's level 4 details"
+        },
+        "initial": {
+          "type": "string",
+          "description": "Username initial"
+        },
+        "invited": {
+          "type": "string",
+          "description": "Referred user's referral count"
+        },
+        "referrals": {
+          "$ref": "#/definitions/API_V2_Entities_UserPublic"
+        }
+      },
+      "description": "get user public info with username"
+    },
+    "API_V2_Entities_UserWithSocial": {
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "initial": {
+          "type": "string",
+          "description": "Username initial"
+        },
+        "referrals": {
+          "type": "string",
+          "description": "Referred user's referral count"
+        },
+        "state": {
+          "type": "string",
+          "description": "User's state"
+        },
+        "joining_date": {
+          "type": "string",
+          "format": "date",
+          "description": "User's joining date"
+        }
+      },
+      "description": "Returns referrals of user"
+    },
+    "API_V2_Entities_Activity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Activity ID"
+        },
+        "user_ip": {
+          "type": "string",
+          "description": "User IP"
+        },
+        "user_agent": {
+          "type": "string",
+          "description": "User Browser Agent"
+        },
+        "topic": {
+          "type": "string",
+          "description": "Defined topic (session, adjustments) or general by default"
+        },
+        "action": {
+          "type": "string",
+          "description": "API action: POST => 'create', PUT => 'update', GET => 'read', DELETE => 'delete', PATCH => 'update' or system if there is no match of HTTP method"
+        },
+        "result": {
+          "type": "string",
+          "description": "Status of API response: succeed, failed, denied"
+        },
+        "data": {
+          "type": "string",
+          "description": "Parameters which was sent to specific API endpoint"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      },
+      "description": "Returns user activity"
+    },
+    "API_V2_Entities_Level": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Level identifier, level number"
+        },
+        "key": {
+          "type": "string",
+          "description": "Label key. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
+        },
+        "value": {
+          "type": "string",
+          "description": "Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
+        }
+      }
+    },
+    "API_V2_Entities_APIKey": {
+      "type": "object",
+      "properties": {
+        "kid": {
+          "type": "string",
+          "description": "JWT public key"
+        },
+        "algorithm": {
+          "type": "string",
+          "description": "Cryptographic hash function type"
+        },
+        "scope": {
+          "type": "string",
+          "description": "Serialized array of scopes"
+        },
+        "state": {
+          "type": "string",
+          "description": "active/non-active state of key"
+        },
+        "secret": {
+          "type": "string",
+          "description": "Api key secret"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "User first name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "User last name"
+        },
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "country_of_residence": {
+          "type": "string",
+          "description": "country of residence"
+        },
+        "last_country": {
+          "type": "string",
+          "description": "Last IP Geolocation."
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP Address."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "User Phone number"
+        },
+        "agreement": {
+          "type": "string",
+          "description": "User USA Disclaimer."
+        },
+        "platform": {
+          "type": "string",
+          "description": "Platform from which user signed up."
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        },
+        "referral_code": {
+          "type": "string",
+          "description": "User unique referral code."
+        },
+        "login_via_password": {
+          "type": "string",
+          "description": "User can login via password or not."
+        },
+        "referrals": {
+          "type": "string",
+          "description": "Referred user's referral count"
+        },
+        "password_reset_at": {
+          "type": "string",
+          "description": "User last password reset timestamp."
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "agreement_time": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_UserWithProfile": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "User first name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "User last name"
+        },
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "country_of_residence": {
+          "type": "string",
+          "description": "country of residence"
+        },
+        "last_country": {
+          "type": "string",
+          "description": "Last IP Geolocation."
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP Address."
+        },
+        "agreement": {
+          "type": "string",
+          "description": "User USA Disclaimer."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "User Phone number"
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Platform from which user signed up."
+        },
+        "referral_code": {
+          "type": "string",
+          "description": "User unique referral code."
+        },
+        "login_via_password": {
+          "type": "string",
+          "description": "User can login via password or not."
+        },
+        "profiles": {
+          "$ref": "#/definitions/API_V2_Entities_Profile"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "agreement_time": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_UserWithKYC": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "User first name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "User last name"
+        },
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "country_of_residence": {
+          "type": "string",
+          "description": "country of residence"
+        },
+        "last_country": {
+          "type": "string",
+          "description": "Last IP Geolocation."
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP Address."
+        },
+        "agreement": {
+          "type": "string",
+          "description": "User USA Disclaimer."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "User Phone number"
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        },
+        "referral_code": {
+          "type": "string",
+          "description": "User unique referral code."
+        },
+        "login_via_password": {
+          "type": "string",
+          "description": "User can login via password or not."
+        },
+        "referrals": {
+          "type": "string",
+          "description": "Referred user's referral count"
+        },
+        "profiles": {
+          "$ref": "#/definitions/API_V2_Entities_Profile"
+        },
+        "labels": {
+          "$ref": "#/definitions/API_V2_Entities_AdminLabelView"
+        },
+        "phones": {
+          "$ref": "#/definitions/API_V2_Entities_Phone"
+        },
+        "data_storages": {
+          "$ref": "#/definitions/API_V2_Entities_DataStorage"
+        },
+        "comments": {
+          "$ref": "#/definitions/API_V2_Entities_Comment"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "agreement_time": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_AdminLabelView": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters."
+        },
+        "value": {
+          "type": "string",
+          "description": "Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
+        },
+        "scope": {
+          "type": "string",
+          "description": "Label scope: 'public' or 'private'"
+        },
+        "description": {
+          "type": "string",
+          "description": "Label desc: json string with any additional information"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_Comment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Comment id"
+        },
+        "author_uid": {
+          "type": "string",
+          "description": "Comment author UID"
+        },
+        "title": {
+          "type": "string",
+          "description": "Comment title"
+        },
+        "data": {
+          "type": "string",
+          "description": "Comment plain text"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_UserWithUsername": {
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "verified": {
+          "type": "object",
+          "description": "User's KYC status."
+        },
+        "is_blue_verified": {
+          "type": "object",
+          "description": "User's referrals"
+        }
+      }
+    },
+    "API_V2_Entities_ServiceAccounts": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "User first name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "User last name"
+        },
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "Service Account Role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User Level"
+        },
+        "state": {
+          "type": "string",
+          "description": "Service Account State: active, disabled"
+        },
+        "user": {
+          "$ref": "#/definitions/API_V2_Entities_User"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_ReferralCode": {
+      "type": "object",
+      "properties": {
+        "referral_code": {
+          "type": "string",
+          "description": "referral code of user"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        }
+      }
+    }
+  }
+}

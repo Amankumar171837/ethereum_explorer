@@ -1,0 +1,17 @@
+versions:
+  thumbnail:
+    h: 40
+    w: 40
+  small:
+    h: 160
+    w: 160
+  display_picture:
+    h: 400
+    w: 400
+  large:
+    h: 600
+    w: 600
+  dpr:
+    h: 400
+    w: 400
+    r: 100

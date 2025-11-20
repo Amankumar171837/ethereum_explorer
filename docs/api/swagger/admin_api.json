@@ -1,0 +1,4848 @@
+{
+  "info": {
+    "title": "Barong",
+    "description": "RESTful AdminAPI for barong OAuth server",
+    "version": "2.7.0"
+  },
+  "swagger": "2.0",
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "BearerToken": {
+      "description": "Bearer Token authentication",
+      "type": "basic",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v2/barong/admin",
+  "tags": [
+    {
+      "name": "api",
+      "description": "Operations about apis"
+    }
+  ],
+  "paths": {
+    "/api/v2/barong/admin/users/{uid}": {
+      "get": {
+        "description": "Returns user info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uid",
+            "description": "user uniq id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns user info",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_UserWithKYC"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminUsersUid"
+      }
+    },
+    "/api/v2/barong/admin/users": {
+      "put": {
+        "description": "Update user attributes",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "user uniq id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "description": "User Email",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "user state",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "otp",
+            "description": "user 2fa status",
+            "type": "boolean",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User attributes were created"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2BarongAdminUsers"
+      },
+      "get": {
+        "description": "Returns array of users as paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "extended",
+            "description": "When true endpoint returns full information about users",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "role",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "level",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "phone_number",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "username",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "platform",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "referral_of",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "referral_limit",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "type": "string",
+            "default": "created",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of users as paginated collection",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_User"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminUsers"
+      }
+    },
+    "/api/v2/barong/admin/users/role": {
+      "post": {
+        "description": "Update user role",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "user uniq id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "role",
+            "description": "user role",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User role was created"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminUsersRole"
+      }
+    },
+    "/api/v2/barong/admin/users/update": {
+      "post": {
+        "description": "Update user attributes",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "user uniq id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "user state",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "remark",
+            "description": "remark on state change",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "otp",
+            "description": "user 2fa status",
+            "type": "boolean",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User attributes were updated"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminUsersUpdate"
+      }
+    },
+    "/api/v2/barong/admin/users/search": {
+      "get": {
+        "description": "Returns array of users as paginated collection (Elasticsearch)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "role",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "level",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "phone_number",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "username",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "platform",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "referral_of",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "referral_limit",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "type": "string",
+            "default": "created",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of users as paginated collection (Elasticsearch)",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_User"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminUsersSearch"
+      }
+    },
+    "/api/v2/barong/admin/users/labels": {
+      "delete": {
+        "description": "Deletes label for user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "user uniq id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "key",
+            "description": "label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "scope",
+            "description": "label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Label was deleted"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "deleteApiV2BarongAdminUsersLabels"
+      },
+      "put": {
+        "description": "Update user label scope",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "user uniq id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Label key.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "scope",
+            "description": "label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "label description. [A-Za-z0-9_-] should be used. max - 255 characters.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "value",
+            "description": "Label value.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Label was updated"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "404": {
+            "description": "Record is not found"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2BarongAdminUsersLabels"
+      },
+      "post": {
+        "description": "Add label for user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "user uniq id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "value",
+            "description": "label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "label description. [A-Za-z0-9_-] should be used. max - 255 characters.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "scope",
+            "description": "Label scope: 'public' or 'private'. Default is public",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Label was created"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminUsersLabels"
+      },
+      "get": {
+        "description": "Returns array of users as paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "key",
+            "description": "Label key",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "value",
+            "description": "Label value",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of users as paginated collection",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_User"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminUsersLabels"
+      }
+    },
+    "/api/v2/barong/admin/users/labels/update": {
+      "post": {
+        "description": "Update user label value",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "user uniq id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "key",
+            "description": "Label key.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "scope",
+            "description": "label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "value",
+            "description": "Label value.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "label description. [A-Za-z0-9_-] should be used. max - 255 characters.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "replace",
+            "description": "When true label will be created if not exist",
+            "type": "boolean",
+            "default": true,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Label was updated"
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "404": {
+            "description": "Record is not found"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminUsersLabelsUpdate"
+      }
+    },
+    "/api/v2/barong/admin/users/labels/list": {
+      "get": {
+        "description": "Returns existing labels keys and values",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns existing labels keys and values"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminUsersLabelsList"
+      }
+    },
+    "/api/v2/barong/admin/api_keys": {
+      "get": {
+        "description": "List all api keys for selected account.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "user uniq id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all api keys for selected account.",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_APIKey"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminApiKeys"
+      }
+    },
+    "/api/v2/barong/admin/permissions": {
+      "put": {
+        "description": "Update Permission",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Permission id",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "role",
+            "description": "permission field - role",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "verb",
+            "description": "permission field - request verb",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "path",
+            "description": "permission field - request path",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "action",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "topic",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission was updated"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2BarongAdminPermissions"
+      },
+      "delete": {
+        "description": "Deletes permission",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "permission id",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Permission was deleted"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "deleteApiV2BarongAdminPermissions"
+      },
+      "post": {
+        "description": "Create permission",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "role",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "verb",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "action",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "topic",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission was created"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminPermissions"
+      },
+      "get": {
+        "description": "Returns array of permissions as paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of permissions as paginated collection",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Permission"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminPermissions"
+      }
+    },
+    "/api/v2/barong/admin/activities/data": {
+      "get": {
+        "description": "Returns array of Activities as paginated collection from Influxdb",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "topic",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "target_uid",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of Activities as paginated collection from Influxdb"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminActivitiesData"
+      }
+    },
+    "/api/v2/barong/admin/activities/admin": {
+      "get": {
+        "description": "Returns array of activities as paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "topic",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "target_uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "type": "string",
+            "default": "created",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of activities as paginated collection",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_AdminActivity"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminActivitiesAdmin"
+      }
+    },
+    "/api/v2/barong/admin/activities": {
+      "get": {
+        "description": "Returns array of activities as paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "topic",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of activities as paginated collection",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_ActivityWithUser"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminActivities"
+      }
+    },
+    "/api/v2/barong/admin/metrics": {
+      "get": {
+        "description": "Returns main statistic in the given time period",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "created_from",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "created_to",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns main statistic in the given time period"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminMetrics"
+      }
+    },
+    "/api/v2/barong/admin/restrictions": {
+      "delete": {
+        "description": "Delete restriction",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Restriction id",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Restriction was deleted"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "deleteApiV2BarongAdminRestrictions"
+      },
+      "put": {
+        "description": "Update restriction",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Restriction id",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "scope",
+            "type": "string",
+            "enum": [
+              "continent",
+              "country",
+              "ip",
+              "ip_subnet",
+              "all"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "category",
+            "type": "string",
+            "enum": [
+              "whitelist",
+              "maintenance",
+              "blacklist",
+              "blocklogin"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "value",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "code",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Restriction was updated"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2BarongAdminRestrictions"
+      },
+      "post": {
+        "description": "Create restriction",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "scope",
+            "type": "string",
+            "enum": [
+              "continent",
+              "country",
+              "ip",
+              "ip_subnet",
+              "all"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "value",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "category",
+            "type": "string",
+            "enum": [
+              "whitelist",
+              "maintenance",
+              "blacklist",
+              "blocklogin"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "type": "string",
+            "default": "enabled",
+            "enum": [
+              "enabled",
+              "disabled"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "code",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Restriction was created"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminRestrictions"
+      },
+      "get": {
+        "description": "Returns array of restrictions as a paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "scope",
+            "type": "string",
+            "enum": [
+              "continent",
+              "country",
+              "ip",
+              "ip_subnet",
+              "all"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "type": "string",
+            "enum": [
+              "whitelist",
+              "maintenance",
+              "blacklist",
+              "blocklogin"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "type": "string",
+            "default": "created",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of restrictions as a paginated collection",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Restriction"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminRestrictions"
+      }
+    },
+    "/api/v2/barong/admin/restrictions/whitelink": {
+      "post": {
+        "description": "Create whitelink",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "expire_time",
+            "description": "link will be active for (Time.now + expire_time in following range)",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 30,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "range",
+            "description": "In combination with expire_time gives full controll over token expiration",
+            "type": "string",
+            "default": "day",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created whitelink"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminRestrictionsWhitelink"
+      }
+    },
+    "/api/v2/barong/admin/profiles": {
+      "post": {
+        "description": "Create a profile for user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "first_name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "middle_name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "last_name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "dob",
+            "type": "string",
+            "format": "date",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "address",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "postcode",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "city",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "country",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "metadata",
+            "description": "Any additional key: value pairs in json string format",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create a profile for user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_Profile"
+            }
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminProfiles"
+      },
+      "put": {
+        "description": "Verify user's profile",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verify user's profile",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_Profile"
+            }
+          },
+          "400": {
+            "description": "Required params are empty"
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          },
+          "422": {
+            "description": "Validation errors"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2BarongAdminProfiles"
+      },
+      "get": {
+        "description": "Return all profiles",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return all profiles",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_Profile"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminProfiles"
+      }
+    },
+    "/api/v2/barong/admin/levels": {
+      "get": {
+        "description": "Returns array of permissions as paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of permissions as paginated collection",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Level"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminLevels"
+      }
+    },
+    "/api/v2/barong/admin/abilities": {
+      "get": {
+        "description": "Get all roles and admin_permissions of barong cancan.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all roles and admin_permissions of barong cancan."
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminAbilities"
+      }
+    },
+    "/api/v2/barong/admin/phone": {
+      "post": {
+        "description": "Edit use Phone number by admin",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "phone_number",
+            "description": "Phone number with country code",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "User uid",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Edit use Phone number by admin",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Entities_Phone"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminPhone"
+      }
+    },
+    "/api/v2/barong/admin/referrals": {
+      "get": {
+        "description": "get the referrals list for a user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "The shared user ID.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Referral state",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get the referrals list for a user",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_User"
+            }
+          },
+          "401": {
+            "description": "Invalid bearer token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminReferrals"
+      }
+    },
+    "/api/v2/barong/admin/platform_settings/services": {
+      "get": {
+        "description": "Get Services of Platform Setting",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Services of Platform Setting"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminPlatformSettingsServices"
+      }
+    },
+    "/api/v2/barong/admin/platform_settings": {
+      "put": {
+        "description": "Update Platform Settings",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Platform Setting Id",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Setting State enabled or disabled",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "metadata",
+            "description": "Setting Description or Credentials",
+            "type": "json",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update Platform Settings",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_PlatformSettings"
+            }
+          },
+          "400": {
+            "description": "admin.platform_settings.required_parameters.empty"
+          },
+          "401": {
+            "description": "admin.platform_settings.invalid_token"
+          },
+          "422": {
+            "description": "admin.platform_settings.validation.error"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2BarongAdminPlatformSettings"
+      },
+      "post": {
+        "description": "Create Platform Settings",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "service_name",
+            "description": "Service Name of platform.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "service_type",
+            "description": "Setting type sms or email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "service_key",
+            "description": "Service key of setting",
+            "type": "string",
+            "enum": [
+
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Setting State enabled or disabled",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "metadata",
+            "description": "Setting Description or Credentials",
+            "type": "json",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create Platform Settings",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_PlatformSettings"
+            }
+          },
+          "400": {
+            "description": "admin.platform_settings.required_parameters.empty"
+          },
+          "401": {
+            "description": "admin.platform_settings.invalid_token"
+          },
+          "422": {
+            "description": "admin.platform_settings.validation.error"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminPlatformSettings"
+      },
+      "get": {
+        "description": "Get Platform Settings",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Platform Setting Id",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "service_type",
+            "description": "Setting type sms or email",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "service_name",
+            "description": "Service used in the platform.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Setting State enabled or disabled",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Platform Settings",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_PlatformSettings"
+            }
+          },
+          "401": {
+            "description": "admin.platform_settings.invalid.token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminPlatformSettings"
+      }
+    },
+    "/api/v2/barong/admin/service_logs/data": {
+      "get": {
+        "description": "Returns array of service logs as paginated collection through influxdb",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "User UID.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "description": "User Email.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "service_name",
+            "description": "Service name used by user.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "service_type",
+            "description": "Service type used by user",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "result",
+            "description": "Status of API response: succeed, failed, denied",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "user_country",
+            "description": "User country",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "time",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of service logs as paginated collection through influxdb"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminServiceLogsData"
+      }
+    },
+    "/api/v2/barong/admin/service_logs": {
+      "get": {
+        "description": "Returns array of service logs as paginated collection ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "User UID.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "description": "User Email.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "service_name",
+            "description": "Service name used by user.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "service_type",
+            "description": "Service type used by user",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "phone_number",
+            "description": "user phone number",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "result",
+            "description": "Status of API response: succeed, failed, denied",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "user_country",
+            "description": "User country",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns array of service logs as paginated collection "
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminServiceLogs"
+      }
+    },
+    "/api/v2/barong/admin/country_services/continent": {
+      "get": {
+        "description": "Get all the continents and it's countries",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "service_type",
+            "description": "Service type email/sms",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country_name",
+            "description": "Country Name for Service",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Service state is enabled/disabled",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "platform_setting_id",
+            "description": "Platform Setting Selected for the Country",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all the continents and it's countries"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminCountryServicesContinent"
+      }
+    },
+    "/api/v2/barong/admin/country_services": {
+      "put": {
+        "description": "Update Country Service",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Id of Country Service",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "platform_setting_id",
+            "description": "Platform Setting Selected for the Country",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Service state is enabled/disabled",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update Country Service",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_CountryServices"
+            }
+          },
+          "400": {
+            "description": "admin.country_services.required_parameters.empty"
+          },
+          "401": {
+            "description": "admin.country_services.invalid_token"
+          },
+          "422": {
+            "description": "admin.country_services.validation.error"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2BarongAdminCountryServices"
+      },
+      "post": {
+        "description": "Create Country Service",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "service_type",
+            "description": "Service type sms/email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "country_code",
+            "description": "Country Code of Service",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "platform_setting_id",
+            "description": "Platform Setting Selected for the Country",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Service state is enabled/disabled",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create Country Service",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_CountryServices"
+            }
+          },
+          "400": {
+            "description": "admin.country_services.required_parameters.empty"
+          },
+          "401": {
+            "description": "admin.country_services.invalid_token"
+          },
+          "422": {
+            "description": "admin.country_services.validation.error"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminCountryServices"
+      },
+      "get": {
+        "description": "Get Country Services",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Id of Country Service",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "continent",
+            "description": "Continent for Service",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country_name",
+            "description": "Country Name for Service",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "service_type",
+            "description": "Service type email/sms",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country_code",
+            "description": "Country Code for Service",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "platform_setting_id",
+            "description": "Platform Setting Selected for the Country",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Service state is enabled/disabled",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Country Services",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_CountryServices"
+            }
+          },
+          "401": {
+            "description": "admin.country_services.invalid.token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminCountryServices"
+      }
+    },
+    "/api/v2/barong/admin/sms_sender": {
+      "delete": {
+        "description": "Delete SMS Sender Config details",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Sms sender config Id",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Delete SMS Sender Config details"
+          },
+          "400": {
+            "description": "admin.sms_sender_config.required_parameters.empty"
+          },
+          "401": {
+            "description": "admin.sms_sender_config.invalid_token"
+          },
+          "422": {
+            "description": "admin.sms_sender_config.validation.error"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "deleteApiV2BarongAdminSmsSender"
+      },
+      "put": {
+        "description": "Update SMS Sender Config details",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Sms sender config Id",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "Setting status enabled or disabled",
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "metadata",
+            "description": "Setting Description or Credentials",
+            "type": "json",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update SMS Sender Config details",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_SmsSenderConfig"
+            }
+          },
+          "400": {
+            "description": "admin.sms_sender_config.required_parameters.empty"
+          },
+          "401": {
+            "description": "admin.sms_sender_config.invalid_token"
+          },
+          "422": {
+            "description": "admin.sms_sender_config.validation.error"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2BarongAdminSmsSender"
+      },
+      "post": {
+        "description": "Create SMS Sender config",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "country_code",
+            "description": "Service Name of platform.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "sender",
+            "description": "Setting type sms or email",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "platform_setting_id",
+            "description": "Platform setting id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "Setting status active or inactive",
+            "type": "string",
+            "default": "inactive",
+            "enum": [
+              "active",
+              "inactive"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "metadata",
+            "description": "Setting Description or Credentials",
+            "type": "json",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create SMS Sender config",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_SmsSenderConfig"
+            }
+          },
+          "400": {
+            "description": "admin.sms_sender_config.required_parameters.empty"
+          },
+          "401": {
+            "description": "admin.sms_sender_config.invalid_token"
+          },
+          "422": {
+            "description": "admin.sms_sender_config.validation.error"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminSmsSender"
+      },
+      "get": {
+        "description": "Get sms sender config",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "SMS Sender config Id",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country_code",
+            "description": "SMS Sender config country code",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "country",
+            "description": "SMS Sender config used in the platform.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "platform_setting_id",
+            "description": "SMS Sender config used in the platform.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "SMS Sender config is active or inactive",
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only records BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get sms sender config",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_SmsSenderConfig"
+            }
+          },
+          "401": {
+            "description": "admin.sms_sender_config.invalid.token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminSmsSender"
+      }
+    },
+    "/api/v2/barong/admin/email-notifications": {
+      "post": {
+        "description": "Update Email notification for a user.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Email Notification unique identifier.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "enabled",
+            "description": "User email notification (true/false)",
+            "type": "boolean",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update Email notification for a user."
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminEmailNotifications"
+      },
+      "get": {
+        "description": "Get all Email Notifications",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Email Notification unique identifier",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "UID of a user",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "description": "Email of a user",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "email_type_id",
+            "description": "Email type unique identifier",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "enabled",
+            "description": "User email notification (true/false)",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all Email Notifications",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_EmailNotifications"
+            }
+          },
+          "401": {
+            "description": "admin.email_notifications.invalid.token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminEmailNotifications"
+      }
+    },
+    "/api/v2/barong/admin/email-types": {
+      "put": {
+        "description": "Update Email type",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Id of Email type",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Description for email type",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "State for email type (enabled/disabled)",
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update Email type",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_EmailTypes"
+            }
+          },
+          "400": {
+            "description": "admin.email_type.required_parameters.empty"
+          },
+          "401": {
+            "description": "admin.email_type.invalid_token"
+          },
+          "422": {
+            "description": "admin.email_type.validation.error"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "putApiV2BarongAdminEmailTypes"
+      },
+      "post": {
+        "description": "Create Email type",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Name for email type.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Description for email type",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "description": "State for email type (enabled/disabled)",
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create Email type",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_EmailTypes"
+            }
+          },
+          "400": {
+            "description": "admin.email_type.required_parameters.empty"
+          },
+          "401": {
+            "description": "admin.email_type.invalid_token"
+          },
+          "422": {
+            "description": "admin.email_type.validation.error"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminEmailTypes"
+      },
+      "get": {
+        "description": "Get all Email Types",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Email type unique identifier",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "description": "Email type name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "Email type status (enabled/disabled)",
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all Email Types",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_EmailTypes"
+            }
+          },
+          "401": {
+            "description": "admin.email_type.invalid.token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminEmailTypes"
+      }
+    },
+    "/api/v2/barong/admin/devices": {
+      "get": {
+        "description": "Get all Devices",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Device unique identifier",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "UID of a user",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "device_id",
+            "description": "Device id",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "device_type",
+            "description": "Device type",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "active",
+            "description": "Device state",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all Devices",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_Device"
+            }
+          },
+          "401": {
+            "description": "admin.device.invalid.token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminDevices"
+      }
+    },
+    "/api/v2/barong/admin/notifications/recipients": {
+      "get": {
+        "description": "Get all Notification recipients.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Notification unique identifier.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "User's uid.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "notification_id",
+            "description": "Notification id.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "description": "Notification delivery status.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all Notification recipients.",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_NotificationRecipient"
+            }
+          },
+          "401": {
+            "description": "admin.notifications_recipients.invalid.token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminNotificationsRecipients"
+      }
+    },
+    "/api/v2/barong/admin/notifications": {
+      "get": {
+        "description": "Get all Notifications.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Notification unique identifier",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of users per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all Notifications.",
+            "schema": {
+              "$ref": "#/definitions/API_V2_Admin_Entities_Notification"
+            }
+          },
+          "401": {
+            "description": "admin.notifications.invalid.token"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "getApiV2BarongAdminNotifications"
+      }
+    },
+    "/api/v2/barong/admin/notification/push": {
+      "post": {
+        "description": "Push custom notification",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "uid",
+            "description": "user's uid",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "title",
+            "description": "Notification title",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "message",
+            "description": "Notification message.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Push custom notification"
+          }
+        },
+        "tags": [
+          "api"
+        ],
+        "operationId": "postApiV2BarongAdminNotificationPush"
+      }
+    }
+  },
+  "definitions": {
+    "API_V2_Admin_Entities_UserWithKYC": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "User first name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "User last name"
+        },
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "country_of_residence": {
+          "type": "string",
+          "description": "country of residence"
+        },
+        "last_country": {
+          "type": "string",
+          "description": "Last IP Geolocation."
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP Address."
+        },
+        "agreement": {
+          "type": "string",
+          "description": "User USA Disclaimer."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "User Phone number"
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        },
+        "referral_code": {
+          "type": "string",
+          "description": "User unique referral code."
+        },
+        "login_via_password": {
+          "type": "string",
+          "description": "User can login via password or not."
+        },
+        "referrals": {
+          "type": "string",
+          "description": "Referred user's referral count"
+        },
+        "profiles": {
+          "$ref": "#/definitions/API_V2_Admin_Entities_Profile"
+        },
+        "labels": {
+          "$ref": "#/definitions/API_V2_Entities_AdminLabelView"
+        },
+        "phones": {
+          "$ref": "#/definitions/API_V2_Admin_Entities_Phone"
+        },
+        "data_storages": {
+          "$ref": "#/definitions/API_V2_Entities_DataStorage"
+        },
+        "comments": {
+          "$ref": "#/definitions/API_V2_Entities_Comment"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "agreement_time": {
+          "type": "string"
+        },
+        "referral_of": {
+          "type": "string",
+          "description": "Referrer user UID"
+        },
+        "social_media_status": {
+          "type": "string",
+          "description": "User's social media status"
+        },
+        "user_state_logs": {
+          "$ref": "#/definitions/API_V2_Admin_Entities_UserStateChangeLogs"
+        }
+      },
+      "description": "Returns user info"
+    },
+    "API_V2_Entities_Profile": {
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "description": "First Name"
+        },
+        "middle_name": {
+          "type": "string",
+          "description": "Submasked middle name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Submasked last name"
+        },
+        "dob": {
+          "type": "string",
+          "format": "date",
+          "description": "Submasked birth date"
+        },
+        "address": {
+          "type": "string",
+          "description": "Address"
+        },
+        "postcode": {
+          "type": "string",
+          "description": "Address Postcode"
+        },
+        "city": {
+          "type": "string",
+          "description": "City name"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country name"
+        },
+        "state": {
+          "type": "string",
+          "description": "Profile state: drafted, submitted, verified, rejected"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Profile additional fields"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_AdminLabelView": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Label key. [a-z0-9_-]+ should be used. Min - 3, max - 255 characters."
+        },
+        "value": {
+          "type": "string",
+          "description": "Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
+        },
+        "scope": {
+          "type": "string",
+          "description": "Label scope: 'public' or 'private'"
+        },
+        "description": {
+          "type": "string",
+          "description": "Label desc: json string with any additional information"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Admin_Entities_Phone": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "Phone country"
+        },
+        "number": {
+          "type": "string",
+          "description": "Phone number"
+        },
+        "validated_at": {
+          "type": "s",
+          "format": "g",
+          "description": "Phone validation date"
+        }
+      }
+    },
+    "API_V2_Entities_DataStorage": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Any additional data title"
+        },
+        "data": {
+          "type": "string",
+          "description": "Any additional data json key:value pairs"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Entities_Comment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Comment id"
+        },
+        "author_uid": {
+          "type": "string",
+          "description": "Comment author UID"
+        },
+        "title": {
+          "type": "string",
+          "description": "Comment title"
+        },
+        "data": {
+          "type": "string",
+          "description": "Comment plain text"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Admin_Entities_Profile": {
+      "type": "object",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "description": "First Name"
+        },
+        "middle_name": {
+          "type": "string",
+          "description": "Submasked middle name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name"
+        },
+        "dob": {
+          "type": "string",
+          "format": "date",
+          "description": "Birth date"
+        },
+        "address": {
+          "type": "string",
+          "description": "Address"
+        },
+        "postcode": {
+          "type": "string",
+          "description": "Address Postcode"
+        },
+        "city": {
+          "type": "string",
+          "description": "City name"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country name"
+        },
+        "state": {
+          "type": "string",
+          "description": "Profile state: drafted, submitted, verified, rejected"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Profile additional fields"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Return all profiles"
+    },
+    "API_V2_Admin_Entities_UserStateChangeLogs": {
+      "type": "object",
+      "properties": {
+        "past_state": {
+          "type": "string",
+          "description": "User Previous State"
+        },
+        "state": {
+          "type": "string",
+          "description": "User changed_to State"
+        },
+        "remark": {
+          "type": "string",
+          "description": "Remark"
+        },
+        "change_by_user_email": {
+          "type": "string",
+          "description": "Email of the Admin that did the changes"
+        },
+        "change_by_user_uid": {
+          "type": "string",
+          "description": "UID of the Admin that did the changes"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      }
+    },
+    "API_V2_Admin_Entities_User": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "User first name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "User last name"
+        },
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "country_of_residence": {
+          "type": "string",
+          "description": "country of residence"
+        },
+        "last_country": {
+          "type": "string",
+          "description": "Last IP Geolocation."
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP Address."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "User Phone number"
+        },
+        "agreement": {
+          "type": "string",
+          "description": "User USA Disclaimer."
+        },
+        "platform": {
+          "type": "string",
+          "description": "Platform from which user signed up."
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        },
+        "referral_code": {
+          "type": "string",
+          "description": "User unique referral code."
+        },
+        "login_via_password": {
+          "type": "string",
+          "description": "User can login via password or not."
+        },
+        "referrals": {
+          "type": "string",
+          "description": "Referred user's referral count"
+        },
+        "password_reset_at": {
+          "type": "string",
+          "description": "User last password reset timestamp."
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "agreement_time": {
+          "type": "string"
+        },
+        "referral_of": {
+          "type": "string",
+          "description": "Referrer user UID"
+        },
+        "social_media_status": {
+          "type": "string",
+          "description": "User's social media status"
+        }
+      },
+      "description": "get the referrals list for a user"
+    },
+    "API_V2_Entities_APIKey": {
+      "type": "object",
+      "properties": {
+        "kid": {
+          "type": "string",
+          "description": "JWT public key"
+        },
+        "algorithm": {
+          "type": "string",
+          "description": "Cryptographic hash function type"
+        },
+        "scope": {
+          "type": "string",
+          "description": "Serialized array of scopes"
+        },
+        "state": {
+          "type": "string",
+          "description": "active/non-active state of key"
+        },
+        "secret": {
+          "type": "string",
+          "description": "Api key secret"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "List all api keys for selected account."
+    },
+    "API_V2_Entities_Permission": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Permission id"
+        },
+        "action": {
+          "type": "string",
+          "description": "Permission action: accept (allow access (drop access), audit (record activity)"
+        },
+        "role": {
+          "type": "string",
+          "description": "Permission user role"
+        },
+        "verb": {
+          "type": "string",
+          "description": "Permission verb: put, post, delete, get"
+        },
+        "path": {
+          "type": "string",
+          "description": "API path"
+        },
+        "topic": {
+          "type": "string",
+          "description": "Permission topic: general, session etc"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Returns array of permissions as paginated collection"
+    },
+    "API_V2_Admin_Entities_AdminActivity": {
+      "type": "object",
+      "properties": {
+        "user_ip": {
+          "type": "string",
+          "description": "User IP"
+        },
+        "user_agent": {
+          "type": "string",
+          "description": "User Browser Agent"
+        },
+        "topic": {
+          "type": "string",
+          "description": "Defined topic (session, adjustments) or general by default"
+        },
+        "action": {
+          "type": "string",
+          "description": "API action: POST => 'create', PUT => 'update', GET => 'read', DELETE => 'delete', PATCH => 'update' or system if there is no match of HTTP method"
+        },
+        "result": {
+          "type": "string",
+          "description": "Status of API response: succeed, failed, denied"
+        },
+        "data": {
+          "type": "string",
+          "description": "Parameters which was sent to specific API endpoint"
+        },
+        "admin": {
+          "$ref": "#/definitions/API_V2_Admin_Entities_User"
+        },
+        "target": {
+          "$ref": "#/definitions/API_V2_Admin_Entities_User"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      },
+      "description": "Returns array of activities as paginated collection"
+    },
+    "API_V2_Admin_Entities_ActivityWithUser": {
+      "type": "object",
+      "properties": {
+        "user_ip": {
+          "type": "string",
+          "description": "User IP"
+        },
+        "user_agent": {
+          "type": "string",
+          "description": "User Browser Agent"
+        },
+        "topic": {
+          "type": "string",
+          "description": "Defined topic (session, adjustments) or general by default"
+        },
+        "action": {
+          "type": "string",
+          "description": "API action: POST => 'create', PUT => 'update', GET => 'read', DELETE => 'delete', PATCH => 'update' or system if there is no match of HTTP method"
+        },
+        "result": {
+          "type": "string",
+          "description": "Status of API response: succeed, failed, denied"
+        },
+        "data": {
+          "type": "string",
+          "description": "Parameters which was sent to specific API endpoint"
+        },
+        "user": {
+          "$ref": "#/definitions/API_V2_Admin_Entities_User"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      },
+      "description": "Returns array of activities as paginated collection"
+    },
+    "API_V2_Entities_Restriction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Restriction id"
+        },
+        "category": {
+          "type": "string",
+          "description": "Restriction categories: blacklist, maintenance, whitelist, blocklogin"
+        },
+        "scope": {
+          "type": "string",
+          "description": "Restriction scopes: continent, country, ip, ip_subnet, all"
+        },
+        "value": {
+          "type": "string",
+          "description": "Restriction value: IP address, country abbreviation, all"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Restriction codes: {\"continent\"=>423, \"country\"=>423, \"ip_subnet\"=>403, \"ip\"=>401, \"all\"=>401}"
+        },
+        "state": {
+          "type": "string",
+          "description": "Restriction states: disabled, enabled"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Returns array of restrictions as a paginated collection"
+    },
+    "API_V2_Entities_Level": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Level identifier, level number"
+        },
+        "key": {
+          "type": "string",
+          "description": "Label key. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
+        },
+        "value": {
+          "type": "string",
+          "description": "Label value. [A-Za-z0-9_-] should be used. Min - 3, max - 255 characters."
+        }
+      },
+      "description": "Returns array of permissions as paginated collection"
+    },
+    "API_V2_Entities_Phone": {
+      "type": "object",
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "Phone country"
+        },
+        "number": {
+          "type": "string",
+          "description": "Submasked phone number"
+        },
+        "validated_at": {
+          "type": "s",
+          "format": "g",
+          "description": "Phone validation date"
+        }
+      },
+      "description": "Edit use Phone number by admin"
+    },
+    "API_V2_Admin_Entities_PlatformSettings": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Platform settings id"
+        },
+        "service_type": {
+          "type": "string",
+          "description": "SMS service using in the platform."
+        },
+        "service_name": {
+          "type": "string",
+          "description": "Email service using in the platform."
+        },
+        "service_key": {
+          "type": "string",
+          "description": "SMS service using in the platform."
+        },
+        "metadata": {
+          "type": "string",
+          "description": "Other Related data or creds"
+        },
+        "state": {
+          "type": "string",
+          "description": "Setting state is enabled/disabled"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get Platform Settings"
+    },
+    "API_V2_Admin_Entities_CountryServices": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Country Service id"
+        },
+        "continent": {
+          "type": "string",
+          "description": "Continent of Service"
+        },
+        "country_name": {
+          "type": "string",
+          "description": "Country Name of Service"
+        },
+        "state": {
+          "type": "string",
+          "description": "Service state is enabled/disabled"
+        },
+        "country_code": {
+          "type": "string",
+          "description": "Country Code of Service"
+        },
+        "service_type": {
+          "type": "string",
+          "description": "SMS service using in the Country."
+        },
+        "platform_setting": {
+          "$ref": "#/definitions/API_V2_Admin_Entities_PlatformSettings"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get Country Services"
+    },
+    "API_V2_Admin_Entities_SmsSenderConfig": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "SMS Sender config id"
+        },
+        "country_name": {
+          "type": "string",
+          "description": "SMS Sender config country name."
+        },
+        "country_code": {
+          "type": "string",
+          "description": "SMS Sender config country code."
+        },
+        "sender": {
+          "type": "string",
+          "description": "SMS Sender config sender name."
+        },
+        "status": {
+          "type": "string",
+          "description": "SMS Sender config status is active/inactive"
+        },
+        "metadata": {
+          "type": "string",
+          "description": "SMS Sender config metadata"
+        },
+        "platform_setting": {
+          "$ref": "#/definitions/API_V2_Admin_Entities_PlatformSettings"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get sms sender config"
+    },
+    "API_V2_Admin_Entities_EmailNotifications": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Email notification unique identifier"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email for which notification is enabled/disable."
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID."
+        },
+        "name": {
+          "type": "string",
+          "description": "Email type name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Email type description"
+        },
+        "enabled": {
+          "type": "string",
+          "description": "Email Notification status (true/false)"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get all Email Notifications"
+    },
+    "API_V2_Admin_Entities_EmailTypes": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Email type unique identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Email type name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Email type description"
+        },
+        "status": {
+          "type": "string",
+          "description": "Email type status (true/false)"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get all Email Types"
+    },
+    "API_V2_Admin_Entities_Device": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Device unique identifier"
+        },
+        "uid": {
+          "type": "string",
+          "description": "user's uid"
+        },
+        "email": {
+          "type": "string",
+          "description": "user's email"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "user's phone number"
+        },
+        "device_id": {
+          "type": "string",
+          "description": "Device id"
+        },
+        "device_type": {
+          "type": "string",
+          "description": "Device type"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Device status"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get all Devices"
+    },
+    "API_V2_Admin_Entities_NotificationRecipient": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Notification unique identifier."
+        },
+        "uid": {
+          "type": "string",
+          "description": "User's uid."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "User's phone number."
+        },
+        "device_id": {
+          "type": "string",
+          "description": "Notification device id."
+        },
+        "device_type": {
+          "type": "string",
+          "description": "Notification device type."
+        },
+        "notification": {
+          "type": "string",
+          "description": "Notification details."
+        },
+        "metadata": {
+          "type": "json",
+          "description": "Notification recipient metadata"
+        },
+        "status": {
+          "type": "string",
+          "description": "Notification delivery status."
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get all Notification recipients."
+    },
+    "API_V2_Admin_Entities_Notification": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Notification unique identifier."
+        },
+        "title": {
+          "type": "string",
+          "description": "Notification title."
+        },
+        "body": {
+          "type": "string",
+          "description": "Notification body."
+        },
+        "metadata": {
+          "type": "json",
+          "description": "Notification metadata."
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "description": "Get all Notifications."
+    },
+    "API_V2_Admin_Entities_ActivityWithInflux": {
+      "type": "object",
+      "properties": {
+        "user_email": {
+          "type": "string",
+          "description": "Parameters which was sent to specific API endpoint"
+        },
+        "target_email": {
+          "type": "string",
+          "description": "Parameters which was sent to specific API endpoint"
+        },
+        "target_uid": {
+          "type": "string",
+          "description": "Parameters which was sent to specific API endpoint"
+        },
+        "user_ip": {
+          "type": "string",
+          "description": "User IP"
+        },
+        "user_agent": {
+          "type": "string",
+          "description": "User Browser Agent"
+        },
+        "topic": {
+          "type": "string",
+          "description": "Defined topic (session, adjustments) or general by default"
+        },
+        "action": {
+          "type": "string",
+          "description": "API action: POST => 'create', PUT => 'update', GET => 'read', DELETE => 'delete', PATCH => 'update' or system if there is no match of HTTP method"
+        },
+        "result": {
+          "type": "string",
+          "description": "Status of API response: succeed, failed, denied"
+        },
+        "data": {
+          "type": "string",
+          "description": "Parameters which was sent to specific API endpoint"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "created date of Activity "
+        }
+      }
+    },
+    "API_V2_Admin_Entities_UserWithProfile": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "User first name"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "User last name"
+        },
+        "full_name": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "username": {
+          "type": "string",
+          "description": "User's username"
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID"
+        },
+        "role": {
+          "type": "string",
+          "description": "User role"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User level"
+        },
+        "profile_url": {
+          "type": "object",
+          "description": "Profile picture Url"
+        },
+        "profile_type": {
+          "type": "string",
+          "description": "Profile picture type"
+        },
+        "otp": {
+          "type": "boolean",
+          "description": "is 2FA enabled for account"
+        },
+        "state": {
+          "type": "string",
+          "description": "User state: active, pending, inactive"
+        },
+        "country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "country_of_residence": {
+          "type": "string",
+          "description": "country of residence"
+        },
+        "last_country": {
+          "type": "string",
+          "description": "Last IP Geolocation."
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP Address."
+        },
+        "agreement": {
+          "type": "string",
+          "description": "User USA Disclaimer."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "User Phone number"
+        },
+        "data": {
+          "type": "string",
+          "description": "Additional phone and profile info"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Platform from which user signed up."
+        },
+        "referral_code": {
+          "type": "string",
+          "description": "User unique referral code."
+        },
+        "login_via_password": {
+          "type": "string",
+          "description": "User can login via password or not."
+        },
+        "profiles": {
+          "$ref": "#/definitions/API_V2_Admin_Entities_Profile"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "agreement_time": {
+          "type": "string"
+        },
+        "referral_of": {
+          "type": "string",
+          "description": "Referrer user UID"
+        },
+        "referrals": {
+          "type": "string",
+          "description": "Referred user's referral count"
+        },
+        "social_media_status": {
+          "type": "string",
+          "description": "User's social media status"
+        }
+      }
+    },
+    "API_V2_Admin_Entities_ServiceLogs": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User Email."
+        },
+        "uid": {
+          "type": "string",
+          "description": "User UID."
+        },
+        "service_name": {
+          "type": "string",
+          "description": "Service name used by user."
+        },
+        "service_type": {
+          "type": "string",
+          "description": "Service type used by user"
+        },
+        "topic": {
+          "type": "string",
+          "description": "Defined topic or general by default"
+        },
+        "result": {
+          "type": "string",
+          "description": "Status of API response: succeed, failed, denied"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "user phone number"
+        },
+        "metadata": {
+          "type": "json",
+          "description": "Parameters which was sent to specific API endpoint"
+        },
+        "user_ip": {
+          "type": "string",
+          "description": "User IP."
+        },
+        "user_country": {
+          "type": "string",
+          "description": "User country"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

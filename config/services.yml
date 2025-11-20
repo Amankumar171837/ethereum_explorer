@@ -1,0 +1,38 @@
+SERVICES_KEYS:
+  - twilio_sms
+  - twilio_verify
+  - mock
+  - aws_sns
+  - bulkgate
+  - smsala
+  - ding
+  - mobivate
+  - sendgrid
+
+SERVICE_TYPES:
+  - sms
+  - email
+
+SERVICES:
+  sms:
+    twilio_sms:
+      service: TwilioSmsSendService
+    twilio_verify:
+      service: TwilioVerifyService
+    aws_sns:
+      service: AwsSmsSendService
+    mock:
+      service: MockPhoneVerifyService
+    bulkgate:
+      service: BulkgateSmsSendService
+    smsala:
+      service: SmsalaService
+    ding:
+      service: DingService
+    mobivate:
+      service: MobivateSmsService
+  email:
+    sendgrid:
+      service: SendgridService
+    mock:
+      service: MockPhoneVerifyService

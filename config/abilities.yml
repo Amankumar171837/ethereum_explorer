@@ -1,0 +1,70 @@
+roles:
+  - superadmin
+  - admin
+  - technical
+  - accountant
+  - compliance
+  - support
+
+admin_permissions:
+  superadmin:
+    manage:
+      - Ability
+      - User
+      - Level
+      - Label
+      - Profile
+      - Activity
+      - APIKey
+      - Permission
+      - Restriction
+      - ServiceLog
+  admin:
+    read:
+      - Activity    
+      - Permission
+      - ServiceLog
+    manage:
+      - Ability
+      - User
+      - Level
+      - Label
+      - Profile
+      - APIKey
+      - Restriction
+  technical:
+    read:
+      - Ability
+      - User
+      - Level
+      - Label
+      - Profile
+      - Activity
+    manage:
+      - APIKey
+      - Restriction
+  accountant:
+    read:
+      - Ability
+      - User
+      - Level
+      - Label
+      - Profile
+      - Activity
+  compliance:
+    read:
+      - Ability
+    manage:
+      - User
+      - Level
+      - Label
+      - Profile
+  support:
+    read:
+      - Ability
+      - Label
+      - Level
+      - Profile
+      - Activity
+    manage:
+      - User

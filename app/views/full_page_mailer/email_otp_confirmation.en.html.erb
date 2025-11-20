@@ -1,0 +1,223 @@
+<table
+  class="main-handle"
+  style="
+  border: 1px solid rgba(178, 178, 178, 0.25);
+      max-width: 640px;
+      width: 100%;
+      margin: 15px auto !important;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 0;
+      border-collapse: separate !important;
+      background-color: #ffffff;
+  "
+>
+  <tbody>
+  <tr>
+    <td
+      class="logo-outer"
+      style="
+      width: 100%;
+          padding: 32px;
+          text-align: left;
+          background-color: #ffffff;
+      "
+    >
+      <img class="logo" src="https://assets.playa.net/logo.png" alt="logo" />
+    </td>
+  </tr>
+  <tr>
+    <td style="padding: 0 32px">
+            <span
+              style="
+              display: block;
+                  height: 1px;
+                  background-color: rgba(178, 178, 178, 0.5);
+              "
+            ></span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <table
+        style="
+        border: 0;
+            width: 100%;
+            padding: 48px 32px;
+            background-color: #fff;
+        "
+      >
+        <tbody>
+        <tr>
+          <td style="padding: 0">
+            <h2
+              style="
+              font-family: Arial, Helvetica, sans-serif;
+                  font-style: normal;
+                  font-weight: 600;
+                  font-size: 32px;
+                  line-height: 40px;
+                  color: #000;
+                  margin: 0;
+                  padding-bottom: 24px;
+                  max-width: 455px;
+                  display: block;
+                  letter-spacing: -0.03em;
+              "
+            >
+              hi, here’s your code
+            </h2>
+            <p
+              style="
+              font-family: Arial, Helvetica, sans-serif;
+                  font-style: normal;
+                  font-weight: 500;
+                  font-size: 18px;
+                  line-height: 24px;
+                  color: #000;
+                  margin: 0;
+                  padding-bottom: 16px;
+                  display: block;
+              "
+            >
+              We just need to verify your email address before you can
+              access items from the peer marketplace.
+            </p>
+            <p
+              style="
+              font-family: Arial, Helvetica, sans-serif;
+                  font-style: normal;
+                  font-weight: 500;
+                  font-size: 18px;
+                  line-height: 24px;
+                  color: #000;
+                  margin: 0;
+                  padding-bottom: 24px;
+                  display: block;
+              "
+            >
+              enter the code below into your peer app
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td
+            style="
+            padding: 0 0 24px 0;
+                border-bottom: 1px solid #f5f5f5;
+            "
+          >
+            <p
+              style="
+              font-family: Arial, Helvetica, sans-serif;
+                  font-style: normal;
+                  font-weight: 700;
+                  font-size: 32px;
+                  line-height: 28px;
+                  padding: 32px 10px 32px;
+                  background-color: #f7f7f7;
+                  border-radius: 8px;
+                  color: #000;
+                  text-align: center;
+                  margin: 0;
+                  letter-spacing: 20px;
+                  display: block;
+              "
+            >
+              <%= @record.otp.gsub(%r{\s*}, " ").strip %>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 24px 0 0 0">
+            <p
+              style="
+              font-family: Arial, Helvetica, sans-serif;
+                  font-style: normal;
+                  font-weight: 500;
+                  font-size: 14px;
+                  line-height: 20px;
+                  color: #808080;
+                  margin: 0;
+                  max-width: 420px;
+                  display: block;
+              "
+            >
+              if this email was sent by mistake or you did not provide
+              your email to peer, please let us know immediately by
+              replying to this email.
+            </p>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding: 32px; color: #ffffff; background-color: #000000">
+      <table
+        style="
+        width: 100% !important;
+            border-bottom: 1px solid rgba(51, 51, 51, 1) !important;
+            padding-bottom: 16px;
+        "
+      >
+        <tbody>
+        <tr>
+          <td style="width: 50%">
+            <img src="https://assets.playa.net/logo-dark.png" alt="footer-logo" />
+          </td>
+          <td style="width: 50%; text-align: right">
+            <a href="https://www.instagram.com/peernewworld" style="margin-right: 20px">
+              <img src="https://assets.playa.net/instagram-dark.png" alt="instagram" />
+            </a>
+            <a href="https://t.me/peer_inc" style="margin-right: 20px">
+              <img src="https://assets.playa.net/telegram-dark.png" alt="telegram" />
+            </a>
+            <a href="https://twitter.com/peernewworld">
+              <img src="https://assets.playa.net/twitter-dark.png" alt="twitter" />
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <table style="width: 100% !important; padding-top: 21px">
+        <tbody>
+        <tr>
+          <td
+            style="
+            width: 100%;
+                color: rgba(178, 178, 178, 1);
+                font-size: 14px;
+                line-height: 22px;
+                font-weight: 500;
+                padding-bottom: 15px;
+            "
+          >
+            If you have any questions or concerns, we’re here to help.
+            <br />Contact us via our
+            <a
+              href="<%= @peer_market_url %>"
+              style="text-decoration: underline; color: #ffffff"
+            >Help Center.</a
+            >
+          </td>
+        </tr>
+        <tr>
+          <td
+            style="
+            width: 100%;
+                color: rgba(178, 178, 178, 1);
+                font-size: 14px;
+                line-height: 18px;
+                font-weight: 500;
+            "
+          >
+            Copyright © 2024 Peer Inc. All rights reserved.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  </tbody>
+</table>

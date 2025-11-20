@@ -1,0 +1,23 @@
+# config/elasticsearch.yml
+
+default: &default
+  urls: <%= ENV.fetch('ELASTICSEARCH_URLS', nil) %>
+  hosts:
+    - host: <%= ENV.fetch('ELASTICSEARCH_HOST_1', 'localhost') %>
+      port: <%= ENV.fetch('ELASTICSEARCH_PORT_1', 9200) %>
+      protocol: <%= ENV.fetch('ELASTICSEARCH_PROTOCOL', 'http') %>
+    - host: <%= ENV.fetch('ELASTICSEARCH_HOST_2', 'localhost') %>
+      port: <%= ENV.fetch('ELASTICSEARCH_PORT_2', 9201) %>
+      protocol: <%= ENV.fetch('ELASTICSEARCH_PROTOCOL', 'http') %>
+    - host: <%= ENV.fetch('ELASTICSEARCH_HOST_3', 'localhost') %>
+      port: <%= ENV.fetch('ELASTICSEARCH_PORT_3', 9202) %>
+      protocol: <%= ENV.fetch('ELASTICSEARCH_PROTOCOL', 'http') %>
+
+production:
+  <<: *default
+
+test:
+  <<: *default
+
+development:
+  <<: *default

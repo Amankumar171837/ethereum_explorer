@@ -1,0 +1,23 @@
+connect:
+  bootstrap.servers: <%= Barong::App.config.redpanda_hosts %>
+  debug: <%= Barong::App.config.redpanda_logs_level %>
+  enable.partition.eof: <%= Barong::App.config.redpanda_partition_eof %>
+  sasl.username: <%= Barong::App.config.redpanda_sasl_username %>
+  sasl.password: <%= Barong::App.config.redpanda_sasl_password %>
+  sasl.mechanism: <%= Barong::App.config.redpanda_sasl_mechanism %>
+  security.protocol: <%= Barong::App.config.redpanda_sasl_protocol %>
+  group.id: <%= Barong::App.config.redpanda_group_id %>
+
+queue:
+  notification:
+    name: base.events.notification.batch
+    key: notification.batch
+  send_notification:
+    name: base.events.send.notification
+    key: send.notification
+
+binding:
+  notification:
+    queue: notification
+  send_notification:
+    queue: send_notification

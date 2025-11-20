@@ -1,0 +1,23 @@
+activation_requirements:
+  email: 'verified'
+state_triggers:
+  banned:
+    - ban
+    - fraud
+  deleted:
+    - delete
+  locked:
+    - suspicious
+    - lock
+user_storage_titles:
+  # - personal  ## example
+  # - company   ## example
+captcha_protected_endpoints:
+  - user_create
+  - session_create
+  - password_reset
+  - email_confirmation
+  - inquiry
+profile_verification_roles:
+  - superadmin
+  # - admin
