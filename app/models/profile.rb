@@ -145,14 +145,13 @@ class Profile < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20220817095012
+# Schema version: 20240920072708
 #
 # Table name: profiles
 #
 #  id                    :bigint           not null, primary key
 #  user_id               :bigint
 #  author                :string(255)
-#  applicant_id          :string(255)
 #  first_name_encrypted  :string(1024)
 #  last_name_encrypted   :string(1024)
 #  middle_name_encrypted :string(1024)

@@ -200,7 +200,7 @@ class Activity < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20250211112117
+# Schema version: 20240920072708
 #
 # Table name: activities
 #
@@ -213,16 +213,17 @@ end
 #  country      :string(255)
 #  country_code :string(255)
 #  city         :string(255)
-#  coordinates  :json
 #  user_agent   :string(255)      not null
 #  topic        :string(255)      not null
 #  action       :string(255)      not null
 #  result       :string(255)      not null
 #  data         :text(65535)
+#  coordinates  :json
 #  created_at   :datetime
 #
 # Indexes
 #
-#  index_activities_on_target_uid  (target_uid)
-#  index_activities_on_user_id     (user_id)
+#  index_activities_on_country_code  (country_code)
+#  index_activities_on_target_uid    (target_uid)
+#  index_activities_on_user_id       (user_id)
 #

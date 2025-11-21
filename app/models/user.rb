@@ -276,7 +276,7 @@ class User < ApplicationRecord
   # HotFix: Removing referral_id for websocket private stream issue.
   def as_payload
     as_json(only: %i[uid email role level state last_ip
-                     last_country agreement password_reset_at
+                     last_country password_reset_at
                      referral_code phone_number users_count
                      first_name last_name username],
             methods: %i[dob referrer_uid])
@@ -304,7 +304,6 @@ class User < ApplicationRecord
       last_country: last_country,
       username: username,
       country: country,
-      agreement: agreement,
       password_reset_at: format_iso8601_time(password_reset_at),
       social_media_status: social_media_status,
       created_at: format_iso8601_time(created_at),
@@ -480,44 +479,39 @@ class User < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20240712094827
+# Schema version: 20240920072708
 #
 # Table name: users
 #
-#  id                   :bigint           not null, primary key
-#  uid                  :string(255)      not null
-#  email                :string(255)      not null
-#  phone_number         :string(255)
-#  first_name           :string(255)
-#  last_name            :string(255)
-#  username             :string(255)
-#  password_digest      :string(255)      not null
-#  password_enabled     :boolean          default(TRUE)
-#  role                 :string(255)      default("member"), not null
-#  data                 :text(65535)
-#  level                :integer          default(0), not null
-#  otp                  :boolean          default(FALSE)
-#  state                :string(255)      default("pending"), not null
-#  referral_id          :bigint
-#  referral_code        :string(255)
-#  provider             :string(255)
-#  provider_uid         :string(255)
-#  metadata             :json
-#  country              :string(255)
-#  country_of_residence :string(255)
-#  last_ip              :string(255)      default("0.0.0.0"), not null
-#  last_country         :string(255)
-#  agreement            :boolean          default(FALSE), not null
-#  agreement_time       :datetime
-#  platform             :string(255)
-#  users_count          :integer          default(0), not null
-#  password_reset_at    :datetime         default(Sun, 02 Feb 1947 00:00:00 UTC +00:00)
-#  social_media_status  :string(255)      default("active")
-#  status_updated_at    :datetime         default(Sun, 02 Feb 1947 00:00:00 UTC +00:00)
-#  login_metadata       :json
-#  general_info         :text(65535)
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
+#  id                  :bigint           not null, primary key
+#  uid                 :string(255)      not null
+#  email               :string(255)      not null
+#  phone_number        :string(255)
+#  first_name          :string(255)
+#  last_name           :string(255)
+#  username            :string(255)
+#  password_digest     :string(255)      not null
+#  password_enabled    :boolean          default(TRUE)
+#  role                :string(255)      default("member"), not null
+#  platform            :string(255)
+#  data                :text(65535)
+#  level               :integer          default(0), not null
+#  otp                 :boolean          default(FALSE)
+#  state               :string(255)      default("pending"), not null
+#  referral_id         :bigint
+#  referral_code       :string(255)
+#  users_count         :integer          default(0), not null
+#  metadata            :json
+#  country             :string(255)
+#  last_ip             :string(255)      default("0.0.0.0"), not null
+#  last_country        :string(255)
+#  password_reset_at   :datetime         default(Sun, 02 Feb 1947 00:00:00 UTC +00:00)
+#  social_media_status :string(255)      default("active")
+#  status_updated_at   :datetime         default(Sun, 02 Feb 1947 00:00:00 UTC +00:00)
+#  login_metadata      :json
+#  general_info        :text(65535)
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 # Indexes
 #

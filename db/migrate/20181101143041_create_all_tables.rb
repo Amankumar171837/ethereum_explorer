@@ -43,20 +43,9 @@ class CreateAllTables < ActiveRecord::Migration[5.2]
       t.bigint    :user_id,   null: false, unsigned: true
       t.string    :kid,       null: false
       t.string    :algorithm, null: false
-      t.string    :scope,     limit: 1024
-      t.string    :secret_encrypted
+      t.string    :scope
+      t.string    :secret_encrypted, limit: 1024
       t.string    :state, default: "active", null: false
-      t.timestamps
-      t.index [:user_id]
-    end
-
-    create_table :documents do |t|
-      t.bigint    :user_id, null: false, unsigned: true
-      t.string    :upload
-      t.string    :doc_type
-      t.string    :doc_number
-      t.date      :doc_expire
-      t.text      :metadata
       t.timestamps
       t.index [:user_id]
     end
@@ -89,7 +78,6 @@ class CreateAllTables < ActiveRecord::Migration[5.2]
       t.json      :metadata
       t.timestamps
       t.index [:user_id]
-      t.index [:number]
     end
     add_index :phones, [:number_index]
 

@@ -62,7 +62,7 @@ class ServiceLog < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20241119110337
+# Schema version: 20240920072708
 #
 # Table name: service_logs
 #
@@ -75,15 +75,16 @@ end
 #  result              :string(255)      not null
 #  user_ip             :string(255)      not null
 #  user_country        :string(255)
-#  country_code        :string(255)
 #  phone_number        :string(255)
 #  sms_id              :string(255)
+#  country_code        :string(255)
 #  metadata            :json
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
 # Indexes
 #
+#  index_service_logs_on_phone_number         (phone_number)
 #  index_service_logs_on_platform_setting_id  (platform_setting_id)
 #  index_service_logs_on_user_id              (user_id)
 #

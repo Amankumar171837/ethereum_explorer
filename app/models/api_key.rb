@@ -69,6 +69,7 @@ class APIKey < ApplicationRecord
 end
 
 # == Schema Information
+# Schema version: 20240920072708
 #
 # Table name: apikeys
 #

@@ -108,15 +108,15 @@ class PlatformSetting < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20230810125557
+# Schema version: 20240920072708
 #
 # Table name: platform_settings
 #
 #  id           :bigint           not null, primary key
-#  service_type :string(255)      not null
-#  service_name :string(255)      not null
-#  state        :string(255)      default("enabled"), not null
 #  service_key  :string(255)      not null
+#  service_name :string(255)      not null
+#  service_type :string(255)      not null
+#  state        :string(255)      default("enabled"), not null
 #  metadata     :json
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
