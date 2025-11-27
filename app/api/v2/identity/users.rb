@@ -104,37 +104,22 @@ module API::V2
                    default: 'sms',
                    values: { value: -> { Phone::TWILIO_CHANNELS }, message: 'resource.phone.invalid_channel'},
                    desc: 'The verification method to use'
-          optional :platform,
+          requires :client_id,
+                   types: String,
+                   desc: 'Unique client id.'
+          requires :password,
                    type: String,
-                   values: { value: -> { ::User::PLATFORM },
-                             message: 'identity.platform.invalid_platform'},
-                   default: 'zen',
-                   desc: 'User Signup platform'
-          optional :device_id,
-                   type: String,
-                   desc: 'User device id'
-          optional :device_type,
-                   type: String,
-                   default: 'web',
-                   desc: 'User device type Android/IOS'
-          at_least_one_of :phone_number, :email, message: 'resource.identity.invalid_parameter'
+                   message: 'identity.user.missing_password',
+                   allow_blank: false,
+                   desc: 'User password'
+          at_least_one_of :phone_number, :email, message: 'identity.user.invalid_parameter'
         end
         post '/new' do
-          if sign_auth.exclude?(params[:platform])
-            verify_captcha!(response: params['captcha_response'], endpoint: 'user_create')
-          else
-            validate_signature?('singup') if request.headers['X-App-Auth-Token'] || params[:platform] == 'app'
-
-            return 201 unless request_from_app?
-
-            params[:platform] = 'app'
-          end
+          verify_captcha!(response: params['captcha_response'], endpoint: 'user_create')
 
           declared_params = declared(params, include_missing: false)
 
-          if params[:dob].present? && User.underage?(params[:dob], params[:platform])
-            error!({ errors: ['identity.users.age_restricted'] }, 422)
-          end
+          client = verify_client!
 
           if params[:phone_number].present?
             phone_number = Phone.international(params[:phone_number])
@@ -151,14 +136,15 @@ module API::V2
           set_phone_key(phone_number) if phone_number.present?
 
           user_params = declared_params.slice('email', 'phone_number', 'username',
-                                              'first_name', 'last_name', 'platform')
+                                              'first_name', 'last_name', 'password')
 
           user_params[:referral_id] = parse_referral_code! unless params[:referral_code].blank?
 
-          user = User.new(user_params)
+          user = User.new(user_params.merge(password_enabled: true,
+                                            platform: client.name))
 
           ActiveRecord::Base.transaction do
-            old_user.update(email: "#{'pending_user_'}#{SecureRandom.hex(7)}@blockdag.network",
+            old_user.update(email: "#{'pending_user_'}#{SecureRandom.hex(7)}@blockmaze.network",
                             older_email: old_user.email) if old_user.present?
 
             code_error!(user.errors.details, 422) unless user.save

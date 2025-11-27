@@ -131,7 +131,7 @@ Barong::App.define do |config|
   config.set(:disable_fake_mail, false)
   config.set(:sanitize_email_enabled, true)
   config.set(:enable_sendgrid_email_checker, false)
-  config.set(:from_name, 'Blockdag')
+  config.set(:from_name, 'blockmaze')
   config.set(:sendgrid_email_api_key, '')
   config.set(:sendgrid_verdict, %w[valid riskey])
   config.set(:sendgrid_score_enabled, true)
@@ -183,7 +183,7 @@ Barong::App.define do |config|
 
   # Signature validation --------------------------------------------
   config.set(:app_auth_token, '')
-  config.set(:app_auth_x10_token, '')
+  config.set(:app_auth_code_token, '')
   # Set in seconds
   config.set(:app_auth_token_lifetime, '3000', type: :integer)
   config.set(:app_auth_nonce_lifetime, '600000', type: :integer)
@@ -216,6 +216,9 @@ Barong::App.define do |config|
   config.set(:restricted_countries, '', type: :array)
 
   config.set(:users_valid_from, '1749753000', type: :integer)
+
+  config.set(:auth_code_expiry, '600', type: :integer)
+  config.set(:client_id_prefix, 'cid_')
 end
 
 ActionMailer::Base.smtp_settings = {

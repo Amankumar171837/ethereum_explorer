@@ -33,12 +33,10 @@ class RequestVerifier
     }.compact
   end
 
-  def x10_connect_body
+  def authorization_code
     {
-      'device_id' => @body[:device_id],
-      'device_type' => @body[:device_type],
-      'uid' => @body[:uid],
-    }.compact
+      'authorization_code' => @body[:authorization_code],
+    }
   end
 
   def default_body
@@ -54,8 +52,8 @@ class RequestVerifier
   private
 
   def auth_token
-    if @endpoint == 'x10_connect'
-      Barong::App.config.app_auth_x10_token
+    if @endpoint == 'authorization_code'
+      @body[:secret]
     else
       Barong::App.config.app_auth_token
     end

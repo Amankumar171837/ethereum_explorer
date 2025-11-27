@@ -3796,9 +3796,6 @@
         "updated_at": {
           "type": "string"
         },
-        "agreement_time": {
-          "type": "string"
-        },
         "referral_of": {
           "type": "string",
           "description": "Referrer user UID"
@@ -4019,9 +4016,6 @@
           "type": "string"
         },
         "updated_at": {
-          "type": "string"
-        },
-        "agreement_time": {
           "type": "string"
         },
         "referral_of": {

@@ -107,7 +107,7 @@ class User < ApplicationRecord
   def assign_email
     errors.add(:email_or_phone_number, 'is empty') if email.nil? && phone_number.empty?
 
-    self.email = "pending_user_#{SecureRandom.hex(7)}@blockdag.network" unless email
+    self.email = "pending_user_#{SecureRandom.hex(7)}@blockmaze.network" unless email
   end
 
   def assign_referral_code
@@ -367,7 +367,7 @@ class User < ApplicationRecord
 
   def filter_email
     e = self.email.split('@')
-    if e[0].match?(/pending_user_/) && e[1].match?(/blockdag.network/)
+    if e[0].match?(/pending_user_/) && e[1].match?(/blockmaze.network/)
       ''
     else
       self.email

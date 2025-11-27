@@ -1530,7 +1530,6 @@ Returns current user
 | profiles | [API_V2_Entities_Profile](#api_v2_entities_profile) |  | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
-| agreement_time | string |  | No |
 
 #### API_V2_Entities_Label
 
@@ -1601,7 +1600,6 @@ Returns current user
 | labels | [API_V2_Entities_Label](#api_v2_entities_label) |  | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
-| agreement_time | string |  | No |
 
 #### API_V2_Entities_UserPublic
 
@@ -1679,7 +1677,6 @@ Returns user activity
 | password_reset_at | string | User last password reset timestamp. | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
-| agreement_time | string |  | No |
 
 #### API_V2_Entities_UserWithProfile
 
@@ -1708,7 +1705,6 @@ Returns user activity
 | profiles | [API_V2_Entities_Profile](#api_v2_entities_profile) |  | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
-| agreement_time | string |  | No |
 
 #### API_V2_Entities_ServiceAccounts
 

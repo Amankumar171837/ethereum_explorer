@@ -56,9 +56,16 @@ module API::V2
                { code: 404, message: 'Record is not found' }
              ]
         params do
-          requires :identity,
+          optional :phone_number,
                    type: String,
-                   desc: 'User\'s email or username'
+                   allow_blank: false,
+                   desc: 'User phone number'
+          optional :email,
+                   type: String,
+                   desc: 'User\'s email'
+          optional :username,
+                   type: String,
+                   desc: 'User\'s username'
           optional :password,
                    type: String,
                    desc: 'User\'s password'
@@ -71,38 +78,32 @@ module API::V2
           optional :reactive_account,
                    type: Boolean,
                    desc: 'Send this true if user\'s social login is disabled'
-          optional :login_device, type: Hash do
-            requires :device_id,
-                     type: String,
-                     desc: 'User device id'
-            requires :device_type,
-                     type: String,
-                     default: 'web',
-                     desc: 'User device type Android/IOS'
-            requires :device_token,
-                     type: String,
-                     desc: 'User fcm device token Android/IOS'
-          end
+          requires :client_id,
+                   types: String,
+                   desc: 'Unique client id.'
+          at_least_one_of :phone_number, :email, message: 'identity.user.invalid_parameter'
         end
         post do
           declared_params = declared(params, include_missing: false)
 
-          identifier = find_identifier(declared_params)
-          error!({ errors: ['identity.session.invalid_details'] }, 401) unless identifier
+          verify_client!
 
-          user = if identifier == 'email'
-                   User.find_by(email: params[:identity])
-                 elsif identifier == 'username'
-                   User.find_by(username: params[:identity])
-                 elsif identifier == 'phone'
-                   phone_number = Phone.international(params[:identity])
+          user = if params[:phone_number].present?
+                   identifier = 'phone'
+                   phone_number = Phone.international(declared_params[:phone_number])
                    validate_phone!(phone_number)
                    User.find_by(phone_number: phone_number)
+                 elsif params[:username].present?
+                   identifier = 'username'
+                   User.find_by(username: params[:username])
+                 else
+                   identifier = 'email'
+                   User.find_by(email: params[:email])
                  end
 
-          error!({ errors: ['identity.session.not_found'] }, 404) unless user
-
           validate_user(user)
+
+          error!({ errors: ['identity.user.is_pending'] }, 422) if user.state == 'pending'
 
           error!({ errors: ['identity.user.password.disabled'] }, 401) unless user.password_enabled?
 
@@ -111,10 +112,10 @@ module API::V2
                          action: 'login', result: 'failed', error_text: 'invalid_params')
           end
 
+          verify_captcha!(response: params['captcha_response'], endpoint: 'session_create')
+
           if user.otp
             error!({ errors: ['identity.session.missing_otp'] }, 401) if declared_params[:otp_code].blank?
-
-            verify_captcha!(response: params['captcha_response'], endpoint: 'session_create')
 
             unless TOTPService.validate?(user.uid, declared_params[:otp_code])
               login_error!(reason: 'OTP code is invalid', error_code: 403,
@@ -131,114 +132,15 @@ module API::V2
             error!({ errors: ["identity.conflict.#{user.social_media_status}"] }, 409) unless user.social_media_status == 'active'
           end
 
-          user.update_label('email') if user.state == 'pending'
-
-          create_session(user)
+          csrf_token = open_session(user)
+          publish_session_create(user)
           activity_record(user: user.id, action: 'login', result: 'succeed', topic: 'session')
 
-          update_device(user, params[:login_device])
-
-          present user, with: API::V2::Entities::UserWithFullInfo
+          present user, with: API::V2::Entities::UserWithFullInfo, csrf_token: csrf_token
           status 200
         rescue StandardError => e
           Rails.logger.error e.inspect
           error!(e.message, 422)
-        end
-
-        desc 'Start a new session',
-             failure: [
-                        { code: 400, message: 'Required params are empty' },
-                        { code: 404, message: 'Record is not found' }
-                      ]
-        params do
-          requires :identity,
-                   type: String,
-                   desc: 'User\'s email or username or phone number'
-          optional :password,
-                   type: String,
-                   desc: 'User\'s password'
-          optional :captcha_response,
-                   types: { value: [String, Hash], message: 'identity.session.invalid_captcha_format' },
-                   desc: 'Response from captcha widget'
-          optional :otp_code,
-                   type: String,
-                   desc: 'Code from Google Authenticator'
-          optional :channel,
-                   type: String,
-                   default: 'sms',
-                   values: { value: -> { Phone::TWILIO_CHANNELS }, message: 'resource.phone.invalid_channel'},
-                   desc: 'The verification method to use'
-          optional :platform,
-                   type: String,
-                   values: { value: -> { %w[app] },
-                             message: 'identity.platform.invalid_platform'},
-                   default: 'zen',
-                   desc: 'User login platform'
-        end
-        post '/new' do
-          declared_params = declared(params, include_missing: false)
-          identifier = find_identifier(declared_params)
-          error!({ errors: ['identity.session.invalid_details'] }, 401) unless identifier
-
-          user = if identifier == 'email'
-                   User.find_by(email: params[:identity])
-                 elsif identifier == 'username'
-                   User.find_by(username: params[:identity])
-                 elsif identifier == 'phone'
-                   phone_number = Phone.international(declared_params[:identity])
-                   User.find_by(phone_number: phone_number)
-                 else
-                   error!({ errors: ['identity.session.invalid_identifier'] }, 401)
-                 end
-
-          validate_user(user)
-
-          if declared_params[:password]
-            error!({ errors: ['identity.user.is_pending'] }, 422) if user.state == 'pending'
-
-            error!({ errors: ['identity.user.password.disabled'] }, 401) unless user.password_enabled
-
-            unless user.authenticate(declared_params[:password])
-              login_error!(reason: 'Invalid Email or Password', error_code: 401, user: user.id,
-                           action: 'login', result: 'failed', error_text: 'invalid_params')
-            end
-            unless user.otp
-              verify_captcha!(response: params['captcha_response'], endpoint: 'session_create')
-
-              activity_record(user: user.id, action: 'login', result: 'succeed', topic: 'session')
-              csrf_token = open_session(user)
-              publish_session_create(user)
-
-              present user, with: API::V2::Entities::UserWithFullInfo, csrf_token: csrf_token
-              return status 200
-            end
-            error!({ errors: ['identity.session.missing_otp'] }, 401) if declared_params[:otp_code].blank?
-
-            verify_captcha!(response: params['captcha_response'], endpoint: 'session_create')
-
-            unless TOTPService.validate?(user.uid, declared_params[:otp_code])
-              login_error!(reason: 'OTP code is invalid', error_code: 403,
-                           user: user.id, action: 'login::2fa', result: 'failed', error_text: 'invalid_otp')
-            end
-            activity_record(user: user.id, action: 'login::2fa', result: 'succeed', topic: 'session')
-
-            csrf_token = open_session(user)
-            publish_session_create(user)
-            activity_record(user: user.id, action: 'login', result: 'succeed', topic: 'session')
-
-            present user, with: API::V2::Entities::UserWithFullInfo, csrf_token: csrf_token
-            return status 200
-          end
-          verify_captcha!(response: params['captcha_response'], endpoint: 'session_create')
-
-          user.update(social_media_status: 'active', status_updated_at: Time.now) if user.social_media_status == 'deleted'
-
-          request_from = otp_channel(user) if identifier == 'phone'
-
-          present public_send("send_#{request_from}_otp", user,
-                              { action: "sent message to user's #{request_from}",
-                                topic: 'session' })
-          status 200
         end
 
         desc 'Destroy current session',
@@ -264,12 +166,6 @@ module API::V2
                { code: 404, message: 'Record is not found' }
              ]
         params do
-          optional :platform,
-                   type: String,
-                   values: { value: -> { %w[app] },
-                             message: 'identity.platform.invalid_platform'},
-                   desc: 'User login platform',
-                   default: 'zen'
           optional :phone_number,
                    type: String,
                    allow_blank: false,
@@ -291,13 +187,9 @@ module API::V2
           optional :captcha_response,
                    types: [String, Hash],
                    desc: 'Response from captcha widget'
-          optional :device_id,
-                   type: String,
-                   desc: 'User device id'
-          optional :device_type,
-                   type: String,
-                   default: 'web',
-                   desc: 'User device type Android/IOS'
+          requires :client_id,
+                   types: String,
+                   desc: 'Unique client id.'
           at_least_one_of :phone_number, :email, :username, message: 'resource.identity.invalid_parameter'
         end
         post '/verify_user' do
@@ -307,7 +199,7 @@ module API::V2
 
           validate_signature?('resent') if request.headers['X-App-Auth-Token']
 
-          return 201 unless request_from_app?
+          verify_client!
 
           user = if params[:phone_number].present?
                    identifier = 'phone'
@@ -329,25 +221,11 @@ module API::V2
 
           validate_user(user)
 
-          # ::hotfix: for old ios version
-          if user.password_enabled? && (app_version('ios').nil? || app_version('ios').to_f >= 1.3)
-            error!({ errors: ['identity.user.password.enabled'] }, 401)
-          end
-
-          # Disable login for those users who has done their singup from mobile
-          # and hasn't verified their email yet. So they can verify the email on the
-          # mobile app only.
-          # validate_app_user(user) if %w[email username].include?(identifier)
-
           if params[:reactive_account]
             user.social_media_status = 'active'
             user.save!
             activity_record(user: user.id, action: 'reactivate social login', result: 'succeed', topic: 'session')
-          elsif params[:platform] == 'app'
-            error!({ errors: ["identity.conflict.#{user.social_media_status}"] }, 409) unless user.social_media_status == 'active'
           end
-
-          identifier = otp_channel(user) if identifier == 'phone'
 
           present public_send("send_#{identifier}_otp", user,
                               { action: "sent message to user's #{identifier}", topic: 'session' })
@@ -379,28 +257,16 @@ module API::V2
                    type: String,
                    allow_blank: false,
                    desc: 'Verification code from sms'
-          requires :platform,
-                   type: String,
-                   values: { value: -> { %w[app] },
-                             message: 'identity.platform.invalid_platform'},
-                   desc: 'User login platform'
-          optional :login_device, type: Hash do
-            requires :device_id,
-                     type: String,
-                     desc: 'User device id'
-            requires :device_type,
-                     type: String,
-                     default: 'web',
-                     desc: 'User device type Android/IOS'
-            optional :device_token,
-                     type: String,
-                     desc: 'User fcm device token Android/IOS'
-          end
-          at_least_one_of :phone_number, :email, :username, message: 'resource.identity.invalid_parameter'
+          requires :client_id,
+                   types: String,
+                   desc: 'Unique client id.'
+          at_least_one_of :phone_number, :email, :username, message: 'identity.identity.invalid_parameter'
         end
         post '/verify' do
           declared_params = declared(params)
-          labels = []
+
+          verify_client!
+
           request_from = 'email'
           user = if declared_params[:phone_number].present?
                    request_from = 'phone'
@@ -412,11 +278,8 @@ module API::V2
                  else
                    User.find_by_email(declared_params[:email])
                  end
-          error!({ errors: ['identity.session.not_found'] }, 404) unless user
 
           validate_user(user)
-
-          request_from = otp_channel(user) if request_from == 'phone'
 
           expired, verify = if request_from == 'email'
                               [user.code_expiry_date >= Time.now,
@@ -429,10 +292,10 @@ module API::V2
                                  code: declared_params[:verification_code], user: user
                                )]
                             end
-          error!({ errors: ['resource.session.code_is_expired'] }, 422) unless expired
+          error!({ errors: ['identity.session.code_is_expired'] }, 422) unless expired
 
           unless user.role == 'mock'
-            error!({ errors: ['resource.session.verification_invalid'] }, 401) unless verify
+            error!({ errors: ['identity.session.verification_invalid'] }, 401) unless verify
           end
 
           if request_from == 'email'
@@ -451,15 +314,7 @@ module API::V2
             user.update_label('email')
           end
 
-          if declared_params[:platform] == 'app'
-            error!({ errors: ["identity.conflict.#{user.social_media_status}"] }, 409) unless user.social_media_status == 'active'
-
-            create_session(user)
-          else
-            csrf_token = open_session(user)
-          end
-
-          update_device(user, params[:login_device])
+          csrf_token = open_session(user)
 
           present user, with: API::V2::Entities::UserWithPhone, csrf_token: csrf_token
           status(200)
@@ -536,6 +391,48 @@ module API::V2
           activity_record(user: user.id, action: 'logout', result: 'succeed', topic: 'session')
 
           status(200)
+        end
+
+        desc 'Generate tokens for the user.',
+             success: { code: 200, message: 'User authorization' },
+             failure: [
+                        { code: 400, message: 'Required params are empty' },
+                        { code: 404, message: 'Record is not found' }
+                      ]
+        params do
+          requires :authorization_code,
+                   type: String,
+                   desc: 'Short lived authorization code.'
+          requires :client_id,
+                   types: String,
+                   desc: 'Unique client id.'
+        end
+        post 'oauth' do
+          client = verify_client!
+
+          params[:secret] = client.secret
+
+          validate_signature?('authorization_code')
+
+          data = Rails.cache.read("auth_code_#{params['authorization_code']}")
+
+          unless data.present?
+            error!({ errors: ['identity.code.invalid_or_expired'] }, 422)
+          end
+
+          unless data['client_id'] == client.uid
+            error!({ errors: ['identity.client.not_found'] }, 422)
+          end
+
+          user = User.find_by(uid: data['uid'])
+          error!({ errors: ['identity.user.not_found'] }, 422) unless user&.active?
+
+          create_session(user)
+
+          status 200
+        rescue StandardError => e
+          Rails.logger.error e.inspect
+          error!(e.message, 422)
         end
 
         # :: TODO: Remove me in future, if not needed.

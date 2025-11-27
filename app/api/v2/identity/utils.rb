@@ -223,7 +223,7 @@ module API::V2
       end
 
       def app_version(platform)
-        request.env['HTTP_USER_AGENT'][/BlockDagX1-#{platform}\/(\d+\.\d+)/, 1]
+        request.env['HTTP_USER_AGENT'][/BlockmazeX1-#{platform}\/(\d+\.\d+)/, 1]
       end
 
       def send_email_otp(user, options = {})
@@ -273,6 +273,13 @@ module API::V2
         return 'email' if app_version('ios').nil? && app_version('android').nil?
 
         (app_version('ios').to_f >= 1.3 || app_version('android').to_f > 1.4) ? 'email' : 'phone'
+      end
+
+      def verify_client!
+        client = RegisteredClient.active.find_by(kid: params[:client_id])
+        error!({ errors: ['identity.invalid_client'] }, 422) unless client
+
+        client
       end
     end
   end

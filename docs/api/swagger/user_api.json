@@ -3196,9 +3196,6 @@
         },
         "updated_at": {
           "type": "string"
-        },
-        "agreement_time": {
-          "type": "string"
         }
       },
       "description": "Returns current user"
@@ -3386,9 +3383,6 @@
           "type": "string"
         },
         "updated_at": {
-          "type": "string"
-        },
-        "agreement_time": {
           "type": "string"
         }
       },
@@ -3608,9 +3602,6 @@
         },
         "updated_at": {
           "type": "string"
-        },
-        "agreement_time": {
-          "type": "string"
         }
       }
     },
@@ -3705,9 +3696,6 @@
           "type": "string"
         },
         "updated_at": {
-          "type": "string"
-        },
-        "agreement_time": {
           "type": "string"
         }
       }

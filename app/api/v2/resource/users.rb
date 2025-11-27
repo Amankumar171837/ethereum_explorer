@@ -413,6 +413,29 @@ module API::V2
 
           status 201
         end
+
+        desc 'Create an authorization code.'
+        post 'authorize' do
+          params do
+            requires :client_id,
+                     types: String,
+                     desc: 'Unique client id.'
+            optional :captcha_response,
+                     types: { value: [String, Hash], message: 'identity.session.invalid_captcha_format' },
+                     desc: 'Response from captcha widget'
+          end
+          verify_captcha!(response: params['captcha_response'], endpoint: 'authorization_code')
+
+          client = verify_client!
+
+          code = SecureRandom.hex(32)
+          data = { uid: current_user.uid, client_id: client.uid }
+
+          Rails.cache.write("auth_code_#{code}", data, expires_in: Barong::App.config.auth_code_expiry)
+
+          present code: code, redirect_url: client.redirect_url
+          status 201
+        end
       end
     end
   end

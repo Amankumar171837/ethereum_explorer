@@ -1239,9 +1239,6 @@
         },
         "updated_at": {
           "type": "string"
-        },
-        "agreement_time": {
-          "type": "string"
         }
       },
       "description": "Returns array of users as collection"
@@ -1337,9 +1334,6 @@
           "type": "string"
         },
         "updated_at": {
-          "type": "string"
-        },
-        "agreement_time": {
           "type": "string"
         }
       },
@@ -1625,9 +1619,6 @@
           "type": "string"
         },
         "updated_at": {
-          "type": "string"
-        },
-        "agreement_time": {
           "type": "string"
         }
       }

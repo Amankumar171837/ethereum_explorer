@@ -44,7 +44,7 @@ module API::V2
             if (user.state == 'active' && label.value == 'verified') || user.social_media_status == 'deactivated'
               error!({ errors: ['email.taken'] }, 422)
             elsif user.state == 'pending' || label.value == 'pending'
-              user.update!(latest_email: "#{'pending_user_'}#{SecureRandom.hex(7)}@blockdag.network",
+              user.update!(latest_email: "#{'pending_user_'}#{SecureRandom.hex(7)}@blockmaze.network",
                            older_email: user.email)
             end
           end

@@ -10,11 +10,11 @@ default: &default
 
 development:
   <<: *default
-  database: blockdag_barong_development
+  database: oauth_development
 
 test:
   <<: *default
-  database: blockdag_barong_test
+  database: oauth_test
 
 production:
   <<: *default
@@ -28,7 +28,7 @@ production:
     connections:
       - role: master
         host: <%= ENV.fetch('DATABASE_HOST', '127.0.0.1') %>
-        database: <%= ENV.fetch('DATABASE_NAME', 'barong_production') %>
+        database: <%= ENV.fetch('DATABASE_NAME', 'oauth_production') %>
         port: <%= ENV.fetch('DATABASE_PORT', 3306) %>
         username: <%= ENV.fetch('DATABASE_USER', 'root') %>
         password: <%= ENV['DATABASE_PASS'] %>
@@ -36,7 +36,7 @@ production:
 
       - role: slave
         host: <%= ENV.fetch('DATABASE_SLAVE_HOST', '127.0.0.1') %>
-        database: <%= ENV.fetch('DATABASE_NAME', 'barong_production') %>
+        database: <%= ENV.fetch('DATABASE_NAME', 'oauth_production') %>
         port: <%= ENV.fetch('DATABASE_SLAVE_PORT', 3306) %>
         username: <%= ENV.fetch('DATABASE_SLAVE_USER', 'root') %>
         password: <%= ENV['DATABASE_SLAVE_PASS'] %>
@@ -44,12 +44,12 @@ production:
 <% if ENV['DATABASE_REPLICA2_ENABLED'] == 'true' %>
       - role: slave2
         host: <%= ENV.fetch('DATABASE_SLAVE2_HOST', '127.0.0.1') %>
-        database: <%= ENV.fetch('DATABASE_NAME', 'barong_production') %>
+        database: <%= ENV.fetch('DATABASE_NAME', 'oauth_production') %>
         port: <%= ENV.fetch('DATABASE_SLAVE_PORT', 3306) %>
         username: <%= ENV.fetch('DATABASE_SLAVE_USER', 'root') %>
         password: <%= ENV['DATABASE_SLAVE_PASS'] %>
 <% end %>
 
   <% else %>
-  database: <%= ENV.fetch('DATABASE_NAME', 'barong_production') %>
+  database: <%= ENV.fetch('DATABASE_NAME', 'oauth_production') %>
   <% end %>

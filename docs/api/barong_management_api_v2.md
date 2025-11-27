@@ -520,7 +520,6 @@ Returns array of users as collection
 | password_reset_at | string | User last password reset timestamp. | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
-| agreement_time | string |  | No |
 
 #### API_V2_Management_Entities_UserWithProfile
 
@@ -551,7 +550,6 @@ Imports a profile for user
 | profiles | [API_V2_Management_Entities_Profile](#api_v2_management_entities_profile) |  | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
-| agreement_time | string |  | No |
 
 #### API_V2_Entities_Profile
 
@@ -647,7 +645,6 @@ Get specific service_account information
 | profiles | [API_V2_Entities_Profile](#api_v2_entities_profile) |  | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
-| agreement_time | string |  | No |
 
 #### API_V2_Entities_Phone
 

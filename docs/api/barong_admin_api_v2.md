@@ -1379,7 +1379,6 @@ Returns user info
 | profiles | [API_V2_Admin_Entities_Profile](#api_v2_admin_entities_profile) |  | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
-| agreement_time | string |  | No |
 | referral_of | string | Referrer user UID | No |
 | referrals | string | Referred user's referral count | No |
 | social_media_status | string | User's social media status | No |
@@ -1451,7 +1450,6 @@ Returns array of users as paginated collection
 | password_reset_at | string | User last password reset timestamp. | No |
 | created_at | string |  | No |
 | updated_at | string |  | No |
-| agreement_time | string |  | No |
 | referral_of | string | Referrer user UID | No |
 | social_media_status | string | User's social media status | No |
 
