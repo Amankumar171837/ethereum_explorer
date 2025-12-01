@@ -33,7 +33,7 @@ class RequestVerifier
     }.compact
   end
 
-  def authorization_code
+  def authorization_code_body
     {
       'authorization_code' => @body[:authorization_code],
     }

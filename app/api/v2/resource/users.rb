@@ -429,7 +429,7 @@ module API::V2
           client = verify_client!
 
           code = SecureRandom.hex(32)
-          data = { uid: current_user.uid, client_id: client.uid }
+          data = { uid: current_user.uid, client_id: client.kid }
 
           Rails.cache.write("auth_code_#{code}", data, expires_in: Barong::App.config.auth_code_expiry)
 

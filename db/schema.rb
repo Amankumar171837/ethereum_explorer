@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_11_27_150128) do
+ActiveRecord::Schema.define(version: 2025_12_01_075754) do
 
   create_table "activities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -284,6 +284,7 @@ ActiveRecord::Schema.define(version: 2025_11_27_150128) do
     t.string "password_digest", null: false
     t.boolean "password_enabled", default: true
     t.string "role", default: "member", null: false
+    t.string "user_type"
     t.string "platform"
     t.text "data"
     t.integer "level", default: 0, null: false

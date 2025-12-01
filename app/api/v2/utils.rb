@@ -186,5 +186,12 @@ module API::V2
     def notify_session_destroy(uid, event = 'delete_user', options = {})
       Barong::Management::User.new.notify_session_destroy({ uid: uid, event: event, metadata: options }.compact)
     end
+
+    def verify_client!
+      client = RegisteredClient.active.find_by(kid: params[:client_id])
+      error!({ errors: ['identity.invalid_client'] }, 422) unless client
+
+      client
+    end
   end
 end

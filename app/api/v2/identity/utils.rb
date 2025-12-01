@@ -274,13 +274,6 @@ module API::V2
 
         (app_version('ios').to_f >= 1.3 || app_version('android').to_f > 1.4) ? 'email' : 'phone'
       end
-
-      def verify_client!
-        client = RegisteredClient.active.find_by(kid: params[:client_id])
-        error!({ errors: ['identity.invalid_client'] }, 422) unless client
-
-        client
-      end
     end
   end
 end

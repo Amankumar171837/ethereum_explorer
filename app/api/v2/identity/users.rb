@@ -112,6 +112,10 @@ module API::V2
                    message: 'identity.user.missing_password',
                    allow_blank: false,
                    desc: 'User password'
+          requires :user_type,
+                   type: String,
+                   values: { value: -> { User::TYPE }, message: 'identity.user.invalid_type'},
+                   desc: 'User\'s type'
           at_least_one_of :phone_number, :email, message: 'identity.user.invalid_parameter'
         end
         post '/new' do
@@ -135,8 +139,8 @@ module API::V2
 
           set_phone_key(phone_number) if phone_number.present?
 
-          user_params = declared_params.slice('email', 'phone_number', 'username',
-                                              'first_name', 'last_name', 'password')
+          user_params = declared_params.slice('email', 'phone_number', 'username', 'first_name',
+                                              'last_name', 'password', 'user_type')
 
           user_params[:referral_id] = parse_referral_code! unless params[:referral_code].blank?
 

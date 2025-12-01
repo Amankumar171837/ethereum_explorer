@@ -3,10 +3,11 @@
 # User model
 class User < ApplicationRecord
   acts_as_eventable prefix: 'user', on: %i[create update]
-  acts_as_redpanda_eventable prefix: 'user', on: %i[create update]
+  #acts_as_redpanda_eventable prefix: 'user', on: %i[create update]
 
   PLATFORM = ['app', Barong::App.config.recaptcha_bypass]
   STATE = %w[active deactivated deleted].freeze
+  TYPE = %w[institution issuer retailer].freeze
 
   has_secure_password
 
@@ -479,7 +480,7 @@ class User < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20240920072708
+# Schema version: 20251201075754
 #
 # Table name: users
 #
@@ -493,6 +494,7 @@ end
 #  password_digest     :string(255)      not null
 #  password_enabled    :boolean          default(TRUE)
 #  role                :string(255)      default("member"), not null
+#  user_type           :string(255)
 #  platform            :string(255)
 #  data                :text(65535)
 #  level               :integer          default(0), not null

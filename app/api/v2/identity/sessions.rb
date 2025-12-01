@@ -420,11 +420,11 @@ module API::V2
             error!({ errors: ['identity.code.invalid_or_expired'] }, 422)
           end
 
-          unless data['client_id'] == client.uid
+          unless data[:client_id] == client.kid
             error!({ errors: ['identity.client.not_found'] }, 422)
           end
 
-          user = User.find_by(uid: data['uid'])
+          user = User.find_by(uid: data[:uid])
           error!({ errors: ['identity.user.not_found'] }, 422) unless user&.active?
 
           create_session(user)
