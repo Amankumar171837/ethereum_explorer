@@ -2,7 +2,7 @@
 
 # Media  model
 class Media < ApplicationRecord
-  acts_as_redpanda_eventable prefix: 'media', on: %i[create update]
+  #acts_as_redpanda_eventable prefix: 'media', on: %i[create update]
 
   # == Constants ============================================================
 

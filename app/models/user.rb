@@ -3,10 +3,11 @@
 # User model
 class User < ApplicationRecord
   acts_as_eventable prefix: 'user', on: %i[create update]
-  acts_as_redpanda_eventable prefix: 'user', on: %i[create update]
+  #acts_as_redpanda_eventable prefix: 'user', on: %i[create update]
 
   PLATFORM = ['app', Barong::App.config.recaptcha_bypass]
   STATE = %w[active deactivated deleted].freeze
+  ROLE = %w[institution issuer retailer].freeze
 
   has_secure_password
 
@@ -26,6 +27,7 @@ class User < ApplicationRecord
   has_many :email_notifications
   has_many :devices,                 dependent: :destroy
   has_many :notification_recipients, dependent: :destroy
+  has_many :authorized_clients
 
   # Add counter cache for referral count
   belongs_to :referrer,           foreign_key: 'referral_id', class_name: 'User', optional: true
@@ -155,7 +157,7 @@ class User < ApplicationRecord
   end
 
   def role_exists
-    return if Permission.pluck(:role).include?(role)
+    return if Permission.pluck(:role).uniq.include?(role)
 
     errors.add(:role, 'doesnt_exist')
   end
@@ -479,7 +481,7 @@ class User < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20240920072708
+# Schema version: 20251127150128
 #
 # Table name: users
 #

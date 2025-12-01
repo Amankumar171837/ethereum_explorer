@@ -19,65 +19,6 @@ module API::V2
         csrf_token
       end
 
-      def verify_captcha!(response:, endpoint:, error_statuses: [400, 422])
-        # by default we protect user_create session_create password_reset email_confirmation endpoints
-        return unless BarongConfig.list['captcha_protected_endpoints']&.include?(endpoint)
-
-        case Barong::App.config.captcha
-        when 'recaptcha'
-          recaptcha(response: response)
-        when 'geetest'
-          geetest(response: response)
-        when 'turnstile'
-          turnstile(response: response)
-        end
-      end
-
-      def recaptcha(response:, error_statuses: [400, 422])
-        error!({ errors: ['identity.captcha.required'] }, error_statuses.first) if response.blank?
-
-        captcha_error_message = 'identity.captcha.verification_failed'
-
-        return if CaptchaService::RecaptchaVerifier.new(request: request).response_valid?(skip_remote_ip: true, response: response)
-
-        error!({ errors: [captcha_error_message] }, error_statuses.last)
-      rescue StandardError
-        error!({ errors: [captcha_error_message] }, error_statuses.last)
-      end
-
-      def geetest(response:, error_statuses: [400, 422])
-        error!({ errors: ['identity.captcha.required'] }, error_statuses.first) if response.blank?
-
-        geetest_error_message = 'identity.captcha.verification_failed'
-        validate_geetest_response(response: response)
-
-        return if CaptchaService::GeetestVerifier.new.validate(response)
-
-        error!({ errors: [geetest_error_message] }, error_statuses.last)
-      rescue StandardError
-        error!({ errors: [geetest_error_message] }, error_statuses.last)
-      end
-
-      def turnstile(response:, error_statuses: [400, 422])
-        error!({ errors: ['identity.captcha.required'] }, error_statuses.first) if response.blank?
-
-        captcha_error_message = 'identity.captcha.verification_failed'
-
-        return if CaptchaService::TurnstileVerifier.new(request: request).response_valid?(skip_remote_ip: true, response: response)
-
-        error!({ errors: [captcha_error_message] }, error_statuses.last)
-      rescue StandardError => _e
-        error!({ errors: [captcha_error_message] }, error_statuses.last)
-      end
-
-      def validate_geetest_response(response:)
-        unless (response['geetest_challenge'].is_a? String) &&
-               (response['geetest_validate'].is_a? String) &&
-               (response['geetest_seccode'].is_a? String)
-          error!({ errors: ['identity.captcha.mandatory_fields'] }, 400)
-        end
-      end
-
       def login_error!(options = {})
         options[:data] = { reason: options[:reason] }.to_json
         options[:topic] = 'session'
@@ -173,13 +114,13 @@ module API::V2
         )['sign_auth_enabled']
       end
 
-      def get_user(params, identifier)
+      def get_user(params, identifier = 'email')
         user = if identifier == 'email'
-                 User.find_by(email: params[:identity])
+                 User.find_by(email: params[:email])
                elsif identifier == 'username'
-                 User.find_by(username: params[:identity])
+                 User.find_by(username: params[:username])
                elsif identifier == 'phone'
-                 phone_number = Phone.international(params[:identity])
+                 phone_number = Phone.international(params[:phone_number])
                  validate_phone!(phone_number)
                  User.find_by(phone_number: phone_number)
                else
@@ -273,13 +214,6 @@ module API::V2
         return 'email' if app_version('ios').nil? && app_version('android').nil?
 
         (app_version('ios').to_f >= 1.3 || app_version('android').to_f > 1.4) ? 'email' : 'phone'
-      end
-
-      def verify_client!
-        client = RegisteredClient.active.find_by(kid: params[:client_id])
-        error!({ errors: ['identity.invalid_client'] }, 422) unless client
-
-        client
       end
     end
   end

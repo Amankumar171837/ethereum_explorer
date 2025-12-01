@@ -183,7 +183,6 @@ Barong::App.define do |config|
 
   # Signature validation --------------------------------------------
   config.set(:app_auth_token, '')
-  config.set(:app_auth_code_token, '')
   # Set in seconds
   config.set(:app_auth_token_lifetime, '3000', type: :integer)
   config.set(:app_auth_nonce_lifetime, '600000', type: :integer)

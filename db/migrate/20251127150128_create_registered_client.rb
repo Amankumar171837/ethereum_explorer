@@ -2,8 +2,10 @@ class CreateRegisteredClient < ActiveRecord::Migration[5.2]
   def change
     create_table :registered_clients do |t|
       t.string :name,             null: false
+      t.string :description
       t.string :kid,              null: false
       t.string :secret_encrypted, limit: 1024
+      t.string :logo_url
       t.string :scope
       t.string :redirect_url,     null: false
       t.string :state,            null: false, default: 'active'

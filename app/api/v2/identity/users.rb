@@ -64,17 +64,13 @@ module API::V2
       resource :users do
 
         desc 'Creates new user',
-          success: API::V2::Entities::UserWithPhone,
+          success: API::V2::Entities::UserWithProfile,
           failure: [
             { code: 400, message: 'Required params are missing' },
             { code: 422, message: 'Validation errors' }
           ]
         params do
-          optional :phone_number,
-                   type: String,
-                   allow_blank: false,
-                   desc: 'User Phone Number'
-          optional :email,
+          requires :email,
                    type: String,
                    allow_blank: false,
                    desc: 'User Email'
@@ -86,24 +82,12 @@ module API::V2
                    type: String,
                    values: { value: -> (v){ v.length <= 35 }, message: 'identity.last_name.too_long' },
                    desc: 'User\'s last name'
-          optional :username,
-                   type: String,
-                   values: { value: -> (v){ v.length <= 30 }, message: 'identity.username.too_long' },
-                   desc: 'User\'s username'
-          optional :dob,
-                   type: String,
-                   desc: 'User\'s username'
           optional :referral_code,
                    type: String,
                    desc: 'User\'s referral code'
           optional :captcha_response,
                    types: [String, Hash],
                    desc: 'Response from captcha widget'
-          optional :channel,
-                   type: String,
-                   default: 'sms',
-                   values: { value: -> { Phone::TWILIO_CHANNELS }, message: 'resource.phone.invalid_channel'},
-                   desc: 'The verification method to use'
           requires :client_id,
                    types: String,
                    desc: 'Unique client id.'
@@ -112,7 +96,10 @@ module API::V2
                    message: 'identity.user.missing_password',
                    allow_blank: false,
                    desc: 'User password'
-          at_least_one_of :phone_number, :email, message: 'identity.user.invalid_parameter'
+          requires :role,
+                   type: String,
+                   values: { value: -> { User::ROLE }, message: 'identity.user.invalid_role'},
+                   desc: 'User\'s role'
         end
         post '/new' do
           verify_captcha!(response: params['captcha_response'], endpoint: 'user_create')
@@ -121,27 +108,17 @@ module API::V2
 
           client = verify_client!
 
-          if params[:phone_number].present?
-            phone_number = Phone.international(params[:phone_number])
-            validate_phone!(phone_number)
-            Barong::AwsPinpoint::PhoneValidate.validate(phone_number)
-          else
-            unless SendgridService.validate_email!(declared_params[:email], source: 'Signup via Phone or Email')
-              error!({ errors: ['identity.users.invalid_email'] }, 422)
-            end
-            phone_number = nil
+          unless SendgridService.validate_email!(declared_params[:email], source: 'Signup via Phone or Email')
+            error!({ errors: ['identity.users.invalid_email'] }, 422)
           end
-          old_user    = validate_user!(phone_number, params)
 
-          set_phone_key(phone_number) if phone_number.present?
+          old_user = validate_user!(nil, params)
 
-          user_params = declared_params.slice('email', 'phone_number', 'username',
-                                              'first_name', 'last_name', 'password')
+          user_params = declared_params.slice('email', 'first_name', 'last_name', 'password', 'role')
 
           user_params[:referral_id] = parse_referral_code! unless params[:referral_code].blank?
 
-          user = User.new(user_params.merge(password_enabled: true,
-                                            platform: client.name))
+          user = User.new(user_params.merge(password_enabled: true, platform: client.name))
 
           ActiveRecord::Base.transaction do
             old_user.update(email: "#{'pending_user_'}#{SecureRandom.hex(7)}@blockmaze.network",
@@ -153,26 +130,16 @@ module API::V2
 
           user.profiles.create(first_name: user_params['first_name'],
                                last_name: user_params['last_name'],
-                               dob: declared_params[:dob],
                                state: 'social')
 
-          activity_record(user: user.id, action: phone_number.nil? ? 'signup with email' : 'signup',
-                          result: 'succeed', topic: 'account')
+          activity_record(user: user.id, action: 'signup', result: 'succeed', topic: 'account')
 
-          if params[:phone_number].present?
-            user.labels.create(key: 'login_phone', value: 'pending', scope: 'private')
-            user.set_phone_code
-            send_verify_user(user, declared_params[:channel])
-          else
-            user.labels.create(key: 'login_email', value: 'pending', scope: 'private')
-            user.set_code
-            publish_otp_confirmation(user, Barong::App.config.otp_domain)
-          end
 
-          present user, with: API::V2::Entities::UserWithPhone
-        rescue Barong::AwsPinpoint::PhoneValidate::InvalidPhoneNumberError => e
-          Rails.logger.error { "Error: Invalid phone number #{e.inspect}" }
-          error!({ errors: ['identity.users.invalid_phone_number'] }, 422)
+          user.labels.create(key: 'login_email', value: 'pending', scope: 'private')
+          user.set_code
+          publish_otp_confirmation(user, Barong::App.config.otp_domain)
+
+          present user, with: API::V2::Entities::UserWithProfile
         end
 
         desc 'Register Geetest captcha'
@@ -294,7 +261,7 @@ module API::V2
               { code: 404, message: 'User doesn\'t exist'}
             ]
           params do
-            requires :identity,
+            requires :email,
                      type: String,
                      desc: 'User\'s email or username'
             optional :captcha_response,
@@ -307,16 +274,14 @@ module API::V2
           post '/generate_code' do
             verify_captcha!(response: params['captcha_response'], endpoint: 'password_reset')
 
-            identifier = find_identifier(params)
-            error!({ errors: ['identity.session.invalid_details'] }, 401) unless identifier
+            current_user = get_user(params)
 
-            current_user = get_user(params, identifier)
-
-            error!({ errors: ['identity.user.email_invalid_or_doesnt_exist'] }, 422) if current_user.nil?
-
-            unless current_user.labels.find_by(key: 'login_email')&.value == 'verified'
-              error!({ errors: ['identity.session.email.not_verified'] }, 401)
+            if current_user.nil? || (current_user.state == 'pending' && current_user.social_media_status == 'active')
+              error!({ errors: ['identity.session.invalid_params'] }, 422)
             end
+
+            label = current_user.labels.find_by(key: 'login_email')
+            error!({ errors: ['identity.email.not_active'] }, 422) unless label&.value.to_s == 'verified'
 
             reset_token = SecureRandom.hex(10)
             token = codec.encode(sub: 'reset', email: current_user.email, uid: current_user.uid, reset_token: reset_token)
@@ -441,8 +406,6 @@ module API::V2
             if identifier == 'email'
               label = user.labels.find_by(key: 'login_email')
               error!({ errors: ['identity.email.not_active'] }, 422) unless label&.value.to_s == 'verified'
-            else
-              identifier = otp_channel(user)
             end
 
             public_send("send_#{identifier}_otp", user,
@@ -503,8 +466,6 @@ module API::V2
             if identifier == 'email'
               label = user.labels.find_by(key: 'login_email')
               error!({ errors: ['identity.email.not_active'] }, 422) unless label&.value.to_s == 'verified'
-            else
-              identifier = otp_channel(user)
             end
 
             expired, verify = if identifier == 'email'
@@ -542,7 +503,6 @@ module API::V2
 
             activity_record(user: user.id, action: "password reset with #{identifier}", result: 'succeed', topic: 'password')
 
-            present uid: user.uid
             status 201
           rescue StandardError => e
             Rails.logger.error e

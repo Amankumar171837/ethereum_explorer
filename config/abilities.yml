@@ -1,10 +1,9 @@
 roles:
   - superadmin
   - admin
-  - technical
-  - accountant
-  - compliance
-  - support
+  - retailer
+  - institution
+  - issuer
 
 admin_permissions:
   superadmin:

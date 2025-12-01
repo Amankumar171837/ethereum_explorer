@@ -19,6 +19,8 @@ class RegisteredClient < ApplicationRecord
 
   # == Relationships ========================================================
 
+  has_many :authorized_clients
+
   # == Validations ==========================================================
 
   validates :name, :redirect_url, :secret, presence: true
@@ -49,14 +51,16 @@ class RegisteredClient < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20251127150128
+# Schema version: 20251202070947
 #
 # Table name: registered_clients
 #
 #  id               :bigint           not null, primary key
 #  name             :string(255)      not null
+#  description      :string(255)
 #  kid              :string(255)      not null
 #  secret_encrypted :string(1024)
+#  logo_url         :string(255)
 #  scope            :string(255)
 #  redirect_url     :string(255)      not null
 #  state            :string(255)      default("active"), not null

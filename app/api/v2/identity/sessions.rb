@@ -128,16 +128,10 @@ module API::V2
             user.social_media_status = 'active'
             user.save!
             activity_record(user: user.id, action: 'reactivate social login', result: 'succeed', topic: 'session')
-          else
-            error!({ errors: ["identity.conflict.#{user.social_media_status}"] }, 409) unless user.social_media_status == 'active'
           end
 
-          csrf_token = open_session(user)
-          publish_session_create(user)
-          activity_record(user: user.id, action: 'login', result: 'succeed', topic: 'session')
-
-          present user, with: API::V2::Entities::UserWithFullInfo, csrf_token: csrf_token
-          status 200
+          present public_send("send_#{identifier}_otp", user,
+                              { action: "sent message to user's #{identifier}", topic: 'session' })
         rescue StandardError => e
           Rails.logger.error e.inspect
           error!(e.message, 422)
@@ -420,12 +414,15 @@ module API::V2
             error!({ errors: ['identity.code.invalid_or_expired'] }, 422)
           end
 
-          unless data['client_id'] == client.uid
+          unless data[:client_id] == client.kid
             error!({ errors: ['identity.client.not_found'] }, 422)
           end
 
-          user = User.find_by(uid: data['uid'])
+          user = User.find_by(uid: data[:uid])
           error!({ errors: ['identity.user.not_found'] }, 422) unless user&.active?
+
+          authrized_client = user.authorized_clients.find_or_initialize_by(registered_client: client)
+          authrized_client.update!(status: 'active', connected_at: Time.now)
 
           create_session(user)
 

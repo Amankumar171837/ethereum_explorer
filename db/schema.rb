@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_11_27_150128) do
+ActiveRecord::Schema.define(version: 2025_12_02_070947) do
 
   create_table "activities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -45,6 +45,18 @@ ActiveRecord::Schema.define(version: 2025_11_27_150128) do
     t.datetime "updated_at", null: false
     t.index ["key_holder_account_type", "key_holder_account_id"], name: "idx_apikey_on_account"
     t.index ["kid"], name: "index_apikeys_on_kid", unique: true
+  end
+
+  create_table "authorized_clients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "registered_client_id"
+    t.datetime "connected_at"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["registered_client_id"], name: "index_authorized_clients_on_registered_client_id"
+    t.index ["status"], name: "index_authorized_clients_on_status"
+    t.index ["user_id"], name: "index_authorized_clients_on_user_id"
   end
 
   create_table "country_services", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -200,8 +212,10 @@ ActiveRecord::Schema.define(version: 2025_11_27_150128) do
 
   create_table "registered_clients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
+    t.string "description"
     t.string "kid", null: false
     t.string "secret_encrypted", limit: 1024
+    t.string "logo_url"
     t.string "scope"
     t.string "redirect_url", null: false
     t.string "state", default: "active", null: false

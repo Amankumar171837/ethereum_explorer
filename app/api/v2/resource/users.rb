@@ -241,8 +241,21 @@ module API::V2
           optional :dob,
                    type: String,
                    desc: 'User\'s date of Birth'
+          optional :role,
+                   type: String,
+                   values: { value: -> { %w[issuer] }, message: 'identity.user.invalid_role'},
+                   desc: 'User\'s role'
+          requires :client_id,
+                   types: String,
+                   desc: 'Unique client id.'
         end
         post '/update' do
+          client = verify_client!
+
+          params[:secret] = client.secret
+
+          validate_signature?('user_update')
+
           declared_params = declared(params, include_missing: false)
           user_params = declared_params.slice('username', 'first_name', 'last_name')
 
@@ -269,7 +282,7 @@ module API::V2
                                                state: 'social')
 
           activity_record(user: current_user.id, action: 'update', result: 'succeed', topic: 'user')
-          present current_user, with: API::V2::Entities::UserWithPhone
+          present current_user, with: API::V2::Entities::UserWithProfile
         rescue => e
           Rails.logger.error e
           error!({ errors: ["resource.user.update_error"] }, 422)
@@ -429,7 +442,7 @@ module API::V2
           client = verify_client!
 
           code = SecureRandom.hex(32)
-          data = { uid: current_user.uid, client_id: client.uid }
+          data = { uid: current_user.uid, client_id: client.kid }
 
           Rails.cache.write("auth_code_#{code}", data, expires_in: Barong::App.config.auth_code_expiry)
 

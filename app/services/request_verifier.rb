@@ -33,10 +33,21 @@ class RequestVerifier
     }.compact
   end
 
-  def authorization_code
+  def authorization_code_body
     {
       'authorization_code' => @body[:authorization_code],
     }
+  end
+
+  def user_update_body
+    {
+      'first_name' => @body[:first_name],
+      'last_name' => @body[:last_name],
+      'username' => @body[:username],
+      'dob' => @body[:dob],
+      'role' => @body[:role],
+      'client_id' => @body[:client_id]
+    }.compact
   end
 
   def default_body
@@ -52,7 +63,7 @@ class RequestVerifier
   private
 
   def auth_token
-    if @endpoint == 'authorization_code'
+    if %w[authorization_code user_update].include? @endpoint
       @body[:secret]
     else
       Barong::App.config.app_auth_token
