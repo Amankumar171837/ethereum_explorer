@@ -88,7 +88,7 @@ module API::V2
           optional :captcha_response,
                    types: [String, Hash],
                    desc: 'Response from captcha widget'
-          requires :client_id,
+          optional :client_id,
                    types: String,
                    desc: 'Unique client id.'
           requires :password,
@@ -106,7 +106,7 @@ module API::V2
 
           declared_params = declared(params, include_missing: false)
 
-          client = verify_client!
+          client = verify_client! if declared_params[:client_id]
 
           unless SendgridService.validate_email!(declared_params[:email], source: 'Signup via Phone or Email')
             error!({ errors: ['identity.users.invalid_email'] }, 422)
@@ -118,7 +118,7 @@ module API::V2
 
           user_params[:referral_id] = parse_referral_code! unless params[:referral_code].blank?
 
-          user = User.new(user_params.merge(password_enabled: true, platform: client.name))
+          user = User.new(user_params.merge(password_enabled: true, platform: client&.name))
 
           ActiveRecord::Base.transaction do
             old_user.update(email: "#{'pending_user_'}#{SecureRandom.hex(7)}@blockmaze.network",
@@ -131,7 +131,6 @@ module API::V2
           user.profiles.create(first_name: user_params['first_name'],
                                last_name: user_params['last_name'],
                                state: 'social')
-
           activity_record(user: user.id, action: 'signup', result: 'succeed', topic: 'account')
 
 

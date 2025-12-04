@@ -3,7 +3,7 @@
 #
 # permissions defines user roles and abilities
 users:
-  - email: <%= ENV.fetch("ADMIN_EMAIL", "admin@barong.io") %>
+  - email: <%= ENV.fetch("ADMIN_EMAIL", "admin@blockmaze.io") %>
     password: <%= ENV.fetch("ADMIN_PASSWORD", nil) %>
     role: "admin"
     state: "active"
@@ -40,7 +40,7 @@ permissions:
  - { role: superadmin, verb: delete, path: api/v2/, action: audit }
 
 # ADMIN
-# admin has nearly full access to barong and peatio api, except managing permissions
+# admin has nearly full access to oauth and peatio api, except managing permissions
  - { role: admin, verb: all, path: api/v2, action: accept }
 
  # ranger access
@@ -48,11 +48,11 @@ permissions:
  # Finex upstream access
  - { role: admin, verb: get, path: api/v2/open_finance, action: accept }
  # admin doesnt have access to manage platform roles and permissions
- - { role: admin, verb: all, path: api/v2/barong/admin/permissions, action: drop }
+ - { role: admin, verb: all, path: api/v2/oauth/admin/permissions, action: drop }
  # admin doesnt have access to manage roles
- - { role: admin, verb: all, path: api/v2/barong/admin/users/role, action: drop }
+ - { role: admin, verb: all, path: api/v2/oauth/admin/users/role, action: drop }
  # admin doesnt have access to admin activities
- - { role: admin, verb: all, path: api/v2/barong/admin/activities/admin, action: drop }
+ - { role: admin, verb: all, path: api/v2/oauth/admin/activities/admin, action: drop }
  # we are watching after you 0_0
  - { role: admin, verb: post, path: api/v2/, action: audit }
  - { role: admin, verb: put, path: api/v2/, action: audit }
@@ -60,27 +60,27 @@ permissions:
 
  # retailer
  # has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
- - { role: retailer, verb: all, path: api/v2/barong/resource, action: accept }
+ - { role: retailer, verb: all, path: api/v2/oauth/resource, action: accept }
  - { role: retailer, verb: all, path: api/v2/resource, action: accept }
- - { role: retailer, verb: all, path: api/v2/barong/swagger, action: accept}
+ - { role: retailer, verb: all, path: api/v2/oauth/swagger, action: accept}
 
  # institution
  # has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
- - { role: institution, verb: all, path: api/v2/barong/resource, action: accept }
+ - { role: institution, verb: all, path: api/v2/oauth/resource, action: accept }
  - { role: institution, verb: all, path: api/v2/resource, action: accept }
- - { role: institution, verb: all, path: api/v2/barong/swagger, action: accept}
+ - { role: institution, verb: all, path: api/v2/oauth/swagger, action: accept}
 
  # issuer
  # has standard user permissions to ACCOUNT, MARKET, RESOURCE modules
- - { role: issuer, verb: all, path: api/v2/barong/resource, action: accept }
+ - { role: issuer, verb: all, path: api/v2/oauth/resource, action: accept }
  - { role: issuer, verb: all, path: api/v2/resource, action: accept }
- - { role: issuer, verb: all, path: api/v2/barong/swagger, action: accept}
+ - { role: issuer, verb: all, path: api/v2/oauth/swagger, action: accept}
 
  # MOCK
  - { role: mock, verb: all, path: api/v2/peatio/account, action: accept }
  - { role: mock, verb: all, path: api/v2/peatio/market, action: accept }
  - { role: mock, verb: all, path: api/v2/finex/market, action: accept }
- - { role: mock, verb: all, path: api/v2/barong/resource, action: accept }
+ - { role: mock, verb: all, path: api/v2/oauth/resource, action: accept }
  # ranger access
  - { role: mock, verb: get, path: api/v2/ranger, action: accept }
  # Finex upstream access

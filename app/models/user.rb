@@ -5,7 +5,7 @@ class User < ApplicationRecord
   acts_as_eventable prefix: 'user', on: %i[create update]
   #acts_as_redpanda_eventable prefix: 'user', on: %i[create update]
 
-  PLATFORM = ['app', Barong::App.config.recaptcha_bypass]
+  PLATFORM = ['oauth']
   STATE = %w[active deactivated deleted].freeze
   ROLE = %w[institution issuer retailer].freeze
 
@@ -89,6 +89,7 @@ class User < ApplicationRecord
     self.first_name = first_name&.strip
     self.last_name  = last_name&.strip
     self.username   = username&.strip
+    self.platform ||= 'oauth'
   end
 
   after_update :disable_api_keys

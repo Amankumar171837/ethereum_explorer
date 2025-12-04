@@ -78,7 +78,7 @@ module API::V2
           optional :reactive_account,
                    type: Boolean,
                    desc: 'Send this true if user\'s social login is disabled'
-          requires :client_id,
+          optional :client_id,
                    types: String,
                    desc: 'Unique client id.'
           at_least_one_of :phone_number, :email, message: 'identity.user.invalid_parameter'
@@ -86,7 +86,7 @@ module API::V2
         post do
           declared_params = declared(params, include_missing: false)
 
-          verify_client!
+          verify_client! if params[:client_id].present?
 
           user = if params[:phone_number].present?
                    identifier = 'phone'
@@ -102,8 +102,6 @@ module API::V2
                  end
 
           validate_user(user)
-
-          error!({ errors: ['identity.user.is_pending'] }, 422) if user.state == 'pending'
 
           error!({ errors: ['identity.user.password.disabled'] }, 401) unless user.password_enabled?
 
@@ -181,7 +179,7 @@ module API::V2
           optional :captcha_response,
                    types: [String, Hash],
                    desc: 'Response from captcha widget'
-          requires :client_id,
+          optional :client_id,
                    types: String,
                    desc: 'Unique client id.'
           at_least_one_of :phone_number, :email, :username, message: 'resource.identity.invalid_parameter'
@@ -193,7 +191,7 @@ module API::V2
 
           validate_signature?('resent') if request.headers['X-App-Auth-Token']
 
-          verify_client!
+          verify_client! if params[:client_id].present?
 
           user = if params[:phone_number].present?
                    identifier = 'phone'
@@ -251,7 +249,7 @@ module API::V2
                    type: String,
                    allow_blank: false,
                    desc: 'Verification code from sms'
-          requires :client_id,
+          optional :client_id,
                    types: String,
                    desc: 'Unique client id.'
           at_least_one_of :phone_number, :email, :username, message: 'identity.identity.invalid_parameter'
@@ -259,7 +257,7 @@ module API::V2
         post '/verify' do
           declared_params = declared(params)
 
-          verify_client!
+          verify_client! if params[:client_id].present?
 
           request_from = 'email'
           user = if declared_params[:phone_number].present?
@@ -309,6 +307,7 @@ module API::V2
           end
 
           csrf_token = open_session(user)
+          activity_record(user: user.id, action: 'login', result: 'succeed', topic: 'session')
 
           present user, with: API::V2::Entities::UserWithPhone, csrf_token: csrf_token
           status(200)
