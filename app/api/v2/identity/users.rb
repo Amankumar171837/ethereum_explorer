@@ -64,7 +64,7 @@ module API::V2
       resource :users do
 
         desc 'Creates new user',
-          success: API::V2::Entities::UserWithProfile,
+          success: API::V2::Entities::UserWithPhone,
           failure: [
             { code: 400, message: 'Required params are missing' },
             { code: 422, message: 'Validation errors' }
@@ -88,14 +88,14 @@ module API::V2
           optional :captcha_response,
                    types: [String, Hash],
                    desc: 'Response from captcha widget'
-          requires :client_id,
+          optional :client_id,
                    types: String,
                    desc: 'Unique client id.'
           requires :password,
                    type: String,
                    message: 'identity.user.missing_password',
                    allow_blank: false,
-                   desc: 'User password'
+                   desc: 'User\'s password'
           requires :role,
                    type: String,
                    values: { value: -> { User::ROLE }, message: 'identity.user.invalid_role'},
@@ -106,7 +106,9 @@ module API::V2
 
           declared_params = declared(params, include_missing: false)
 
-          client = verify_client!
+          client = if declared_params[:client_id]
+                     RegisteredClient.active.find_by(kid: declared_params[:client_id])&.name
+                   end
 
           unless SendgridService.validate_email!(declared_params[:email], source: 'Signup via Phone or Email')
             error!({ errors: ['identity.users.invalid_email'] }, 422)
@@ -118,7 +120,7 @@ module API::V2
 
           user_params[:referral_id] = parse_referral_code! unless params[:referral_code].blank?
 
-          user = User.new(user_params.merge(password_enabled: true, platform: client.name))
+          user = User.new(user_params.merge(password_enabled: true, platform: client))
 
           ActiveRecord::Base.transaction do
             old_user.update(email: "#{'pending_user_'}#{SecureRandom.hex(7)}@blockmaze.network",
@@ -131,7 +133,6 @@ module API::V2
           user.profiles.create(first_name: user_params['first_name'],
                                last_name: user_params['last_name'],
                                state: 'social')
-
           activity_record(user: user.id, action: 'signup', result: 'succeed', topic: 'account')
 
 
@@ -139,7 +140,7 @@ module API::V2
           user.set_code
           publish_otp_confirmation(user, Barong::App.config.otp_domain)
 
-          present user, with: API::V2::Entities::UserWithProfile
+          present user, with: API::V2::Entities::UserWithPhone
         end
 
         desc 'Register Geetest captcha'

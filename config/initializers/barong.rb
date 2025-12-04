@@ -131,7 +131,7 @@ Barong::App.define do |config|
   config.set(:disable_fake_mail, false)
   config.set(:sanitize_email_enabled, true)
   config.set(:enable_sendgrid_email_checker, false)
-  config.set(:from_name, 'blockmaze')
+  config.set(:from_name, 'Blockmaze')
   config.set(:sendgrid_email_api_key, '')
   config.set(:sendgrid_verdict, %w[valid riskey])
   config.set(:sendgrid_score_enabled, true)

@@ -282,7 +282,7 @@ module API::V2
                                                state: 'social')
 
           activity_record(user: current_user.id, action: 'update', result: 'succeed', topic: 'user')
-          present current_user, with: API::V2::Entities::UserWithProfile
+          present current_user, with: API::V2::Entities::UserWithPhone
         rescue => e
           Rails.logger.error e
           error!({ errors: ["resource.user.update_error"] }, 422)
@@ -448,6 +448,17 @@ module API::V2
 
           present code: code, redirect_url: client.redirect_url
           status 201
+        end
+
+        desc 'Api for last login Activity'
+        get '/last_login' do
+          present current_user.activities.where(action: 'login', result: 'succeed').last,
+                  with: API::V2::Admin::Entities::ActivityWithUser
+        end
+
+        desc 'User\'s associated with authorized client'
+        get '/clients' do
+          present current_user.authorized_clients.active, with: API::V2::Entities::AuthorizedClient
         end
       end
     end

@@ -78,15 +78,10 @@ module API::V2
           optional :reactive_account,
                    type: Boolean,
                    desc: 'Send this true if user\'s social login is disabled'
-          requires :client_id,
-                   types: String,
-                   desc: 'Unique client id.'
           at_least_one_of :phone_number, :email, message: 'identity.user.invalid_parameter'
         end
         post do
           declared_params = declared(params, include_missing: false)
-
-          verify_client!
 
           user = if params[:phone_number].present?
                    identifier = 'phone'
@@ -103,8 +98,6 @@ module API::V2
 
           validate_user(user)
 
-          error!({ errors: ['identity.user.is_pending'] }, 422) if user.state == 'pending'
-
           error!({ errors: ['identity.user.password.disabled'] }, 401) unless user.password_enabled?
 
           unless user.authenticate(declared_params[:password])
@@ -114,15 +107,8 @@ module API::V2
 
           verify_captcha!(response: params['captcha_response'], endpoint: 'session_create')
 
-          if user.otp
-            error!({ errors: ['identity.session.missing_otp'] }, 401) if declared_params[:otp_code].blank?
-
-            unless TOTPService.validate?(user.uid, declared_params[:otp_code])
-              login_error!(reason: 'OTP code is invalid', error_code: 403,
-                           user: user.id, action: 'login::2fa', result: 'failed', error_text: 'invalid_otp')
-            end
-            activity_record(user: user.id, action: 'login::2fa', result: 'succeed', topic: 'session')
-          end
+          public_send("send_#{identifier}_otp", user,
+                      { action: "sent message to user's #{identifier}", topic: 'session' })
 
           if params[:reactive_account]
             user.social_media_status = 'active'
@@ -130,8 +116,8 @@ module API::V2
             activity_record(user: user.id, action: 'reactivate social login', result: 'succeed', topic: 'session')
           end
 
-          present public_send("send_#{identifier}_otp", user,
-                              { action: "sent message to user's #{identifier}", topic: 'session' })
+          present otp: user.otp
+          status 200
         rescue StandardError => e
           Rails.logger.error e.inspect
           error!(e.message, 422)
@@ -181,9 +167,6 @@ module API::V2
           optional :captcha_response,
                    types: [String, Hash],
                    desc: 'Response from captcha widget'
-          requires :client_id,
-                   types: String,
-                   desc: 'Unique client id.'
           at_least_one_of :phone_number, :email, :username, message: 'resource.identity.invalid_parameter'
         end
         post '/verify_user' do
@@ -192,8 +175,6 @@ module API::V2
           declared_params = declared(params)
 
           validate_signature?('resent') if request.headers['X-App-Auth-Token']
-
-          verify_client!
 
           user = if params[:phone_number].present?
                    identifier = 'phone'
@@ -211,6 +192,10 @@ module API::V2
           unless user
             Barong::AwsPinpoint::PhoneValidate.validate(phone_number) if identifier == 'phone'
             error!({ errors: ['identity.session.not_found'] }, 404)
+          end
+
+          if user.state == 'pending' && user.social_media_status != 'active'
+            error!({ errors: ['identity.user.not_pending'] }, 404)
           end
 
           validate_user(user)
@@ -251,15 +236,13 @@ module API::V2
                    type: String,
                    allow_blank: false,
                    desc: 'Verification code from sms'
-          requires :client_id,
-                   types: String,
-                   desc: 'Unique client id.'
+          optional :otp_code,
+                   type: String,
+                   desc: 'Code from Google Authenticator'
           at_least_one_of :phone_number, :email, :username, message: 'identity.identity.invalid_parameter'
         end
         post '/verify' do
           declared_params = declared(params)
-
-          verify_client!
 
           request_from = 'email'
           user = if declared_params[:phone_number].present?
@@ -274,6 +257,16 @@ module API::V2
                  end
 
           validate_user(user)
+
+          if user.otp
+            error!({ errors: ['identity.session.missing_otp'] }, 401) if declared_params[:otp_code].blank?
+
+            unless TOTPService.validate?(user.uid, declared_params[:otp_code])
+              login_error!(reason: 'OTP code is invalid', error_code: 403,
+                           user: user.id, action: 'login::2fa', result: 'failed', error_text: 'invalid_otp')
+            end
+            activity_record(user: user.id, action: 'login::2fa', result: 'succeed', topic: 'session')
+          end
 
           expired, verify = if request_from == 'email'
                               [user.code_expiry_date >= Time.now,
@@ -309,6 +302,7 @@ module API::V2
           end
 
           csrf_token = open_session(user)
+          activity_record(user: user.id, action: 'login', result: 'succeed', topic: 'session')
 
           present user, with: API::V2::Entities::UserWithPhone, csrf_token: csrf_token
           status(200)
@@ -423,6 +417,9 @@ module API::V2
 
           authrized_client = user.authorized_clients.find_or_initialize_by(registered_client: client)
           authrized_client.update!(status: 'active', connected_at: Time.now)
+
+          activity_record(user: user.id, action: 'client_authorized', result: 'succeed',
+                          topic: 'session', data: { client: client.name })
 
           create_session(user)
 
