@@ -63,6 +63,12 @@ module API
                  desc: 'User\'s role'
                }
 
+        expose :institution,
+               documentation: {
+                 type: 'String',
+                 desc: 'Institution\'s name'
+               }
+
         expose :level,
                documentation: {
                  type: 'Integer',

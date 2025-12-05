@@ -54,7 +54,9 @@ module API::V2
                                 API::V2::Entities::Activity,
                                 API::V2::Entities::ServiceAccounts,
                                 API::V2::Entities::AdminLabelView,
-                                API::V2::Entities::ReferralCode
+                                API::V2::Entities::ReferralCode,
+                                API::V2::Entities::ActivityWithLastLogin,
+                                API::V2::Entities::AuthorizedClient
                               ],
                               api_version: API_VERSION,
                               doc_version: Barong::Application::GIT_TAG,

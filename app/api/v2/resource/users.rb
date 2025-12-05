@@ -453,7 +453,7 @@ module API::V2
         desc 'Api for last login Activity'
         get '/last_login' do
           present current_user.activities.where(action: 'login', result: 'succeed').last,
-                  with: API::V2::Admin::Entities::ActivityWithUser
+                  with: API::V2::Entities::ActivityWithLastLogin
         end
 
         desc 'User\'s associated with authorized client'
