@@ -5,6 +5,7 @@ module API::V2
     class Users < Grape::API
       helpers ::API::V2::NamedParams
       helpers ::API::V2::Resource::Validations
+      helpers ::API::V2::Identity::SecurityUtils
 
       helpers do
         def password_error!(options = {})
@@ -228,22 +229,22 @@ module API::V2
         params do
           optional :first_name,
                    type: String,
-                   values: { value: -> (v){ v.length <= 70 }, message: 'identity.first_name.too_long' },
+                   values: { value: -> (v){ v.length <= 70 }, message: 'resource.first_name.too_long' },
                    desc: 'User\'s first name'
           optional :last_name,
                    type: String,
-                   values: { value: -> (v){ v.length <= 35 }, message: 'identity.last_name.too_long' },
+                   values: { value: -> (v){ v.length <= 35 }, message: 'resource.last_name.too_long' },
                    desc: 'User\'s last name'
           optional :username,
                    type: String,
-                   values: { value: -> (v){ v.length <= 30 }, message: 'identity.username.too_long' },
+                   values: { value: -> (v){ v.length <= 30 }, message: 'resource.username.too_long' },
                    desc: 'User\'s username'
           optional :dob,
                    type: String,
                    desc: 'User\'s date of Birth'
           optional :role,
                    type: String,
-                   values: { value: -> { %w[issuer] }, message: 'identity.user.invalid_role'},
+                   values: { value: -> { %w[issuer] }, message: 'resource.user.invalid_role'},
                    desc: 'User\'s role'
           requires :client_id,
                    types: String,
@@ -257,7 +258,7 @@ module API::V2
           validate_signature?('user_update')
 
           declared_params = declared(params, include_missing: false)
-          user_params = declared_params.slice('username', 'first_name', 'last_name')
+          user_params = declared_params.slice('username', 'first_name', 'last_name', 'role')
 
           if params[:username]
             user = User.find_by('username=? and not id=?', user_params[:username], current_user.id)
@@ -453,7 +454,7 @@ module API::V2
         desc 'Api for last login Activity'
         get '/last_login' do
           present current_user.activities.where(action: 'login', result: 'succeed').last,
-                  with: API::V2::Admin::Entities::ActivityWithUser
+                  with: API::V2::Entities::ActivityWithLastLogin
         end
 
         desc 'User\'s associated with authorized client'

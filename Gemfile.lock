@@ -18,7 +18,7 @@ GIT
 
 GIT
   remote: https://github.com/urkishan/jwt_sessions
-  revision: e60eb7826c0656caa64f5a293f1671f252dcca37
+  revision: 6214f420edcc850eb30872b3316c2a31b4ee4fb6
   branch: feature/redis-cluster
   specs:
     jwt_sessions (2.5.2)
@@ -634,7 +634,7 @@ DEPENDENCIES
   rails-erd
   rdkafka
   recaptcha (>= 5.2.1)
-  redis (~> 4.0)
+  redis (>= 4.8)
   rspec-rails (~> 3.9, >= 3.9.1)
   sendgrid-ruby
   sentry-rails

@@ -62,7 +62,7 @@ gem 'twilio-ruby',  '~> 5.25.4'
 gem 'vault',        '~> 0.1'
 gem 'vault-rails', git: 'https://github.com/rubykube/vault-rails'
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 4.0', :require => ['redis', 'redis/connection/hiredis']
+gem 'redis', '>= 4.8'
 
 gem 'bcrypt', '~> 3.1'
 # Email validators. Lock at 1.6.0 to use /strict dependency

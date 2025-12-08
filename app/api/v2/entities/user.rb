@@ -102,12 +102,6 @@ module API
                  desc: 'User Phone number'
                }
 
-        expose :agreement,
-               documentation: {
-                 desc: 'User USA Disclaimer.',
-                 type: String
-               }
-
         expose :platform,
                documentation: {
                  desc: 'Platform from which user signed up.',

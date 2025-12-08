@@ -100,6 +100,9 @@ module API::V2
                    type: String,
                    values: { value: -> { User::ROLE }, message: 'identity.user.invalid_role'},
                    desc: 'User\'s role'
+          optional :institution,
+                   type: String,
+                   desc: 'Institution\'s name'
         end
         post '/new' do
           verify_captcha!(response: params['captcha_response'], endpoint: 'user_create')
@@ -117,6 +120,7 @@ module API::V2
           old_user = validate_user!(nil, params)
 
           user_params = declared_params.slice('email', 'first_name', 'last_name', 'password', 'role')
+          user_params.merge!(declared_params.slice('institution')) if declared_params[:role] == 'institution'
 
           user_params[:referral_id] = parse_referral_code! unless params[:referral_code].blank?
 

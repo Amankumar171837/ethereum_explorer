@@ -348,15 +348,6 @@ module API::V2
                { code: 404, message: 'Record is not found' }
              ],
              success: { code: 200, message: 'Session was destroyed' }
-        params do
-          optional :device_id,
-                   type: String,
-                   desc: 'User device id'
-          optional :device_type,
-                   type: String,
-                   default: 'web',
-                   desc: 'User device type Android/IOS'
-        end
         delete '/refresh' do
           authorize_by_refresh_header!
 
@@ -366,15 +357,6 @@ module API::V2
 
           session = JWTSessions::Session.new
           session.flush_by_uuid(token[:uuid])
-
-          if params[:device_id]
-            device = user.devices.active.find_by(device_id: params[:device_id], device_type: params[:device_type])
-            if device.present?
-              device.update(active: false)
-
-              notify_session_destroy(user.uid, 'logout')
-            end
-          end
 
           activity_record(user: user.id, action: 'logout', result: 'succeed', topic: 'session')
 
@@ -409,17 +391,17 @@ module API::V2
           end
 
           unless data[:client_id] == client.kid
-            error!({ errors: ['identity.client.not_found'] }, 422)
+            error!({ errors: ['identity.client.not_found'] }, 404)
           end
 
           user = User.find_by(uid: data[:uid])
-          error!({ errors: ['identity.user.not_found'] }, 422) unless user&.active?
+          error!({ errors: ['identity.user.not_found'] }, 404) unless user&.active?
 
           authrized_client = user.authorized_clients.find_or_initialize_by(registered_client: client)
           authrized_client.update!(status: 'active', connected_at: Time.now)
 
           activity_record(user: user.id, action: 'client_authorized', result: 'succeed',
-                          topic: 'session', data: { client: client.name })
+                          topic: 'session', data: { client: client.name }.to_json)
 
           create_session(user)
 
