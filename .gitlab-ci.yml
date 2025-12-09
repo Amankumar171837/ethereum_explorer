@@ -1,0 +1,4 @@
+include:
+  project: stackflow_devops/shared_ci_cd
+  file: bc-sso.gitlab-ci.yml
+  ref: Development
