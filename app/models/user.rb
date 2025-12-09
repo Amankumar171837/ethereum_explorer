@@ -455,6 +455,10 @@ class User < ApplicationRecord
     DateTime.parse(dob) + Barong::App.config.minimum_age_to_register.years > Time.zone.today
   end
 
+  def verified
+    level == Barong::App.config.kyc_level
+  end
+
   private
 
   def assign_uid
@@ -482,7 +486,7 @@ class User < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20251127150128
+# Schema version: 20251202070947
 #
 # Table name: users
 #

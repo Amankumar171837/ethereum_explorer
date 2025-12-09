@@ -30,6 +30,55 @@ module API::V2::Admin
                desc: 'User\'s social media status'
              }
 
+      expose :level,
+             documentation: {
+                 type: 'Integer',
+                 desc: 'User level'
+             }
+
+      expose :profile_url,
+             documentation: {
+                 type: 'Hash',
+                 desc: 'Profile picture Url'
+             }
+
+      expose :profile_type,
+             documentation: {
+                 type: String,
+                 desc: 'Profile picture type'
+             }
+
+      expose :country,
+             documentation: {
+                 desc: 'User country',
+                 type: String
+             }
+
+      expose :data,
+             documentation: {
+                 type: 'String',
+                 desc: 'Additional phone and profile info'
+             }
+
+      expose :referral_code,
+             documentation: {
+                 desc: 'User unique referral code.',
+                 type: String
+             }
+
+      expose :password_enabled,
+             as: :login_via_password,
+             documentation: {
+                 desc: 'User can login via password or not.',
+                 type: String
+             }
+
+      expose(
+          :without_social_profile,
+          as: :profiles,
+          using: Entities::Profile
+      )
+
       expose :profiles, using: Entities::Profile
     end
   end

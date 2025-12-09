@@ -75,6 +75,12 @@ module API
                  desc: 'User\'s level'
                }
 
+        expose :verified,
+               documentation: {
+                 desc: 'User kyc status',
+                 type: String
+               }
+
         expose :profile_url,
                documentation: {
                  type: 'Hash',

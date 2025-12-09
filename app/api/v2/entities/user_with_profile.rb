@@ -46,22 +46,10 @@ module API::V2
               desc: 'User role'
              }
 
-      expose :level,
+      expose :verified,
              documentation: {
-              type: 'Integer',
-              desc: 'User level'
-             }
-
-      expose :profile_url,
-             documentation: {
-               type: 'Hash',
-               desc: 'Profile picture Url'
-             }
-
-      expose :profile_type,
-             documentation: {
-               type: String,
-               desc: 'Profile picture type'
+               desc: 'User kyc status',
+               type: String
              }
 
       expose :otp,
@@ -74,12 +62,6 @@ module API::V2
              documentation: {
               type: 'String',
               desc: 'User state: active, pending, inactive'
-             }
-
-      expose :country,
-             documentation: {
-               desc: 'User country',
-               type: String
              }
 
       expose :last_country,
@@ -100,36 +82,11 @@ module API::V2
                desc: 'User Phone number'
              }
 
-      expose :data,
-             documentation: {
-               type: 'String',
-               desc: 'Additional phone and profile info'
-             }
-
       expose :platform,
              documentation: {
                type: String,
                desc: 'Platform from which user signed up.'
              }
-
-      expose :referral_code,
-             documentation: {
-               desc: 'User unique referral code.',
-               type: String
-             }
-
-      expose :password_enabled,
-             as: :login_via_password,
-             documentation: {
-               desc: 'User can login via password or not.',
-               type: String
-             }
-
-      expose(
-        :without_social_profile,
-        as: :profiles,
-        using: Entities::Profile
-      )
 
       with_options(format_with: :iso_timestamp) do
         expose :created_at

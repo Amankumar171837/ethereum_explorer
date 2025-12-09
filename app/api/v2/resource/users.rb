@@ -246,6 +246,10 @@ module API::V2
                    type: String,
                    values: { value: -> { %w[issuer] }, message: 'resource.user.invalid_role'},
                    desc: 'User\'s role'
+          optional :kyc,
+                   type: String,
+                   values: { value: -> { %w[verified] }, message: 'resource.user.invalid_status'},
+                   desc: 'User\'s kyc status'
           requires :client_id,
                    types: String,
                    desc: 'Unique client id.'
@@ -282,8 +286,10 @@ module API::V2
                                                dob: declared_params['dob'],
                                                state: 'social')
 
+          current_user.update_label('document') if declared_params[:kyc] == 'verified'
+
           activity_record(user: current_user.id, action: 'update', result: 'succeed', topic: 'user')
-          present current_user, with: API::V2::Entities::UserWithPhone
+          present current_user, with: API::V2::Entities::UserWithProfile
         rescue => e
           Rails.logger.error e
           error!({ errors: ["resource.user.update_error"] }, 422)
