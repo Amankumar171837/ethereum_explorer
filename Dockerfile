@@ -1,5 +1,7 @@
 FROM ruby:2.6.6
 
+##ENV##
+
 # By default image is built using RAILS_ENV=production.
 # You may want to customize it:
 #
