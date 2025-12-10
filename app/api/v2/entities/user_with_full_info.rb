@@ -66,6 +66,12 @@ module API
                  desc: 'User level'
                }
 
+        expose :verified,
+               documentation: {
+                 desc: 'User kyc status',
+                 type: String
+               }
+
         expose :otp,
                documentation: {
                  type: 'Boolean',

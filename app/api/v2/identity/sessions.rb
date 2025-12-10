@@ -338,7 +338,7 @@ module API::V2
           header['refresh-token']  = tokens[:refresh]
           header['refresh-expire'] = tokens[:refresh_expires_at]
 
-          present user, with: API::V2::Entities::UserWithPhone
+          present user, with: API::V2::Entities::UserWithProfile
           status(200)
         end
 

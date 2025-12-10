@@ -218,6 +218,7 @@ Barong::App.define do |config|
 
   config.set(:auth_code_expiry, '600', type: :integer)
   config.set(:client_id_prefix, 'cid_')
+  config.set(:kyc_level, '2', type: :integer)
 end
 
 ActionMailer::Base.smtp_settings = {
