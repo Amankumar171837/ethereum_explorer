@@ -41,10 +41,22 @@ module API::V2
 
           tokens = Barong::JWTSession::Session.generate(codec.merge_claims(user.jwt_payload)
                                                           .except(:iat, :exp)).login
+
+          tokens = Barong::OpaqueJwt::Token.set_tokens(tokens)
+
           header['access-token']   = tokens[:access]
           header['access-expire']  = tokens[:access_expires_at]
           header['refresh-token']  = tokens[:refresh]
           header['refresh-expire'] = tokens[:refresh_expires_at]
+        end
+
+        def set_refresh_header!
+          error!({ errors: ['identity.token.not_found'] }, 404) unless headers['Refresh-Token']
+
+          token = Barong::OpaqueJwt::Token.get_token(headers['Refresh-Token'])
+          error!({ errors: ['identity.token.not_found'] }, 404) unless token
+
+          headers['Refresh-Token'] = token
         end
       end
 
@@ -324,6 +336,8 @@ module API::V2
                    desc: 'JWT Refresh token'
         end
         post '/refresh' do
+          set_refresh_header!
+
           authorize_by_refresh_header!
 
           token   = codec.decode_token(found_token, Barong::App.config.keystore.public_key)
@@ -332,6 +346,8 @@ module API::V2
 
           payload = codec.merge_claims(user.jwt_payload).except(:iat, :exp)
           tokens  = Barong::JWTSession::Session.renew_session(token, payload)
+
+          tokens = Barong::OpaqueJwt::Token.set_tokens(tokens)
 
           header['access-token']   = tokens[:access]
           header['access-expire']  = tokens[:access_expires_at]
@@ -349,6 +365,8 @@ module API::V2
              ],
              success: { code: 200, message: 'Session was destroyed' }
         delete '/refresh' do
+          set_refresh_header!
+
           authorize_by_refresh_header!
 
           token   = codec.decode_token(found_token, Barong::App.config.keystore.public_key)
