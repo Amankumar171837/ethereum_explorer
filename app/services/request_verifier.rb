@@ -47,6 +47,7 @@ class RequestVerifier
       'dob' => @body[:dob],
       'role' => @body[:role],
       'kyc' => @body[:kyc],
+      'applicant_id' => @body[:applicant_id],
       'client_id' => @body[:client_id]
     }.compact
   end

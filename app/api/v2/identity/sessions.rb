@@ -354,7 +354,10 @@ module API::V2
           header['refresh-token']  = tokens[:refresh]
           header['refresh-expire'] = tokens[:refresh_expires_at]
 
-          present user, with: API::V2::Entities::UserWithProfile
+          activity_record(user: user.id, action: 'tokens_refresh', result: 'succeed', topic: 'session',
+                          data: { client_id: headers['Client-Id'] }.to_json)
+
+          present user, with: API::V2::Entities::UserWithOauth
           status(200)
         end
 
@@ -376,7 +379,8 @@ module API::V2
           session = JWTSessions::Session.new
           session.flush_by_uuid(token[:uuid])
 
-          activity_record(user: user.id, action: 'logout', result: 'succeed', topic: 'session')
+          activity_record(user: user.id, action: 'logout', result: 'succeed', topic: 'session',
+                          data: { client_id: headers['Client-Id'] }.to_json)
 
           status(200)
         end
@@ -418,11 +422,12 @@ module API::V2
           authrized_client = user.authorized_clients.find_or_initialize_by(registered_client: client)
           authrized_client.update!(status: 'active', connected_at: Time.now)
 
-          activity_record(user: user.id, action: 'client_authorized', result: 'succeed',
-                          topic: 'session', data: { client: client.name }.to_json)
+          activity_record(user: user.id, action: "oauth_#{client.kid}", result: 'succeed',
+                          topic: 'session', data: { scopes: data[:scopes] }.to_json)
 
           create_session(user)
 
+          present user, with: API::V2::Entities::UserWithOauth
           status 200
         rescue StandardError => e
           Rails.logger.error e.inspect

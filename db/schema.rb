@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_12_05_142559) do
+ActiveRecord::Schema.define(version: 2025_12_16_074715) do
 
   create_table "activities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -302,6 +302,7 @@ ActiveRecord::Schema.define(version: 2025_12_05_142559) do
     t.string "platform"
     t.text "data"
     t.integer "level", default: 0, null: false
+    t.string "applicant_id"
     t.boolean "otp", default: false
     t.string "state", default: "pending", null: false
     t.bigint "referral_id"

@@ -459,6 +459,10 @@ class User < ApplicationRecord
     level == Barong::App.config.kyc_level
   end
 
+  def kyc_status
+    labels.find_by(key: 'document', scope: 'private')&.value
+  end
+
   private
 
   def assign_uid
@@ -486,7 +490,7 @@ class User < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20251202070947
+# Schema version: 20251216074715
 #
 # Table name: users
 #
@@ -500,9 +504,11 @@ end
 #  password_digest     :string(255)      not null
 #  password_enabled    :boolean          default(TRUE)
 #  role                :string(255)      default("member"), not null
+#  institution         :string(255)
 #  platform            :string(255)
 #  data                :text(65535)
 #  level               :integer          default(0), not null
+#  applicant_id        :string(255)
 #  otp                 :boolean          default(FALSE)
 #  state               :string(255)      default("pending"), not null
 #  referral_id         :bigint

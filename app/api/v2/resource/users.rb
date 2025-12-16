@@ -246,10 +246,13 @@ module API::V2
                    type: String,
                    values: { value: -> { %w[issuer] }, message: 'resource.user.invalid_role'},
                    desc: 'User\'s role'
-          optional :kyc,
+          optional :kyc_status,
                    type: String,
-                   values: { value: -> { %w[verified] }, message: 'resource.user.invalid_status'},
+                   values: { value: -> { %w[initiated pending accepted verified rejected] }, message: 'resource.user.invalid_status'},
                    desc: 'User\'s kyc status'
+          optional :applicant_id,
+                   type: String,
+                   desc: 'Kyc applicant id.'
           requires :client_id,
                    types: String,
                    desc: 'Unique client id.'
@@ -262,7 +265,7 @@ module API::V2
           validate_signature?('user_update')
 
           declared_params = declared(params, include_missing: false)
-          user_params = declared_params.slice('username', 'first_name', 'last_name', 'role')
+          user_params = declared_params.slice('username', 'first_name', 'last_name', 'role', 'applicant_id')
 
           if params[:username]
             user = User.find_by('username=? and not id=?', user_params[:username], current_user.id)
@@ -286,7 +289,7 @@ module API::V2
                                                dob: declared_params['dob'],
                                                state: 'social')
 
-          current_user.update_label('document') if declared_params[:kyc] == 'verified'
+          current_user.update_label('document', status: declared_params[:kyc_status]) if declared_params[:kyc_status]
 
           activity_record(user: current_user.id, action: 'update', result: 'succeed', topic: 'user')
           present current_user, with: API::V2::Entities::UserWithProfile
