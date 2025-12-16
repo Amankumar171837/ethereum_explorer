@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_12_16_074715) do
+ActiveRecord::Schema.define(version: 2025_12_16_075339) do
 
   create_table "activities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -57,6 +57,17 @@ ActiveRecord::Schema.define(version: 2025_12_16_074715) do
     t.index ["registered_client_id"], name: "index_authorized_clients_on_registered_client_id"
     t.index ["status"], name: "index_authorized_clients_on_status"
     t.index ["user_id"], name: "index_authorized_clients_on_user_id"
+  end
+
+  create_table "client_webhooks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "registered_client_id"
+    t.string "url", null: false
+    t.string "event", null: false
+    t.string "status", default: "active", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event", "registered_client_id"], name: "index_client_webhooks_on_event_and_registered_client_id", unique: true
+    t.index ["registered_client_id"], name: "index_client_webhooks_on_registered_client_id"
   end
 
   create_table "country_services", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|

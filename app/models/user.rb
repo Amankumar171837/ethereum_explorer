@@ -8,6 +8,7 @@ class User < ApplicationRecord
   PLATFORM = ['oauth']
   STATE = %w[active deactivated deleted].freeze
   ROLE = %w[institution issuer retailer].freeze
+  WEBHOOK_UPDATE_FIELDS = %w[first_name last_name phone_number role otp state applicant_id].freeze
 
   has_secure_password
 
@@ -95,6 +96,7 @@ class User < ApplicationRecord
   after_update :disable_api_keys
   after_update :disable_service_accounts
   after_commit :update_referrals,  on: :destroy
+  after_commit :trigger_webhooks, on: :update
 
   def update_referrals
     referrals.update_all(referral_id: nil)
@@ -314,6 +316,24 @@ class User < ApplicationRecord
     }
   end
 
+  def webhook_payload
+    {
+      uid: uid,
+      email: filter_email,
+      phone_number: phone_number,
+      first_name: first_name,
+      last_name: last_name,
+      full_name: full_name,
+      username: username,
+      role: role,
+      otp: otp,
+      state: state,
+      institution: institution,
+      kyc_status: kyc_status,
+      applicant_id: applicant_id
+    }.compact
+  end
+
   def language
     if data.blank?
       Barong::App.config.default_language.upcase
@@ -459,11 +479,24 @@ class User < ApplicationRecord
     level == Barong::App.config.kyc_level
   end
 
+  def update_clients
+    RegisteredClient.active.each do |client|
+      ::UserUpdate.perform_async({ id: id, client_id: client.id }.to_json)
+    end
+  end
+
   def kyc_status
     labels.find_by(key: 'document', scope: 'private')&.value
   end
 
   private
+
+  def trigger_webhooks
+    changed = saved_changes.keys & WEBHOOK_UPDATE_FIELDS
+    return if changed.empty?
+
+    update_clients
+  end
 
   def assign_uid
     return unless uid.blank?
@@ -490,7 +523,7 @@ class User < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20251216074715
+# Schema version: 20251216075339
 #
 # Table name: users
 #

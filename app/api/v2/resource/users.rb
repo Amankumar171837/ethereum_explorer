@@ -289,10 +289,13 @@ module API::V2
                                                dob: declared_params['dob'],
                                                state: 'social')
 
-          current_user.update_label('document', status: declared_params[:kyc_status]) if declared_params[:kyc_status]
+          if declared_params[:kyc_status]
+            current_user.update_label('document', status: declared_params[:kyc_status])
+            current_user.update_clients
+          end
 
           activity_record(user: current_user.id, action: 'update', result: 'succeed', topic: 'user')
-          present current_user, with: API::V2::Entities::UserWithProfile
+          present current_user, with: API::V2::Entities::UserWithOauth
         rescue => e
           Rails.logger.error e
           error!({ errors: ["resource.user.update_error"] }, 422)

@@ -422,10 +422,11 @@ module API::V2
           authrized_client = user.authorized_clients.find_or_initialize_by(registered_client: client)
           authrized_client.update!(status: 'active', connected_at: Time.now)
 
-          activity_record(user: user.id, action: "oauth_#{client.kid}", result: 'succeed',
-                          topic: 'session', data: { scopes: data[:scopes] }.to_json)
+          activity_record(user: user.id, action: "oauth_#{client.kid}", result: 'succeed', topic: 'session')
 
           create_session(user)
+
+          Rails.cache.delete("auth_code_#{params['authorization_code']}")
 
           present user, with: API::V2::Entities::UserWithOauth
           status 200
