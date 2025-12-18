@@ -75,9 +75,15 @@ module API
                  desc: 'User\'s level'
                }
 
-        expose :verified,
+        expose :kyc_status,
                documentation: {
                  desc: 'User kyc status',
+                 type: String
+               }
+
+        expose :applicant_id,
+               documentation: {
+                 desc: 'Kyc applicant id.',
                  type: String
                }
 

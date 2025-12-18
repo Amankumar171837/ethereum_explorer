@@ -20,6 +20,7 @@ class RegisteredClient < ApplicationRecord
   # == Relationships ========================================================
 
   has_many :authorized_clients
+  has_many :client_webhooks
 
   # == Validations ==========================================================
 
@@ -47,6 +48,10 @@ class RegisteredClient < ApplicationRecord
 
     self.kid = "#{Barong::App.config.client_id_prefix}" + SecureRandom.hex(16)
     self.secret = SecureRandom.hex(32)
+  end
+
+  def fetch_webhook(event)
+    client_webhooks.active.find_by(event: event)
   end
 end
 
