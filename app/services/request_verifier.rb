@@ -46,7 +46,7 @@ class RequestVerifier
       'username' => @body[:username],
       'dob' => @body[:dob],
       'role' => @body[:role],
-      'kyc' => @body[:kyc],
+      'kyc_status' => @body[:kyc_status],
       'applicant_id' => @body[:applicant_id],
       'client_id' => @body[:client_id]
     }.compact
