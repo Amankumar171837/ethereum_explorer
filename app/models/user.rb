@@ -481,6 +481,8 @@ class User < ApplicationRecord
 
   def update_clients
     RegisteredClient.active.each do |client|
+      next unless client.client_webhooks.active.present?
+
       ::UserUpdate.perform_async({ id: id, client_id: client.id }.to_json)
     end
   end
