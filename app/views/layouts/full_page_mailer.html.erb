@@ -1,25 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OTP</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Devanagari&display=swap" />
-    </head>
-  <style>
-    * {
-      box-sizing: border-box;
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
+      xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>Reset Your Password - Blockmaze</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+  <style type="text/css">
+    /* Dark/Light mode support */
+    :root {
+      color-scheme: light dark;
+      supported-color-schemes: light dark;
     }
+
+    /* Reset styles */
+    body,
+    table,
+    td,
+    a {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    table,
+    td {
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+    img {
+      -ms-interpolation-mode: bicubic;
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+    }
+
     body {
-      margin: 0;
-      padding: 0;
-      background: #000;
-      font-family: 'Anek Devanagari', sans-serif;
-      color: #cad5da;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      background-color: #010101 !important;
+    }
+
+    /* Prevent dark mode color inversion */
+    [data-ogsc] .dark-mode-bg {
+      background-color: #010101 !important;
+    }
+
+    [data-ogsc] .dark-mode-text {
+      color: #ffffff !important;
+    }
+
+    [data-ogsc] .dark-mode-yellow {
+      color: #FDFD1F !important;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .dark-mode-bg {
+        background-color: #010101 !important;
+      }
+
+      .dark-mode-text {
+        color: #ffffff !important;
+      }
+
+      .dark-mode-yellow {
+        color: #FDFD1F !important;
+      }
+
+      .card-bg {
+        background-color: #2a2a2a !important;
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      .dark-mode-bg {
+        background-color: #010101 !important;
+      }
+
+      .dark-mode-text {
+        color: #ffffff !important;
+      }
+
+      .dark-mode-yellow {
+        color: #FDFD1F !important;
+      }
+    }
+
+    /* Force dark background in Gmail */
+    u+.body .dark-mode-bg {
+      background-color: #010101 !important;
+    }
+
+    u+.body .dark-mode-text {
+      color: #ffffff !important;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .container {
+        width: 100% !important;
+        padding: 10px !important;
+      }
+
+      .card {
+        padding: 25px 20px !important;
+      }
+
+      .url-box {
+        padding: 12px 15px !important;
+      }
+
+      .url-text {
+        font-size: 11px !important;
+      }
     }
   </style>
+</head>
 
-  <body>
+ <body class="body"
+      style="margin: 0; padding: 0; background-color: #010101; width: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
     <%= yield %>
   </body>
 </html>
