@@ -71,3 +71,4 @@ EXPOSE 8080
 # tell the Rails dev server to bind to all interfaces by
 # default.
 CMD ["bundle", "exec", "puma", "--config", "config/puma.rb"]
+
