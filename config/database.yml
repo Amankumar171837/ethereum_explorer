@@ -1,55 +1,27 @@
 default: &default
-  adapter: <%= ENV.fetch('DATABASE_ADAPTER', 'mysql2') %>
+  adapter: mysql2
   encoding: utf8mb4
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 6).to_i * ENV.fetch("WEB_CONCURRENCY", 1).to_i %>
-  reconnect: true
-  host: <%= ENV.fetch('DATABASE_HOST', '127.0.0.1') %>
-  port: <%= ENV.fetch('DATABASE_PORT', 3306) %>
-  username: <%= ENV.fetch('DATABASE_USER', 'root') %>
-  password: <%= ENV.fetch('DATABASE_PASS', '') %>
+  collation: utf8mb4_unicode_ci
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch("DB_USERNAME", "root") %>
+  password: password
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
+  port: <%= ENV.fetch("DB_PORT", 3306) %>
 
 development:
   <<: *default
-  database: oauth_development
+  database: ethereum_explorer_development
 
 test:
   <<: *default
-  database: oauth_test
+  database: ethereum_explorer_test
 
 production:
   <<: *default
-  <% if ENV['DATABASE_REPLICA_ENABLED'] == 'true' %>
-  makara:
-    # the following are for the master slave
-    blacklist_duration: 5
-    master_ttl: 1
-    master_strategy: round_robin
-    sticky: false
-    connections:
-      - role: master
-        host: <%= ENV.fetch('DATABASE_HOST', '127.0.0.1') %>
-        database: <%= ENV.fetch('DATABASE_NAME', 'oauth_production') %>
-        port: <%= ENV.fetch('DATABASE_PORT', 3306) %>
-        username: <%= ENV.fetch('DATABASE_USER', 'root') %>
-        password: <%= ENV['DATABASE_PASS'] %>
-        blacklist_duration: 5
-
-      - role: slave
-        host: <%= ENV.fetch('DATABASE_SLAVE_HOST', '127.0.0.1') %>
-        database: <%= ENV.fetch('DATABASE_NAME', 'oauth_production') %>
-        port: <%= ENV.fetch('DATABASE_SLAVE_PORT', 3306) %>
-        username: <%= ENV.fetch('DATABASE_SLAVE_USER', 'root') %>
-        password: <%= ENV['DATABASE_SLAVE_PASS'] %>
-
-<% if ENV['DATABASE_REPLICA2_ENABLED'] == 'true' %>
-      - role: slave2
-        host: <%= ENV.fetch('DATABASE_SLAVE2_HOST', '127.0.0.1') %>
-        database: <%= ENV.fetch('DATABASE_NAME', 'oauth_production') %>
-        port: <%= ENV.fetch('DATABASE_SLAVE_PORT', 3306) %>
-        username: <%= ENV.fetch('DATABASE_SLAVE_USER', 'root') %>
-        password: <%= ENV['DATABASE_SLAVE_PASS'] %>
-<% end %>
-
-  <% else %>
-  database: <%= ENV.fetch('DATABASE_NAME', 'oauth_production') %>
-  <% end %>
+  database: ethereum_explorer_production
+  # Use read replicas
+  replica:
+    <<: *default
+    database: ethereum_explorer_production
+    host: <%= ENV.fetch("DB_REPLICA_HOST", "localhost") %>
+    replica: true

@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # Ethereum Sepolia Testnet Node
+  geth:
+    image: ethereum/client-go:latest
+    container_name: geth_sepolia
+    ports:
+      - "8545:8545"  # HTTP RPC
+      - "8546:8546"  # WebSocket
+      - "30303:30303"  # P2P
+    volumes:
+      - geth_data:/root/.ethereum
+    command:
+      - --sepolia
+      - --http
+      - --http.addr=0.0.0.0
+      - --http.port=8545
+      - --http.api=eth,net,web3,txpool
+      - --http.corsdomain=*
+      - --ws
+      - --ws.addr=0.0.0.0
+      - --ws.port=8546
+      - --ws.api=eth,net,web3
+      - --syncmode=snap
+    restart: unless-stopped
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: ethereum_explorer_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ethereum_explorer_development
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: ethereum_explorer_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  # Rails API
+  web:
+    build: .
+    container_name: ethereum_explorer_api
+    command: bundle exec puma -C config/puma.rb
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+      - redis
+      - geth
+    environment:
+      RAILS_ENV: development
+      ETHEREUM_RPC_URL: http://geth:8545
+      DB_HOST: mysql
+      DB_USERNAME: root
+      DB_PASSWORD: rootpassword
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  # Sidekiq
+  sidekiq:
+    build: .
+    container_name: ethereum_explorer_sidekiq
+    command: bundle exec sidekiq
+    depends_on:
+      - mysql
+      - redis
+      - geth
+    environment:
+      RAILS_ENV: development
+      ETHEREUM_RPC_URL: http://geth:8545
+      DB_HOST: mysql
+      DB_USERNAME: root
+      DB_PASSWORD: rootpassword
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+volumes:
+  geth_data:
+  mysql_data:

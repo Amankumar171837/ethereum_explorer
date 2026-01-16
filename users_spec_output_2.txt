@@ -1,0 +1,1115 @@
+Your RubyGems version (3.0.3) has a bug that prevents `required_ruby_version` from working for Bundler. Any scripts that use `gem install bundler` will break as soon as Bundler drops support for your Ruby version. Please upgrade RubyGems to avoid future breakage and silence this warning by running `gem update --system 3.2.3`
+[DEPRECATION] Passing a options hash and a block to `desc` is deprecated. Move all hash options to block.
+[DEPRECATION] Passing a options hash and a block to `desc` is deprecated. Move all hash options to block.
+[DEPRECATION] Passing a options hash and a block to `desc` is deprecated. Move all hash options to block.
+[DEPRECATION] Passing a options hash and a block to `desc` is deprecated. Move all hash options to block.
+WARNING: MYSQL_OPT_RECONNECT is deprecated and will be removed in a future version.
+
+Randomized with seed 11765
+F===========================request====nil
+.===========================request====nil
+FFF===========================request====nil
+.F===========================request====nil
+FF===========================request====nil
+F===========================request====nil
+F===========================request====nil
+FFFFFFF===========================request====nil
+F===========================request====nil
+FFFFFFFFF===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+FFFF===========================request====nil
+FFF===========================request====nil
+FFFFF===========================request====nil
+FFF===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F===========================request====nil
+F.FFFFFFFFFFFFFFF
+
+Failures:
+
+  1) API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error if otp is misssing
+     Failure/Error: create(:document, user: user)
+
+     ArgumentError:
+       Factory not registered: document
+     # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+     # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+     # ./spec/api/v2/admin/users_spec.rb:274:in `block (4 levels) in <main>'
+     # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+     # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  2) API::V2::Admin::Users PUT /api/v2/admin/users admin user disables api_keys when state changes
+     Failure/Error: expect(api_key1.reload.state).to eq 'inactive'
+
+       expected: "inactive"
+            got: "active"
+
+       (compared using ==)
+     # ./spec/api/v2/admin/users_spec.rb:359:in `block (4 levels) in <main>'
+     # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+     # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  3) API::V2::Admin::Users PUT /api/v2/admin/users admin user sets role to admin
+     Failure/Error: create(:document, user: user)
+
+     ArgumentError:
+       Factory not registered: document
+     # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+     # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+     # ./spec/api/v2/admin/users_spec.rb:320:in `block (4 levels) in <main>'
+     # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+     # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  4) API::V2::Admin::Users PUT /api/v2/admin/users admin user sets state to active
+     Failure/Error: create(:document, user: user)
+
+     ArgumentError:
+       Factory not registered: document
+     # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+     # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+     # ./spec/api/v2/admin/users_spec.rb:299:in `block (4 levels) in <main>'
+     # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+     # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  5) API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error when state is the same
+     Failure/Error: create(:document, user: user)
+
+     ArgumentError:
+       Factory not registered: document
+     # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+     # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+     # ./spec/api/v2/admin/users_spec.rb:329:in `block (4 levels) in <main>'
+     # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+     # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  6) API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error if uid is incorrect
+     Failure/Error: expect(response.status).to eq 404
+
+       expected: 404
+            got: 401
+
+       (compared using ==)
+     # ./spec/api/v2/admin/users_spec.rb:293:in `block (4 levels) in <main>'
+     # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+     # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  7) API::V2::Admin::Users PUT /api/v2/admin/users admin user sets otp to false
+     Failure/Error: create(:document, user: user)
+
+     ArgumentError:
+       Factory not registered: document
+     # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+     # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+     # ./spec/api/v2/admin/users_spec.rb:307:in `block (4 levels) in <main>'
+     # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+     # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  8) API::V2::Admin::Users PUT /api/v2/admin/users admin user disables api_keys when sets otp to false
+     Failure/Error: expect(api_key1.reload.state).to eq 'inactive'
+
+       expected: "inactive"
+            got: "active"
+
+       (compared using ==)
+     # ./spec/api/v2/admin/users_spec.rb:368:in `block (4 levels) in <main>'
+     # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+     # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  9) API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error when non-superadmin user updates superadmin
+     Failure/Error: expect(response.code).to eq '422'
+
+       expected: "422"
+            got: "401"
+
+       (compared using ==)
+     # ./spec/api/v2/admin/users_spec.rb:260:in `block (4 levels) in <main>'
+     # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+     # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  10) API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error if uid is misssing
+      Failure/Error: expect(response.status).to eq 422
+
+        expected: 422
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:247:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  11) API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error if state is misssing
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:266:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  12) API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error if role is misssing
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:282:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  13) API::V2::Admin::Users PUT /api/v2/admin/users superadmin user when non-superadmin user updates email renders an error
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:379:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:374:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:411:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  14) API::V2::Admin::Users PUT /api/v2/admin/users superadmin user when email is valid change an email
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:379:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:374:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:402:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  15) API::V2::Admin::Users PUT /api/v2/admin/users superadmin user when email is invalid renders an error
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:379:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:374:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:394:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  16) API::V2::Admin::Users PUT /api/v2/admin/users superadmin user when email is blank renders an error
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:379:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:374:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:386:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  17) API::V2::Admin::Users GET /api/v2/admin/labels/list it returns array of labels attributes acts as expected
+      Failure/Error: expect(response.body).to eq(labels_from_db.to_json)
+
+        expected: "{\"[\\\"animi-ut\\\", \\\"omnis-labore\\\"]\":1,\"[\\\"ut-natus\\\", \\\"et-eum\\\"]\":1,\"[\\\"qui-..."veniam-et\\\", \\\"sapiente-occaecati\\\"]\":1,\"[\\\"adipisci-ut\\\", \\\"commodi-autem\\\"]\":1}"
+             got: "{\"errors\":[\"session.invalid_session\"]}"
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:464:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  18) API::V2::Admin::Users GET /api/v2/admin/labels/list no labels in database returns empty array
+      Failure/Error: expect(response.body).to eq '{}'
+
+        expected: "{}"
+             got: "{\"errors\":[\"session.invalid_session\"]}"
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:473:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  19) API::V2::Admin::Users comments DELETE /api/v2/admin/users/comments does not create new comment
+      Failure/Error: let!(:seeded) { Comment.create(author_uid: test_user.uid, user_id: experimental_user.id, title: 'preseeded record', data: 'prev') }
+
+      NameError:
+        uninitialized constant Comment
+      # ./spec/api/v2/admin/users_spec.rb:1161:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant Comment
+      #   ./spec/api/v2/admin/users_spec.rb:1161:in `block (4 levels) in <main>'
+
+  20) API::V2::Admin::Users comments DELETE /api/v2/admin/users/comments comment does not exist
+      Failure/Error: let!(:seeded) { Comment.create(author_uid: test_user.uid, user_id: experimental_user.id, title: 'preseeded record', data: 'prev') }
+
+      NameError:
+        uninitialized constant Comment
+      # ./spec/api/v2/admin/users_spec.rb:1161:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant Comment
+      #   ./spec/api/v2/admin/users_spec.rb:1161:in `block (4 levels) in <main>'
+
+  21) API::V2::Admin::Users comments POST /api/v2/admin/users/comments errored request returns error because of length of comment
+      Failure/Error: expect { do_request }.to change { Comment.count }.by 0
+
+      NameError:
+        uninitialized constant Comment
+      # ./spec/api/v2/admin/users_spec.rb:1122:in `block (6 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:1122:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant Comment
+      #   ./spec/api/v2/admin/users_spec.rb:1122:in `block (6 levels) in <main>'
+
+  22) API::V2::Admin::Users comments POST /api/v2/admin/users/comments successfull request creates new comment
+      Failure/Error: expect { do_request }.to change { Comment.count }.by 1
+
+      NameError:
+        uninitialized constant Comment
+      # ./spec/api/v2/admin/users_spec.rb:1092:in `block (6 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:1092:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant Comment
+      #   ./spec/api/v2/admin/users_spec.rb:1092:in `block (6 levels) in <main>'
+
+  23) API::V2::Admin::Users comments POST /api/v2/admin/users/comments successfull request saves author_uid
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:1084:in `block (5 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:1089:in `block (5 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:1097:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  24) API::V2::Admin::Users comments PUT /api/v2/admin/users/comments changes data
+      Failure/Error: let!(:seeded) { Comment.create(author_uid: test_user.uid, user_id: experimental_user.id, title: 'preseeded record', data: 'prev') }
+
+      NameError:
+        uninitialized constant Comment
+      # ./spec/api/v2/admin/users_spec.rb:1131:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant Comment
+      #   ./spec/api/v2/admin/users_spec.rb:1131:in `block (4 levels) in <main>'
+
+  25) API::V2::Admin::Users comments PUT /api/v2/admin/users/comments does not create new comment
+      Failure/Error: let!(:seeded) { Comment.create(author_uid: test_user.uid, user_id: experimental_user.id, title: 'preseeded record', data: 'prev') }
+
+      NameError:
+        uninitialized constant Comment
+      # ./spec/api/v2/admin/users_spec.rb:1131:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant Comment
+      #   ./spec/api/v2/admin/users_spec.rb:1131:in `block (4 levels) in <main>'
+
+  26) API::V2::Admin::Users comments PUT /api/v2/admin/users/comments comment does not exist
+      Failure/Error: let!(:seeded) { Comment.create(author_uid: test_user.uid, user_id: experimental_user.id, title: 'preseeded record', data: 'prev') }
+
+      NameError:
+        uninitialized constant Comment
+      # ./spec/api/v2/admin/users_spec.rb:1131:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant Comment
+      #   ./spec/api/v2/admin/users_spec.rb:1131:in `block (4 levels) in <main>'
+
+  27) API::V2::Admin::Users POST /api/v2/admin/users/update admin user disables otp
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:836:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  28) API::V2::Admin::Users POST /api/v2/admin/users/update admin user renders error when non-superadmin user updates superadmin
+      Failure/Error: expect(response.code).to eq '422'
+
+        expected: "422"
+             got: "401"
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:844:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  29) API::V2::Admin::Users POST /api/v2/admin/users/update admin user changes state
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:821:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  30) API::V2::Admin::Users POST /api/v2/admin/users/update admin user renders error when state does not change
+      Failure/Error: expect(response.status).to eq 422
+
+        expected: 422
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:851:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  31) API::V2::Admin::Users POST /api/v2/admin/users/update admin user changes state when superadmin user updates superadmin
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:829:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  32) API::V2::Admin::Users POST /api/v2/admin/users/labels/update with false replace policy receives an error
+      Failure/Error: expect(response.status).to eq 404
+
+        expected: 404
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:718:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  33) API::V2::Admin::Users POST /api/v2/admin/users/labels/update with default replace policy(true) creates a label
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:678:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  34) API::V2::Admin::Users POST /api/v2/admin/users/labels/update with default replace policy(true) when data is incomplete and description is empty receive an error
+      Failure/Error: expect(response.status).to eq 422
+
+        expected: 422
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:696:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  35) API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when non-superadmin user updates superadmin
+      Failure/Error: expect(response.code).to eq '422'
+
+        expected: "422"
+             got: "401"
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:505:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  36) API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when uid is missing
+      Failure/Error: expect(response.status).to eq 422
+
+        expected: 422
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:491:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  37) API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when value is missing
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:531:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  38) API::V2::Admin::Users POST /api/v2/admin/labels admin user adds label with default public scope and description
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:550:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  39) API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when description is empty
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:520:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  40) API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when uid is invalid
+      Failure/Error: expect(response.status).to eq 404
+
+        expected: 404
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:544:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  41) API::V2::Admin::Users POST /api/v2/admin/labels admin user adds label with private scope
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:566:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  42) API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when key is missing
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:511:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  43) API::V2::Admin::Users DELETE /api/v2/admin/labels admin user renders error when uid is missing
+      Failure/Error: expect(response.status).to eq 422
+
+        expected: 422
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:600:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  44) API::V2::Admin::Users DELETE /api/v2/admin/labels admin user renders error when label does not exist
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:635:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  45) API::V2::Admin::Users DELETE /api/v2/admin/labels admin user deletes label
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:588:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:643:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  46) API::V2::Admin::Users DELETE /api/v2/admin/labels admin user renders error when key is missing
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:606:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  47) API::V2::Admin::Users DELETE /api/v2/admin/labels admin user renders error when scope is missing
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:616:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  48) API::V2::Admin::Users DELETE /api/v2/admin/labels admin user renders error when uid is invalid
+      Failure/Error: expect(response.status).to eq 404
+
+        expected: 404
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:628:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  49) API::V2::Admin::Users Get /api/v2/admin/users/:uid admin user returns user info
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:17:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:420:in `block (3 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:432:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  50) API::V2::Admin::Users Get /api/v2/admin/users/:uid admin user renders error if uid is invalid
+      Failure/Error: create(:document, user: user)
+
+      ArgumentError:
+        Factory not registered: document
+      # ./spec/factories/user.rb:32:in `block (4 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:423:in `block (4 levels) in <main>'
+      # ./spec/support/bearer_context.rb:10:in `block (2 levels) in <main>'
+      # ./spec/support/bearer_context.rb:13:in `block (2 levels) in <main>'
+      # ./spec/api/v2/admin/users_spec.rb:426:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  51) API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when several params given (profile attribute) : first_name and country
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:159:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  52) API::V2::Admin::Users GET /api/v2/admin/users admin user returns error if invalid ordering
+      Failure/Error: expect(response.status).to eq 422
+
+        expected: 422
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:83:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  53) API::V2::Admin::Users GET /api/v2/admin/users admin user returns list of users (ASC ordered) in search
+      Failure/Error: expect(json_body.first.keys).to match_array %i[email uid role level otp state referral_uid data]
+
+      NoMethodError:
+        undefined method `keys' for [:errors, ["session.invalid_session"]]:Array
+      # ./spec/api/v2/admin/users_spec.rb:189:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  54) API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when only one filter param given (profile attribute) first_name
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:150:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  55) API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when only one filter param given (user attribute) state
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:118:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  56) API::V2::Admin::Users GET /api/v2/admin/users admin user returns all users (ASC ordered) in search req if field is not in the list
+      Failure/Error: expect(json_body.count).to eq User.all.count
+
+        expected: 5
+             got: 1
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:198:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  57) API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when only one filter param given (user attribute) level
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:110:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  58) API::V2::Admin::Users GET /api/v2/admin/users admin user returns list of users in ASC order
+      Failure/Error: expect(json_body.first.keys).to match_array %i[email uid role level otp state referral_uid data]
+
+      NoMethodError:
+        undefined method `keys' for [:errors, ["session.invalid_session"]]:Array
+      # ./spec/api/v2/admin/users_spec.rb:57:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  59) API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when several params given (user attribute) : state and level
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:127:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  60) API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when only one filter param given created_at and from
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:102:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  61) API::V2::Admin::Users GET /api/v2/admin/users admin user returns list of users
+      Failure/Error: expect(json_body.first.keys).to match_array %i[email uid role level otp state referral_uid data]
+
+      NoMethodError:
+        undefined method `keys' for [:errors, ["session.invalid_session"]]:Array
+      # ./spec/api/v2/admin/users_spec.rb:38:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  62) API::V2::Admin::Users GET /api/v2/admin/users admin user returns list of users in DESC order
+      Failure/Error: expect(json_body.first.keys).to match_array %i[email uid role level otp state referral_uid data]
+
+      NoMethodError:
+        undefined method `keys' for [:errors, ["session.invalid_session"]]:Array
+      # ./spec/api/v2/admin/users_spec.rb:70:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  63) API::V2::Admin::Users GET /api/v2/admin/users admin user returns only uniq set of users
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:142:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  64) API::V2::Admin::Users GET /api/v2/admin/users admin user returns error when user attribute doesnt exist
+      Failure/Error: expect(response.status).to eq 422
+
+        expected: 422
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:92:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  65) API::V2::Admin::Users GET /api/v2/admin/users admin user pagination test returns 2nd page, limit 2 users per page
+      Failure/Error: expect(validate_fields(User.third)).to eq json_body.first.except(:referral_uid)
+
+      NoMethodError:
+        undefined method `except' for [:errors, ["session.invalid_session"]]:Array
+      # ./spec/api/v2/admin/users_spec.rb:223:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  66) API::V2::Admin::Users GET /api/v2/admin/users admin user pagination test returns 1st page as default, limit 2 users per page
+      Failure/Error: expect(validate_fields(User.first)).to eq json_body.first.except(:referral_uid)
+
+      NoMethodError:
+        undefined method `except' for [:errors, ["session.invalid_session"]]:Array
+      # ./spec/api/v2/admin/users_spec.rb:209:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  67) API::V2::Admin::Users GET /api/v2/admin/users admin user extended params returns list of users with full info
+      Failure/Error: expect(User.count).to eq json_body.count
+
+        expected: 1
+             got: 6
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:169:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  68) API::V2::Admin::Users GET /api/v2/admin/users/labels admin user returns users
+      Failure/Error: expect(json_body.count).to eq document_pending_count
+
+        expected: 3
+             got: 1
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:768:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  69) API::V2::Admin::Users GET /api/v2/admin/users/labels admin user renders error when key is missing
+      Failure/Error: expect(response.status).to eq 422
+
+        expected: 422
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:750:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  70) API::V2::Admin::Users GET /api/v2/admin/users/labels admin user renders error when value is missing
+      Failure/Error: expect(response.status).to eq 422
+
+        expected: 422
+             got: 401
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:758:in `block (4 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  71) API::V2::Admin::Users GET /api/v2/admin/users/labels admin user pagination test returns 1st page as default, limit 2 users per page
+      Failure/Error: expect(json_body.count).to eq 2
+
+        expected: 2
+             got: 1
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:779:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  72) API::V2::Admin::Users GET /api/v2/admin/users/labels admin user pagination test returns 2nd page, limit 2 users per page
+      Failure/Error: expect(User.third.email).to eq json_body.first[:email]
+
+      TypeError:
+        no implicit conversion of Symbol into Integer
+      # ./spec/api/v2/admin/users_spec.rb:798:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  73) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when only one filter param given (user attribute) state
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 404
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:984:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  74) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when several params given (profile attribute) : first_name and country
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 404
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:1019:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  75) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when only one filter param given updated_at
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 404
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:969:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  76) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when only one filter param given created_at and from
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 404
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:959:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  77) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when only one filter param given (profile attribute) first_name
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 404
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:1009:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  78) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when several params given (user attribute) : state and level
+      Failure/Error: expect(response.status).to eq 200
+
+        expected: 200
+             got: 404
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:993:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  79) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending and replaced documents returns users with profile and documents with value pending and replaces
+      Failure/Error: expect(json_body.first.keys).to include(:profiles)
+
+      NoMethodError:
+        undefined method `keys' for [:error, "Route is not found"]:Array
+      # ./spec/api/v2/admin/users_spec.rb:934:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  80) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending documents returns users with profile and documents if params extended
+      Failure/Error: expect(json_body.first.keys).to include(:profiles)
+
+      NoMethodError:
+        undefined method `keys' for [:error, "Route is not found"]:Array
+      # ./spec/api/v2/admin/users_spec.rb:880:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  81) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending documents doesnt returns users with profile and documents if extended not provided
+      Failure/Error: expect(json_body.first.keys).not_to include(:profile)
+
+      NoMethodError:
+        undefined method `keys' for [:error, "Route is not found"]:Array
+      # ./spec/api/v2/admin/users_spec.rb:896:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  82) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending documents returns users
+      Failure/Error: expect(json_body.first.keys).to_not include(:profile)
+
+      NoMethodError:
+        undefined method `keys' for [:error, "Route is not found"]:Array
+      # ./spec/api/v2/admin/users_spec.rb:904:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  83) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending documents returns users users with extended info
+      Failure/Error: expect(json_body.first.keys).to include(:profiles)
+
+      NoMethodError:
+        undefined method `keys' for [:error, "Route is not found"]:Array
+      # ./spec/api/v2/admin/users_spec.rb:911:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  84) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending documents doesnt returns users with profile and documents if extended false
+      Failure/Error: expect(json_body.first.keys).not_to include(:profile)
+
+      NoMethodError:
+        undefined method `keys' for [:error, "Route is not found"]:Array
+      # ./spec/api/v2/admin/users_spec.rb:888:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  85) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user sorting test returns users sorted by time of label creation
+      Failure/Error: expect(json_body.last[:email]).to eq first_user.email
+
+      NoMethodError:
+        undefined method `last' for {:error=>"Route is not found"}:Hash
+      # ./spec/api/v2/admin/users_spec.rb:1035:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  86) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user pagination test returns 1st page as default, limit 2 users per page
+      Failure/Error: expect(json_body.count).to eq 2
+
+        expected: 2
+             got: 1
+
+        (compared using ==)
+      # ./spec/api/v2/admin/users_spec.rb:1054:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+  87) API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user pagination test returns 2nd page, limit 2 users per page
+      Failure/Error: expect(response.headers.fetch('Total')).to eq private_document_pending_count.to_s
+
+      KeyError:
+        key not found: "Total"
+      # ./spec/api/v2/admin/users_spec.rb:1066:in `block (5 levels) in <main>'
+      # ./spec/support/chewy.rb:8:in `block (3 levels) in <main>'
+      # ./spec/support/chewy.rb:7:in `block (2 levels) in <main>'
+
+Finished in 9.82 seconds (files took 2.38 seconds to load)
+90 examples, 87 failures
+
+Failed examples:
+
+rspec ./spec/api/v2/admin/users_spec.rb:272 # API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error if otp is misssing
+rspec ./spec/api/v2/admin/users_spec.rb:354 # API::V2::Admin::Users PUT /api/v2/admin/users admin user disables api_keys when state changes
+rspec ./spec/api/v2/admin/users_spec.rb:318 # API::V2::Admin::Users PUT /api/v2/admin/users admin user sets role to admin
+rspec ./spec/api/v2/admin/users_spec.rb:297 # API::V2::Admin::Users PUT /api/v2/admin/users admin user sets state to active
+rspec ./spec/api/v2/admin/users_spec.rb:327 # API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error when state is the same
+rspec ./spec/api/v2/admin/users_spec.rb:288 # API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error if uid is incorrect
+rspec ./spec/api/v2/admin/users_spec.rb:306 # API::V2::Admin::Users PUT /api/v2/admin/users admin user sets otp to false
+rspec ./spec/api/v2/admin/users_spec.rb:363 # API::V2::Admin::Users PUT /api/v2/admin/users admin user disables api_keys when sets otp to false
+rspec ./spec/api/v2/admin/users_spec.rb:253 # API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error when non-superadmin user updates superadmin
+rspec ./spec/api/v2/admin/users_spec.rb:243 # API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error if uid is misssing
+rspec ./spec/api/v2/admin/users_spec.rb:264 # API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error if state is misssing
+rspec ./spec/api/v2/admin/users_spec.rb:280 # API::V2::Admin::Users PUT /api/v2/admin/users admin user renders error if role is misssing
+rspec ./spec/api/v2/admin/users_spec.rb:410 # API::V2::Admin::Users PUT /api/v2/admin/users superadmin user when non-superadmin user updates email renders an error
+rspec ./spec/api/v2/admin/users_spec.rb:401 # API::V2::Admin::Users PUT /api/v2/admin/users superadmin user when email is valid change an email
+rspec ./spec/api/v2/admin/users_spec.rb:393 # API::V2::Admin::Users PUT /api/v2/admin/users superadmin user when email is invalid renders an error
+rspec ./spec/api/v2/admin/users_spec.rb:385 # API::V2::Admin::Users PUT /api/v2/admin/users superadmin user when email is blank renders an error
+rspec ./spec/api/v2/admin/users_spec.rb:460 # API::V2::Admin::Users GET /api/v2/admin/labels/list it returns array of labels attributes acts as expected
+rspec ./spec/api/v2/admin/users_spec.rb:470 # API::V2::Admin::Users GET /api/v2/admin/labels/list no labels in database returns empty array
+rspec ./spec/api/v2/admin/users_spec.rb:1165 # API::V2::Admin::Users comments DELETE /api/v2/admin/users/comments does not create new comment
+rspec ./spec/api/v2/admin/users_spec.rb:1170 # API::V2::Admin::Users comments DELETE /api/v2/admin/users/comments comment does not exist
+rspec ./spec/api/v2/admin/users_spec.rb:1121 # API::V2::Admin::Users comments POST /api/v2/admin/users/comments errored request returns error because of length of comment
+rspec ./spec/api/v2/admin/users_spec.rb:1091 # API::V2::Admin::Users comments POST /api/v2/admin/users/comments successfull request creates new comment
+rspec ./spec/api/v2/admin/users_spec.rb:1096 # API::V2::Admin::Users comments POST /api/v2/admin/users/comments successfull request saves author_uid
+rspec ./spec/api/v2/admin/users_spec.rb:1151 # API::V2::Admin::Users comments PUT /api/v2/admin/users/comments changes data
+rspec ./spec/api/v2/admin/users_spec.rb:1141 # API::V2::Admin::Users comments PUT /api/v2/admin/users/comments does not create new comment
+rspec ./spec/api/v2/admin/users_spec.rb:1146 # API::V2::Admin::Users comments PUT /api/v2/admin/users/comments comment does not exist
+rspec ./spec/api/v2/admin/users_spec.rb:833 # API::V2::Admin::Users POST /api/v2/admin/users/update admin user disables otp
+rspec ./spec/api/v2/admin/users_spec.rb:840 # API::V2::Admin::Users POST /api/v2/admin/users/update admin user renders error when non-superadmin user updates superadmin
+rspec ./spec/api/v2/admin/users_spec.rb:818 # API::V2::Admin::Users POST /api/v2/admin/users/update admin user changes state
+rspec ./spec/api/v2/admin/users_spec.rb:848 # API::V2::Admin::Users POST /api/v2/admin/users/update admin user renders error when state does not change
+rspec ./spec/api/v2/admin/users_spec.rb:825 # API::V2::Admin::Users POST /api/v2/admin/users/update admin user changes state when superadmin user updates superadmin
+rspec ./spec/api/v2/admin/users_spec.rb:714 # API::V2::Admin::Users POST /api/v2/admin/users/labels/update with false replace policy receives an error
+rspec ./spec/api/v2/admin/users_spec.rb:674 # API::V2::Admin::Users POST /api/v2/admin/users/labels/update with default replace policy(true) creates a label
+rspec ./spec/api/v2/admin/users_spec.rb:692 # API::V2::Admin::Users POST /api/v2/admin/users/labels/update with default replace policy(true) when data is incomplete and description is empty receive an error
+rspec ./spec/api/v2/admin/users_spec.rb:497 # API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when non-superadmin user updates superadmin
+rspec ./spec/api/v2/admin/users_spec.rb:486 # API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when uid is missing
+rspec ./spec/api/v2/admin/users_spec.rb:529 # API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when value is missing
+rspec ./spec/api/v2/admin/users_spec.rb:548 # API::V2::Admin::Users POST /api/v2/admin/labels admin user adds label with default public scope and description
+rspec ./spec/api/v2/admin/users_spec.rb:518 # API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when description is empty
+rspec ./spec/api/v2/admin/users_spec.rb:538 # API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when uid is invalid
+rspec ./spec/api/v2/admin/users_spec.rb:564 # API::V2::Admin::Users POST /api/v2/admin/labels admin user adds label with private scope
+rspec ./spec/api/v2/admin/users_spec.rb:509 # API::V2::Admin::Users POST /api/v2/admin/labels admin user renders error when key is missing
+rspec ./spec/api/v2/admin/users_spec.rb:595 # API::V2::Admin::Users DELETE /api/v2/admin/labels admin user renders error when uid is missing
+rspec ./spec/api/v2/admin/users_spec.rb:632 # API::V2::Admin::Users DELETE /api/v2/admin/labels admin user renders error when label does not exist
+rspec ./spec/api/v2/admin/users_spec.rb:642 # API::V2::Admin::Users DELETE /api/v2/admin/labels admin user deletes label
+rspec ./spec/api/v2/admin/users_spec.rb:604 # API::V2::Admin::Users DELETE /api/v2/admin/labels admin user renders error when key is missing
+rspec ./spec/api/v2/admin/users_spec.rb:613 # API::V2::Admin::Users DELETE /api/v2/admin/labels admin user renders error when scope is missing
+rspec ./spec/api/v2/admin/users_spec.rb:622 # API::V2::Admin::Users DELETE /api/v2/admin/labels admin user renders error when uid is invalid
+rspec ./spec/api/v2/admin/users_spec.rb:431 # API::V2::Admin::Users Get /api/v2/admin/users/:uid admin user returns user info
+rspec ./spec/api/v2/admin/users_spec.rb:425 # API::V2::Admin::Users Get /api/v2/admin/users/:uid admin user renders error if uid is invalid
+rspec ./spec/api/v2/admin/users_spec.rb:154 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when several params given (profile attribute) : first_name and country
+rspec ./spec/api/v2/admin/users_spec.rb:78 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns error if invalid ordering
+rspec ./spec/api/v2/admin/users_spec.rb:184 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns list of users (ASC ordered) in search
+rspec ./spec/api/v2/admin/users_spec.rb:147 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when only one filter param given (profile attribute) first_name
+rspec ./spec/api/v2/admin/users_spec.rb:115 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when only one filter param given (user attribute) state
+rspec ./spec/api/v2/admin/users_spec.rb:193 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns all users (ASC ordered) in search req if field is not in the list
+rspec ./spec/api/v2/admin/users_spec.rb:107 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when only one filter param given (user attribute) level
+rspec ./spec/api/v2/admin/users_spec.rb:52 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns list of users in ASC order
+rspec ./spec/api/v2/admin/users_spec.rb:123 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when several params given (user attribute) : state and level
+rspec ./spec/api/v2/admin/users_spec.rb:96 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns filtered list of users when only one filter param given created_at and from
+rspec ./spec/api/v2/admin/users_spec.rb:35 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns list of users
+rspec ./spec/api/v2/admin/users_spec.rb:65 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns list of users in DESC order
+rspec ./spec/api/v2/admin/users_spec.rb:138 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns only uniq set of users
+rspec ./spec/api/v2/admin/users_spec.rb:87 # API::V2::Admin::Users GET /api/v2/admin/users admin user returns error when user attribute doesnt exist
+rspec ./spec/api/v2/admin/users_spec.rb:218 # API::V2::Admin::Users GET /api/v2/admin/users admin user pagination test returns 2nd page, limit 2 users per page
+rspec ./spec/api/v2/admin/users_spec.rb:205 # API::V2::Admin::Users GET /api/v2/admin/users admin user pagination test returns 1st page as default, limit 2 users per page
+rspec ./spec/api/v2/admin/users_spec.rb:167 # API::V2::Admin::Users GET /api/v2/admin/users admin user extended params returns list of users with full info
+rspec ./spec/api/v2/admin/users_spec.rb:762 # API::V2::Admin::Users GET /api/v2/admin/users/labels admin user returns users
+rspec ./spec/api/v2/admin/users_spec.rb:746 # API::V2::Admin::Users GET /api/v2/admin/users/labels admin user renders error when key is missing
+rspec ./spec/api/v2/admin/users_spec.rb:754 # API::V2::Admin::Users GET /api/v2/admin/users/labels admin user renders error when value is missing
+rspec ./spec/api/v2/admin/users_spec.rb:772 # API::V2::Admin::Users GET /api/v2/admin/users/labels admin user pagination test returns 1st page as default, limit 2 users per page
+rspec ./spec/api/v2/admin/users_spec.rb:790 # API::V2::Admin::Users GET /api/v2/admin/users/labels admin user pagination test returns 2nd page, limit 2 users per page
+rspec ./spec/api/v2/admin/users_spec.rb:981 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when only one filter param given (user attribute) state
+rspec ./spec/api/v2/admin/users_spec.rb:1012 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when several params given (profile attribute) : first_name and country
+rspec ./spec/api/v2/admin/users_spec.rb:963 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when only one filter param given updated_at
+rspec ./spec/api/v2/admin/users_spec.rb:953 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when only one filter param given created_at and from
+rspec ./spec/api/v2/admin/users_spec.rb:1004 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when only one filter param given (profile attribute) first_name
+rspec ./spec/api/v2/admin/users_spec.rb:988 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user filtering returns filtered list of users when several params given (user attribute) : state and level
+rspec ./spec/api/v2/admin/users_spec.rb:931 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending and replaced documents returns users with profile and documents with value pending and replaces
+rspec ./spec/api/v2/admin/users_spec.rb:877 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending documents returns users with profile and documents if params extended
+rspec ./spec/api/v2/admin/users_spec.rb:893 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending documents doesnt returns users with profile and documents if extended not provided
+rspec ./spec/api/v2/admin/users_spec.rb:901 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending documents returns users
+rspec ./spec/api/v2/admin/users_spec.rb:908 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending documents returns users users with extended info
+rspec ./spec/api/v2/admin/users_spec.rb:885 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user private pending documents doesnt returns users with profile and documents if extended false
+rspec ./spec/api/v2/admin/users_spec.rb:1033 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user sorting test returns users sorted by time of label creation
+rspec ./spec/api/v2/admin/users_spec.rb:1049 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user pagination test returns 1st page as default, limit 2 users per page
+rspec ./spec/api/v2/admin/users_spec.rb:1060 # API::V2::Admin::Users GET /api/v2/admin/users/documents/pending admin user pagination test returns 2nd page, limit 2 users per page
+
+Randomized with seed 11765
+

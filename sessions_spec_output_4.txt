@@ -1,0 +1,37 @@
+Your RubyGems version (3.0.3) has a bug that prevents `required_ruby_version` from working for Bundler. Any scripts that use `gem install bundler` will break as soon as Bundler drops support for your Ruby version. Please upgrade RubyGems to avoid future breakage and silence this warning by running `gem update --system 3.2.3`
+
+An error occurred while loading spec_helper. - Did you mean?
+                    rspec ./spec/spec_helper.rb
+
+Failure/Error: require_relative '../../../../workers/activity_logger_worker'
+
+LoadError:
+  cannot load such file -- /data/sso/sso-backend/workers/activity_logger_worker
+# ./app/api/v2/identity/utils.rb:5:in `<module:Utils>'
+# ./app/api/v2/identity/utils.rb:4:in `<module:Identity>'
+# ./app/api/v2/identity/utils.rb:3:in `<module:V2>'
+# ./app/api/v2/identity/utils.rb:2:in `<main>'
+# ./app/api/v2/identity/base.rb:8:in `<class:Base>'
+# ./app/api/v2/identity/base.rb:7:in `<module:Identity>'
+# ./app/api/v2/identity/base.rb:5:in `<module:V2>'
+# ./app/api/v2/identity/base.rb:4:in `<module:API>'
+# ./app/api/v2/identity/base.rb:3:in `<main>'
+# ./app/api/v2/base.rb:35:in `<class:Base>'
+# ./app/api/v2/base.rb:8:in `<module:V2>'
+# ./app/api/v2/base.rb:6:in `<main>'
+# ./app/api/base.rb:7:in `<class:Base>'
+# ./app/api/base.rb:2:in `<module:API>'
+# ./app/api/base.rb:1:in `<main>'
+# ./config/routes.rb:3:in `block in <main>'
+# ./config/routes.rb:1:in `<main>'
+# ./config/environment.rb:5:in `<top (required)>'
+# ./spec/rails_helper.rb:6:in `require'
+# ./spec/rails_helper.rb:6:in `<top (required)>'
+# ./spec/spec_helper.rb:3:in `require'
+# ./spec/spec_helper.rb:3:in `<top (required)>'
+No examples found.
+
+
+Finished in 0.00004 seconds (files took 1.78 seconds to load)
+0 examples, 0 failures, 1 error occurred outside of examples
+
